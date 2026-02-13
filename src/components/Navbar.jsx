@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="container nav-inner">
-        <div className="logo">Alex Studio</div>
+        <div className="logo">BRAUSS</div>
 
         <ul className="nav-links">
           <li>Home</li>
