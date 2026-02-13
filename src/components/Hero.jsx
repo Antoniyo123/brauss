@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import * as THREE from "three"
-import "../styles/Hero.css"
+import '../styles/Hero.css'
 
 export default function Hero() {
   const [visible, setVisible] = useState(false)
