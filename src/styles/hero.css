@@ -1,0 +1,77 @@
+/* =========================
+   HERO SECTION (FIXED)
+========================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 140px;
+  overflow: hidden;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: auto;
+  padding: 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: var(--transition-smooth);
+}
+
+.hero-container.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating Glow */
+.gradient-bg {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  top: -250px;
+  right: -250px;
+  filter: blur(120px);
+  opacity: 0.35;
+  z-index: 0;
+}
+
+/* TEXT SIDE */
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.hero-text span {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-text p {
+  font-size: 18px;
+  color: var(--color-muted);
+  margin-bottom: 40px;
+}
+
+/* BUTTON GROUP */
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
