@@ -1,0 +1,130 @@
+.about-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4a3770 0%, #6b4d9e 30%, #b39dd9 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 4rem 4rem;
+  position: relative;
+}
+
+.content-container {
+  max-width: 1400px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  gap: 4rem;
+  align-items: center;
+}
+
+.text-content {
+  animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-content h1 {
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 2rem;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.description {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 3rem;
+  max-width: 700px;
+}
+
+.values-badge {
+  display: inline-flex;
+  background: #3d2b5f;
+  padding: 1.25rem 2.5rem;
+  border-radius: 50px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease 0.3s backwards;
+}
+
+.values-badge span {
+  margin: 0 0.5rem;
+}
+
+/* 3D Canvas */
+.canvas-container {
+  width: 500px;
+  height: 500px;
+  animation: fadeIn 1.2s ease 0.4s backwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .content-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .canvas-container {
+    margin: 0 auto;
+  }
+
+  .text-content h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 6rem 2rem 3rem;
+  }
+
+  .text-content h1 {
+    font-size: 3rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+
+  .canvas-container {
+    width: 350px;
+    height: 350px;
+  }
+}
