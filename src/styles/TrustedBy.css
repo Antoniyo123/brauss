@@ -1,0 +1,125 @@
+/* ── Trusted By Section ── */
+.trusted {
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(ellipse 55% 65% at 100% 0%, #f5f0c0 0%, #ede8cc 25%, transparent 60%),
+    radial-gradient(ellipse 35% 45% at 95% 0%,  #faf6e0 0%, transparent 45%);
+  padding: 5rem 2rem 7rem;
+}
+
+/* ── Title ── */
+.trusted-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 600;
+  color: #2d1b4e;
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.5px;
+}
+
+/* ── Rows — each row is centered flex ── */
+.trusted-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  /* shift right to avoid overlap with spheres */
+  padding-left: 220px;
+  padding-right: 2rem;
+}
+
+.trusted-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: nowrap;
+}
+
+/* ── Individual logo ── */
+.trusted-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: opacity 0.2s, filter 0.2s;
+  flex-shrink: 0;
+}
+
+.trusted-logo:hover {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.trusted-logo img {
+  max-width: 130px;
+  max-height: 55px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── Spheres — bigger, overlapping, bottom-left ── */
+.trusted-spheres {
+  position: absolute;
+  left: -60px;
+  bottom: -80px;
+  width: 380px;
+  height: 420px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ts {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Top sphere */
+.ts-1 {
+  width: 210px;
+  height: 210px;
+  top: 0;
+  left: 90px;
+  background: radial-gradient(circle at 38% 32%, #ddbcf0, #a868d0 60%, #8040b0);
+}
+
+/* Bottom-left sphere */
+.ts-2 {
+  width: 190px;
+  height: 190px;
+  bottom: 60px;
+  left: 0;
+  background: radial-gradient(circle at 38% 32%, #d8b0ec, #a060c8 60%, #7838a8);
+}
+
+/* Bottom-right sphere */
+.ts-3 {
+  width: 170px;
+  height: 170px;
+  bottom: 20px;
+  left: 140px;
+  background: radial-gradient(circle at 38% 32%, #d0a8e8, #9858c0 60%, #7030a0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .trusted-rows { padding-left: 0; }
+  .trusted-spheres { display: none; }
+  .trusted-row { gap: 2rem; flex-wrap: wrap; }
+}
+
+@media (max-width: 768px) {
+  .trusted { padding: 4rem 1.5rem 5rem; }
+  .trusted-title { font-size: 2.4rem; }
+  .trusted-row { gap: 1.5rem; }
+  .trusted-logo img { max-width: 90px; max-height: 40px; }
+}
+
+@media (max-width: 480px) {
+  .trusted-title { font-size: 1.9rem; }
+  .trusted-logo img { max-width: 70px; max-height: 32px; }
+}

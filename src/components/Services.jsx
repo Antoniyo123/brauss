@@ -1,37 +1,71 @@
+import { useRef, useState } from "react"
 import "../styles/Services.css"
 
+const items = [
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+  { caption: "Lorem ipsum dolor sit amet, consectetuer" },
+]
+
 export default function Services() {
-  const services = [
-    {
-      title: "Creative Strategy",
-      description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullam"
-    },
-    {
-      title: "Digital Media",
-      description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullam"
-    },
-    {
-      title: "Activation",
-      description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullam"
-    }
-  ]
+  const trackRef = useRef(null)
+  const [index, setIndex] = useState(0)
+  const visible = 3.4   // how many cards visible at once (3 full + partial 4th)
+
+  const prev = () => {
+    const next = Math.max(0, index - 1)
+    setIndex(next)
+    scroll(next)
+  }
+
+  const next = () => {
+    const max = items.length - Math.floor(visible)
+    const nextIdx = Math.min(max, index + 1)
+    setIndex(nextIdx)
+    scroll(nextIdx)
+  }
+
+  const scroll = (i) => {
+    const track = trackRef.current
+    if (!track) return
+    const card = track.querySelector(".pf-card")
+    if (!card) return
+    const cardW = card.offsetWidth + 24 // card width + gap
+    track.scrollTo({ left: i * cardW, behavior: "smooth" })
+  }
 
   return (
-    <section className="services">
-      <div className="services-container">
-        <h2 className="services-title">Our Services</h2>
-        
-        <div className="services-grid">
-          {services.map((service, index) => (
-            <div 
-              className="service-card" 
-              key={index}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-            </div>
-          ))}
+    <section className="portfolio">
+      <div className="portfolio-outer">
+        <h2 className="portfolio-title">Selected Portfolio</h2>
+
+        <div className="portfolio-carousel-wrap">
+          {/* Left arrow */}
+          <button className="pf-arrow pf-arrow-left" onClick={prev}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {/* Cards track */}
+          <div className="pf-track" ref={trackRef}>
+            {items.map((item, i) => (
+              <div className="pf-card" key={i}>
+                <div className="pf-card-img" />
+                <p className="pf-card-caption">{item.caption}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Right arrow */}
+          <button className="pf-arrow pf-arrow-right" onClick={next}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
       </div>
     </section>

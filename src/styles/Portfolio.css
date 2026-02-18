@@ -1,0 +1,68 @@
+/* ── Services Section ── */
+.services {
+  background: #fafafa;
+  padding: 5rem 5rem 8rem;
+}
+
+.services-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* "Our Services" — large, purple, left-aligned, not bold */
+.services-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 3.8rem;
+  font-weight: 400;
+  color: #2d1b4e;
+  margin-bottom: 5rem;
+  letter-spacing: -1px;
+}
+
+/* 3 equal columns, no background, no border */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.service-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+/* Bold black title, centered */
+.service-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 2rem;
+  letter-spacing: 0;
+}
+
+/* Regular grey description, centered, generous line-height */
+.service-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1.85;
+  max-width: 320px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .services { padding: 4rem 3rem 6rem; }
+  .services-title { font-size: 2.8rem; }
+  .services-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .service-col { padding: 0; }
+}
+
+@media (max-width: 600px) {
+  .services { padding: 3rem 1.5rem 5rem; }
+  .services-title { font-size: 2.2rem; margin-bottom: 3rem; }
+}
