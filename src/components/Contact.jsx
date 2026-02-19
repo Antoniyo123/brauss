@@ -31,6 +31,8 @@ export default function Contact() {
           {/* Left */}
           <div className="contact-left">
             <h2 className="contact-title">Contact Us</h2>
+            <h1 className="contact-title2">Let’s Build Something That Lasts.
+Tell us about your idea, and we’ll take it from there.</h1>
             <div className="contact-socials">
               {socials.map((s) => (
                 <a key={s.label} href="#" className="social-icon" aria-label={s.label}>

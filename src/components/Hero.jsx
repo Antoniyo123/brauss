@@ -71,11 +71,10 @@ export default function Hero() {
           <div className="hero-content">
             <h1>About Us</h1>
             <p className="hero-description">
-              Brauss Group is an integrated event ecosystem specializing in Event Management,
-              Digital Agency and Event Promotion. Delivering seamless execution from ideas to impact.
-              Founded on the belief that brands deserve bold strategies paired with reliable delivery
-              Brauss combines creativity, technical excellence, and strategic amplification to create
-              high-value experiences.
+              We are a creative house building original ideas, brand experiences, and intellectual
+properties with long-term value.
+              We don’t just execute projects.
+We create creative assets that grow, scale, and live beyond a single moment.Brauss is where strategy meets culture, and creativity becomes ownership.
             </p>
             <div className="scallop">
   <span></span>

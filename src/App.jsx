@@ -6,6 +6,7 @@ import Services from "./components/Services"
 import Contact from "./components/Contact"
 import Portfolio from "./components/Portfolio"
 import TrustedBy from "./components/TrustedBy"
+import Footer from "./components/Footer"
 
 function App() {
   const [entered, setEntered] = useState(false)
@@ -21,6 +22,7 @@ function App() {
           <Services />
           <Portfolio />
           <Contact />
+          <Footer />
         </>
       )}
     </>
