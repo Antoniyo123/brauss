@@ -39,7 +39,10 @@ body { font-family: 'DM Sans', sans-serif; }
 /* ── Hero ── */
 .hero {
   min-height: 100vh;
-  background: radial-gradient(ellipse at top left, #5b2d8a 0%, #7c3aaa 20%, #c49ee0 50%, #e8d5f5 70%, #f5f0ff 85%, #fffef5 100%);
+background: radial-gradient(ellipse 120% 90% at -15% -15%, #8f73acf4 0%, #794b9b 20%, #ab78d0 45%, transparent 70%), radial-gradient(ellipse 100% 80% at 85% 20%, #5b2a86a6 0%, transparent 65%), #fffef5;
+
+
+
   position: relative;
   overflow: hidden;
   display: flex;
@@ -47,7 +50,11 @@ body { font-family: 'DM Sans', sans-serif; }
   justify-content: center;
   padding: 6rem 4rem 4rem;
 }
-
+.badge-img {
+  max-width: 100%;
+  height: auto;
+  animation: fadeInUp 1s ease 0.3s backwards;
+}
 /* ── Three.js ── */
 .three-wrapper {
   position: absolute;
@@ -97,12 +104,59 @@ body { font-family: 'DM Sans', sans-serif; }
   margin: 0 auto 3.5rem;
 }
 
-/* scallop badge canvas wrapper */
-.scallop-badge-wrap {
-  display: inline-block;
-  animation: fadeInUp 1s ease 0.3s backwards;
+.scallop {
+  display: flex;
+  align-items: center;
 }
-.scallop-badge-wrap canvas { display: block; }
+
+.scallop span {
+  width: 120px;
+  height: 120px;
+  background: #3d2366;
+  border-radius: 50%;
+
+  /* ini bikin nempel */
+  margin-left: -40px;
+}
+
+/* lingkaran pertama jangan ketarik */
+.scallop span:first-child {
+  margin-left: 0;
+}
+
+.scallop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* lingkaran */
+.scallop span {
+  width: 120px;
+  height: 120px;
+  background: #3d2366;
+  border-radius: 50%;
+  margin-left: -40px;
+}
+
+.scallop span:first-child {
+  margin-left: 0;
+}
+
+/* TEXT DI TENGAH */
+.scallop-text {
+  position: absolute;
+  color: #f5f1ea;
+  font-size: 22px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+}
+
+
+
 
 /* ── Responsive ── */
 @media (max-width: 1200px) {
@@ -119,4 +173,5 @@ body { font-family: 'DM Sans', sans-serif; }
   .navbar-links { gap: 1.5rem; }
   .hero-content h1 { font-size: 3rem; }
   .hero-description { font-size: 1rem; }
+  .scallop-badge { font-size: 0.9rem; padding: 1rem 1.8rem; }
 }

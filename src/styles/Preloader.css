@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
+
+/* ─── Namespace: all classes use .pl- prefix ────────────────
+   This avoids any collision with Hero's .scallop, .corner,
+   .particle, .ripple etc.                                    */
+
+/* ─── Reset (scoped) ────────────────────────────────────────── */
+.pl-preloader * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Root container ─────────────────────────────────────────── */
+.pl-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  overflow: hidden;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.pl-preloader.pl-exit {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+/* ─── Background photo ───────────────────────────────────────── */
+/* Use local asset: put a dark city photo in src/assets/bg-city.jpg
+   OR swap the url() below with any working image path.          */
+.pl-bg-photo {
+  position: absolute;
+  inset: 0;
+  /* ▼ Change this path to your local asset ▼ */
+  background-image: url('../assets/bg-city.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(70%) brightness(0.38);
+  z-index: 0;
+}
+
+/* ─── Purple radial glow ─────────────────────────────────────── */
+.pl-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 60% at 50% 52%, rgb(131 113 156 / 32%) 0%, transparent 70%), radial-gradient(ellipse 65% 60% at 50% 52%, rgb(73 59 92 / 32%) 0%, transparent 70%), linear-gradient(to top, rgba(8, 0, 18, 0.80) 0%, transparent 55%);
+  z-index: 1;
+}
+
+/* ─── Film grain overlay ─────────────────────────────────────── */
+.pl-preloader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Scanline sweep ─────────────────────────────────────────── */
+.pl-scanline {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(160, 80, 255, 0.3), transparent);
+  animation: pl-scan 5s linear infinite;
+  z-index: 3;
+}
+
+@keyframes pl-scan {
+  0%   { top: -2px; }
+  100% { top: 100%; }
+}
+
+/* ─── Loading bar ────────────────────────────────────────────── */
+.pl-loader-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6b21c8, #c084fc, #6b21c8);
+  background-size: 200% 100%;
+  animation: pl-loadBar 1.8s ease-out forwards, pl-shimmer 1.5s linear infinite;
+  z-index: 10;
+}
+
+@keyframes pl-loadBar {
+  0%   { width: 0; }
+  100% { width: 100%; }
+}
+
+@keyframes pl-shimmer {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─── Corner brackets ────────────────────────────────────────── */
+.pl-corner {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-color: rgba(160, 80, 255, 0.4);
+  border-style: solid;
+  z-index: 6;
+}
+
+.pl-corner-tl { top: 20px;    left: 20px;  border-width: 2px 0 0 2px; }
+.pl-corner-tr { top: 20px;    right: 20px; border-width: 2px 2px 0 0; }
+.pl-corner-bl { bottom: 20px; left: 20px;  border-width: 0 0 2px 2px; }
+.pl-corner-br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+
+/* ─── Floating dust particles ────────────────────────────────── */
+.pl-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(140, 60, 230, 0.5);
+  pointer-events: none;
+  animation: pl-float var(--dur) ease-in-out infinite var(--delay);
+}
+
+@keyframes pl-float {
+  0%   { transform: translateY(0) scale(1);    opacity: 0.5; }
+  50%  { transform: translateY(-36px) scale(1.2); opacity: 0.2; }
+  100% { transform: translateY(0) scale(1);    opacity: 0.5; }
+}
+
+/* ─── SVG wavy filter element ────────────────────────────────── */
+.pl-svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ─── Centre content stack ───────────────────────────────────── */
+.pl-content {
+    margin-top: -100px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Push logo up slightly so logo+button sit centered as a pair */
+  
+}
+
+/* ─── Logo image ─────────────────────────────────────────────── */
+.pl-logo-img {
+  width: clamp(200px, 34vw, 500px);
+  height: auto;
+  animation: pl-logoFloat 3.2s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+  display: block;
+}
+
+@keyframes pl-logoFloat {
+  0%, 100% { transform: translateY(0)     rotate(-1deg) scale(1);    }
+  50%       { transform: translateY(-13px) rotate(0.8deg) scale(1.02); }
+}
+
+/* ─── Button wrapper (hint + button stacked) ─────────────────── */
+.pl-btn-wrap {
+    margin-top: -80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ─── Hint "click to enter" ──────────────────────────────────── */
+.pl-hint {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.pl-hint.pl-hint-visible {
+  opacity: 1;
+  animation: pl-hintPulse 1.8s ease-in-out infinite;
+}
+
+.pl-hint-arrow {
+  display: inline-block;
+  animation: pl-arrowBounce 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes pl-hintPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+@keyframes pl-arrowBounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(6px); }
+}
+
+/* ─── Scallop button ─────────────────────────────────────────── */
+.pl-btn {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: none;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.pl-btn:hover {
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 20px rgba(130, 50, 220, 0.7));
+}
+
+.pl-btn.pl-wiggle {
+  animation: pl-wiggle 0.55s ease;
+}
+
+@keyframes pl-wiggle {
+  0%, 100% { transform: scale(1)    rotate(0deg);    }
+  20%       { transform: scale(1.07) rotate(-2.5deg); }
+  40%       { transform: scale(1.07) rotate(2.5deg);  }
+  60%       { transform: scale(1.04) rotate(-1.5deg); }
+  80%       { transform: scale(1.04) rotate(1.5deg);  }
+}
+
+/* ─── Scallop shape: overlapping circles ────────────────────── */
+/* The .pl-scallop is the visual background (cloud/pill shape)   */
+.pl-scallop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* width determined naturally by the circles row              */
+}
+
+/* Individual circles */
+.pl-scallop-circle {
+  width: 64px;
+  height: 64px;
+  background: #fff5e3;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: -22px;
+  transition: background 0.22s ease;
+}
+
+.pl-scallop-circle:first-child {
+  margin-left: 0;
+}
+
+.pl-btn:hover .pl-scallop-circle {
+  background: #a287be;
+}
+
+/* ─── Text overlay centered on the scallop ──────────────────── */
+.pl-scallop-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;          /* gap between words */
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Each word animates in separately */
+.pl-word {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(11px, 1.25vw, 15px);
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #552a80;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: pl-wordIn 0.5s ease forwards;
+}
+
+/* stagger delay per word — set inline in JSX */
+@keyframes pl-wordIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Ripple ─────────────────────────────────────────────────── */
+.pl-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(190, 130, 255, 0.35);
+  transform: scale(0);
+  animation: pl-rippleAnim 0.72s ease-out forwards;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes pl-rippleAnim {
+  to {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+/* ─── Custom cursor ──────────────────────────────────────────── */
+.pl-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+.pl-cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 2px solid rgba(190, 120, 255, 0.75);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.22s ease, height 0.22s ease, border-color 0.22s ease;
+}
+
+.pl-cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #c084fc;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.15s ease;
+}
+
+.pl-cursor-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Syne', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #fff;
+  white-space: nowrap;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* hovering state */
+.pl-cursor.pl-hovering .pl-cursor-ring {
+  width: 72px;
+  height: 72px;
+  border-color: rgba(220, 170, 255, 1);
+}
+
+.pl-cursor.pl-hovering .pl-cursor-dot {
+  opacity: 0;
+}
+
+.pl-cursor.pl-hovering .pl-cursor-label {
+  opacity: 1;
+}

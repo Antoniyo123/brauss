@@ -1,5 +1,3 @@
-import { useRef, useEffect } from "react"
-import * as THREE from "three"
 import "../styles/Contact.css"
 
 const socials = [
@@ -25,112 +23,63 @@ const socials = [
   }
 ]
 
-function SpheresRight() {
-  const mountRef = useRef(null)
-
-  useEffect(() => {
-    const mount = mountRef.current
-    if (!mount) return
-    const w = mount.clientWidth, h = mount.clientHeight
-
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100)
-    camera.position.set(0, 0, 7)
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setSize(w, h)
-    renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setClearColor(0x000000, 0)
-    mount.appendChild(renderer.domElement)
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5))
-    const dir = new THREE.DirectionalLight(0xffffff, 1.2)
-    dir.position.set(4, 4, 6)
-    scene.add(dir)
-    const rim = new THREE.DirectionalLight(0xd4aaff, 0.6)
-    rim.position.set(-4, -4, -4)
-    scene.add(rim)
-
-    const mat = new THREE.MeshStandardMaterial({ color: 0xc9a8e8, roughness: 0.15, metalness: 0.05 })
-    const sizes = [0.9, 1.1, 1.3, 1.1]
-    const yPos  = [2.8, 1.0, -1.0, -2.8]
-    const spheres = sizes.map((r, i) => {
-      const mesh = new THREE.Mesh(new THREE.SphereGeometry(r, 64, 64), mat.clone())
-      mesh.position.set(0, yPos[i], 0)
-      scene.add(mesh)
-      return mesh
-    })
-
-    let fId
-    const animate = () => {
-      fId = requestAnimationFrame(animate)
-      spheres.forEach((s, i) => { s.rotation.y += 0.003 * (i % 2 === 0 ? 1 : -1) })
-      renderer.render(scene, camera)
-    }
-    animate()
-
-    const onResize = () => {
-      const w2 = mount.clientWidth, h2 = mount.clientHeight
-      camera.aspect = w2 / h2
-      camera.updateProjectionMatrix()
-      renderer.setSize(w2, h2)
-    }
-    window.addEventListener("resize", onResize)
-    return () => {
-      cancelAnimationFrame(fId)
-      window.removeEventListener("resize", onResize)
-      mount.removeChild(renderer.domElement)
-      renderer.dispose()
-    }
-  }, [])
-
-  return <div className="contact-spheres" ref={mountRef} />
-}
-
 export default function Contact() {
   return (
     <>
       <section className="contact">
-        <div className="contact-left">
-          <h2 className="contact-title">Contact Us</h2>
-          <div className="contact-socials">
-            {socials.map((s) => (
-              <a key={s.label} href="#" className="social-icon" aria-label={s.label}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d={s.path} />
-                </svg>
-              </a>
-            ))}
+        <div className="contact-inner">
+          {/* Left */}
+          <div className="contact-left">
+            <h2 className="contact-title">Contact Us</h2>
+            <div className="contact-socials">
+              {socials.map((s) => (
+                <a key={s.label} href="#" className="social-icon" aria-label={s.label}>
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d={s.path} />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: spheres + form */}
+          <div className="contact-right">
+            {/* Spheres behind form */}
+            <div className="cs-1" />
+            <div className="cs-2" />
+            <div className="cs-3" />
+            <div className="cs-4" />
+
+            {/* Form card on top */}
+            <div className="contact-form-card">
+              <div className="cf-field">
+                <label>Full Name</label>
+                <input type="text" />
+              </div>
+              <div className="cf-field">
+                <label>Phone Number</label>
+                <input type="tel" />
+              </div>
+              <div className="cf-field">
+                <label>Email</label>
+                <input type="email" />
+              </div>
+              <div className="cf-field">
+                <label>Message</label>
+                <textarea rows={5} />
+              </div>
+              <div className="cf-submit-wrap">
+                <button className="cf-submit">SUMBIT</button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="contact-form-card">
-          <div className="cf-field">
-            <label>Full Name</label>
-            <input type="text" />
-          </div>
-          <div className="cf-field">
-            <label>Phone Number</label>
-            <input type="tel" />
-          </div>
-          <div className="cf-field">
-            <label>Email</label>
-            <input type="email" />
-          </div>
-          <div className="cf-field">
-            <label>Message</label>
-            <textarea rows={5} />
-          </div>
-          <div className="cf-submit-wrap">
-            <button className="cf-submit">SUMBIT</button>
-          </div>
-        </div>
-
-        <SpheresRight />
       </section>
 
       <footer className="contact-footer">
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+        <div className="contact-footer-inner">
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+        </div>
       </footer>
     </>
   )
