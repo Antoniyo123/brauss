@@ -22,15 +22,41 @@
   align-items: center;
 }
 
-
+/* ── Logo ── */
 .logo img {
   margin-top: 30px;
   width: 180px;
   height: auto;
   display: block;
+
+  /* Smooth transition saat ganti warna */
+  transition: filter 0.4s ease;
+
+  /* Default: logo putih (untuk bg gelap/ungu) */
+  filter: brightness(1) invert(0);
 }
 
+/*
+  Ketika logo berada di atas background terang (#fff5e3 / cream):
+  Ubah ke warna ungu muda dengan CSS filter.
 
+  filter breakdown:
+  - invert(1)          → putih jadi hitam
+  - sepia(1)           → hitam jadi coklat keemasan
+  - saturate(3)        → perkuat saturasi
+  - hue-rotate(240deg) → geser ke rentang ungu
+  - brightness(1.1)    → sedikit lebih terang → ungu muda
+*/
+.logo img.logo-on-light {
+  filter:
+    invert(1)
+    sepia(1)
+    saturate(3)
+    hue-rotate(240deg)
+    brightness(1.1);
+}
+
+/* ── Nav menu ── */
 .nav-menu {
   margin-top: 30px;
   display: flex;

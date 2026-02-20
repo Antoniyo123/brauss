@@ -111,10 +111,10 @@
   z-index: 6;
 }
 
-.pl-corner-tl { top: 20px;    left: 20px;  border-width: 2px 0 0 2px; }
+/* .pl-corner-tl { top: 20px;    left: 20px;  border-width: 2px 0 0 2px; }
 .pl-corner-tr { top: 20px;    right: 20px; border-width: 2px 2px 0 0; }
 .pl-corner-bl { bottom: 20px; left: 20px;  border-width: 0 0 2px 2px; }
-.pl-corner-br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; }
+.pl-corner-br { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; } */
 
 /* ─── Floating dust particles ────────────────────────────────── */
 .pl-particle {

@@ -18,9 +18,10 @@ function App() {
         <>
           <Navbar />
           <Home />
-          <TrustedBy />
+<Portfolio />
           <Services />
-          <Portfolio />
+          
+                    <TrustedBy />
           <Contact />
           <Footer />
         </>
