@@ -1,4 +1,6 @@
-/* ── Contact Section ── */
+/* ══════════════════════════════════════
+   CONTACT SECTION
+══════════════════════════════════════ */
 .contact {
   position: relative;
   overflow: visible;
@@ -14,9 +16,9 @@
 }
 
 .contact-inner {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 3rem 0 4rem;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
   gap: 4rem;
@@ -31,16 +33,17 @@
   gap: 2.5rem;
   z-index: 2;
 }
-.contact-title2{
+
+.contact-title2 {
   font-family: 'DM Sans', sans-serif;
   font-size: 1.25rem;
   font-weight: 400;
   color: #111111;
   letter-spacing: -0.5px;
   line-height: 1.4;
-  width: 420px;
-
+  max-width: 420px;
 }
+
 .contact-title {
   font-family: 'DM Sans', sans-serif;
   font-size: 3.5rem;
@@ -69,16 +72,8 @@
   transition: background 0.2s, color 0.2s;
   text-decoration: none;
 }
-
-.social-icon:hover {
-  background: #4a1f6e;
-  color: white;
-}
-
-.social-icon svg {
-  width: 18px;
-  height: 18px;
-}
+.social-icon:hover { background: #4a1f6e; color: white; }
+.social-icon svg   { width: 18px; height: 18px; }
 
 /* ── Right: form + spheres ── */
 .contact-right {
@@ -106,11 +101,7 @@
   gap: 0.9rem;
 }
 
-.cf-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
+.cf-field { display: flex; flex-direction: column; gap: 0.3rem; }
 
 .cf-field label {
   font-family: 'DM Sans', sans-serif;
@@ -133,10 +124,7 @@
   outline: none;
   resize: none;
 }
-
-.cf-field textarea {
-  height: 130px;
-}
+.cf-field textarea { height: 130px; }
 
 .cf-submit-wrap {
   display: flex;
@@ -158,58 +146,48 @@
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
-
 .cf-submit:hover {
   transform: scale(1.04);
   box-shadow: 0 6px 20px rgba(0,0,0,0.22);
 }
 
-/* ── CSS Spheres — all relative to .contact-right ── */
+/* ── CSS Spheres — relative to .contact-right ── */
 .cs-1 {
   position: absolute;
-  width: 140px;
-  height: 140px;
+  width: 140px; height: 140px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 32%, #ddc8f5, #b888e0 55%, #9060c0);
-  top: 0px;
-  right: -20px;
+  top: 0; right: -20px;
   z-index: 3;
 }
-
 .cs-2 {
   position: absolute;
-  width: 180px;
-  height: 180px;
+  width: 180px; height: 180px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 32%, #d4baf0, #a870d8 55%, #8040b8);
-  top: 110px;
-  right: -45px;
+  top: 110px; right: -45px;
   z-index: 3;
 }
-
 .cs-3 {
   position: absolute;
-  width: 230px;
-  height: 230px;
+  width: 230px; height: 230px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 32%, #ccaee8, #9858cc 55%, #7030a8);
-  bottom: -30px;
-  right: -60px;
+  bottom: -30px; right: -60px;
   z-index: 3;
 }
-
 .cs-4 {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 200px; height: 200px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 32%, #c8a8e4, #9050c8 55%, #6828a0);
-  bottom: -200px;
-  right: 30px;
+  bottom: -200px; right: 30px;
   z-index: 3;
 }
 
-/* ── Footer ── */
+/* ══════════════════════════════════════
+   FOOTER (inside Contact section)
+══════════════════════════════════════ */
 .contact-footer {
   background: #ffffff;
   position: relative;
@@ -220,7 +198,7 @@
 .contact-footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 4rem;
+  padding: 4rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -235,27 +213,22 @@
   max-width: 680px;
 }
 
-/* ── Responsive ── */
-
-/* Tablet landscape */
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .contact-inner {
-    gap: 2.5rem;
-    padding: 0 2.5rem;
-  }
-  .contact-right { width: 500px; }
+  .contact-inner    { gap: 2.5rem; }
+  .contact-right    { width: 500px; }
   .contact-form-card { width: 420px; }
   .cs-3 { width: 200px; height: 200px; }
   .cs-4 { width: 170px; height: 170px; bottom: -170px; }
 }
 
-/* Tablet portrait */
 @media (max-width: 860px) {
   .contact-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 3rem;
-    padding: 0 2rem;
     min-height: unset;
   }
   .contact-right {
@@ -268,23 +241,21 @@
     max-width: 520px;
     margin: 0 auto;
   }
-  /* hide spheres on tablet — they'd overflow weirdly */
   .cs-1, .cs-2, .cs-3, .cs-4 { display: none; }
   .contact { overflow: hidden; }
   .contact-footer-inner { padding: 2rem; }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
-  .contact { padding: 3rem 0; }
-  .contact-inner { padding: 0 1.5rem; gap: 2rem; }
-  .contact-title { font-size: 2.5rem; }
+  .contact         { padding: 3rem 0; }
+  .contact-inner   { padding: 0 1.5rem; gap: 2rem; }
+  .contact-title   { font-size: 2.5rem; }
   .contact-socials { gap: 0.75rem; }
-  .social-icon { width: 38px; height: 38px; }
+  .social-icon     { width: 38px; height: 38px; }
   .social-icon svg { width: 16px; height: 16px; }
   .cf-field input,
   .cf-field textarea { font-size: 0.95rem; }
-  .cf-submit { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
+  .cf-submit         { padding: 0.8rem 2.5rem; font-size: 0.9rem; }
   .contact-footer-inner { padding: 1.5rem; }
-  .contact-footer p { font-size: 0.9rem; }
+  .contact-footer p  { font-size: 0.9rem; }
 }

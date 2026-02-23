@@ -137,7 +137,24 @@ export default function Hero() {
               <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
             </div>
           </div>
+
           <p className="email-footer">hello@braussnetworks.com</p>
+
+          {/* Scroll Down Button */}
+          <button
+            className="scroll-btn"
+            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+            aria-label="Scroll down"
+          >
+            <span className="scroll-btn-label">scroll</span>
+            <span className="scroll-btn-arrow">
+              <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+                <line x1="8" y1="0" x2="8" y2="20" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                <polyline points="3,15 8,21 13,15" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </button>
+
         </div>
 
       </section>

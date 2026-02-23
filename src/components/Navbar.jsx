@@ -3,47 +3,33 @@ import "../styles/Navbar.css"
 import logo from "../assets/logobraus.png"
 
 export default function Navbar() {
-  const [scrolled, setScrolled]       = useState(false)
-  const [onLight, setOnLight]         = useState(false)   // true = logo di atas bg terang
-  const logoRef                       = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
+  const [onLight, setOnLight]   = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [active, setActive]     = useState("home")
+  const logoRef                 = useRef(null)
 
   useEffect(() => {
     function check() {
-      const scrollY = window.scrollY
+      setScrolled(window.scrollY > 60)
 
-      // ── Scrolled state ──
-      setScrolled(scrollY > 50)
-
-      // ── Deteksi apakah logo sedang di atas section cream/putih ──
-      // Ambil titik tengah logo di layar
       const logoEl = logoRef.current
       if (!logoEl) return
 
       const { left, top, width, height } = logoEl.getBoundingClientRect()
-      const checkX = left + width / 2
-      const checkY = top  + height / 2
-
-      // Sembunyikan logo sementara agar tidak ikut terdeteksi
       logoEl.style.visibility = "hidden"
-      const elementBelow = document.elementFromPoint(checkX, checkY)
+      const el0 = document.elementFromPoint(left + width / 2, top + height / 2)
       logoEl.style.visibility = ""
+      if (!el0) return
 
-      if (!elementBelow) return
-
-      // Cari background computed dari element di bawah logo ke atas
-      let el = elementBelow
+      let el = el0
       while (el && el !== document.body) {
         const bg = window.getComputedStyle(el).backgroundColor
         if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
-          // Parse rgb values
           const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/)
           if (match) {
-            const r = parseInt(match[1])
-            const g = parseInt(match[2])
-            const b = parseInt(match[3])
-            // Luminance check: terang kalau mendekati #fff5e3 atau putih
-            const luminance = (0.299 * r + 0.587 * g + 0.114 * b)
-            setOnLight(luminance > 180)
+            const lum = 0.299 * +match[1] + 0.587 * +match[2] + 0.114 * +match[3]
+            setOnLight(lum > 180)
           }
           break
         }
@@ -51,32 +37,87 @@ export default function Navbar() {
       }
     }
 
-    check()
-    window.addEventListener("scroll", check, { passive: true })
-    window.addEventListener("resize", check, { passive: true })
+    function trackSection() {
+      const sections = ["home", "about", "portfolio", "contact"]
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= 120 && rect.bottom > 120) { setActive(id); break }
+      }
+    }
 
+    check()
+    window.addEventListener("scroll", check,        { passive: true })
+    window.addEventListener("scroll", trackSection, { passive: true })
+    window.addEventListener("resize", check,        { passive: true })
     return () => {
       window.removeEventListener("scroll", check)
+      window.removeEventListener("scroll", trackSection)
       window.removeEventListener("resize", check)
     }
   }, [])
 
+  const links = [
+    { href: "#home",      label: "Home",      id: "home"      },
+    { href: "#about",     label: "About",     id: "about"     },
+    { href: "#portfolio", label: "Portfolio", id: "portfolio" },
+  ]
+
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="logo" ref={logoRef}>
-        <img
-          src={logo}
-          alt="Brauss Logo"
-          className={onLight ? "logo-on-light" : ""}
-        />
+    <>
+      {/* Mobile fullscreen drawer */}
+      <div className={`nav-drawer ${menuOpen ? "open" : ""}`}>
+        {links.map(l => (
+          <a key={l.id} href={l.href} onClick={() => setMenuOpen(false)}>
+            {l.label}
+          </a>
+        ))}
+        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</a>
       </div>
 
-      <ul className="nav-menu">
-        <li><a href="#home">HOME</a></li>
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#portfolio">PORTFOLIO</a></li>
-        <li><a href="#contact">CONTACT US</a></li>
-      </ul>
-    </nav>
+      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+
+        {/* Logo */}
+        <div className="nav-logo" ref={logoRef}>
+          <img
+            src={logo}
+            alt="Brauss Logo"
+            className={onLight ? "on-light" : ""}
+          />
+        </div>
+
+        {/* Desktop links */}
+        <ul className="nav-links">
+          {links.map(l => (
+            <li key={l.id}>
+              <a href={l.href} className={active === l.id ? "active" : ""}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a
+              href="#contact"
+              className={`nav-cta ${active === "contact" ? "active" : ""}`}
+            >
+              Contact Us
+            </a>
+          </li>
+        </ul>
+
+        {/* Hamburger */}
+        <button
+          className={`nav-burger ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(v => !v)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+      </nav>
+    </>
   )
 }

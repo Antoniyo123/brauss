@@ -20,7 +20,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(200,150,255,0.2) 40%, transparent 70%);
+  background: radial-gradient(ellipse at top left, #f5f0c052 0%, #f5f0c070 25%, #c49ee0 55%, #e8d5f5 75%, #fffef5 100%);
   pointer-events: none;
   transform: translate(-50%, -50%);
   opacity: 0;
@@ -41,14 +41,12 @@
   overflow: hidden;
 }
 
-/* Quarter-circle corner arc top-left */
 .corner-arc {
   position: absolute;
   top: -130px;
   left: -130px;
   width: 300px;
   height: 300px;
-  /* background: #1e0a3c; */
   border-radius: 50%;
   z-index: 0;
 }
@@ -74,7 +72,6 @@
   display: block;
   font-size: clamp(3rem, 8vw, 1.3rem);
   letter-spacing: -2px;
-  /* padding-left: 2.5rem; */
 }
 .who-heading .line2 {
   display: block;
@@ -161,7 +158,7 @@
   padding: 3rem 2rem 5rem;
   cursor: none;
   background:
-    radial-gradient(ellipse 100% 55% at 25% -5%, #dfc8f7 0%, #b889e0 15%, transparent 42%),
+    radial-gradient(ellipse 100% 55% at 25% -5%, transparent 42%),
     radial-gradient(ellipse 60% 50% at 92% 12%, #4d1c85 0%, transparent 55%),
     linear-gradient(155deg, #7e3dba 0%, #5b2195 45%, #3b1272 100%);
 }
@@ -169,8 +166,6 @@
 /* ═══════════════════════════════════════
    ECOSYSTEM DIAGRAM
 ═══════════════════════════════════════ */
-
-/* Perspective wrapper */
 .diagram-wrapper {
   perspective: 900px;
 }
@@ -180,14 +175,12 @@
   width: 340px;
   height: 340px;
   transform-style: preserve-3d;
-  /* JS drives transform; transition eases back to neutral */
   transition:
     transform 0.55s cubic-bezier(0.23, 1, 0.32, 1),
     filter 0.5s ease;
   will-change: transform;
 }
 
-/* Ambient glow ring on hover */
 .diagram::before {
   content: '';
   position: absolute;
@@ -209,7 +202,6 @@
   overflow: visible;
 }
 
-/* Center circle */
 .eco-center {
   position: absolute;
   top: 50%; left: 50%;
@@ -236,12 +228,11 @@
   letter-spacing: -0.5px;
 }
 
-/* Pill nodes */
 .eco-node {
   position: absolute;
   border: 2px solid rgba(255,255,255,0.95);
   border-radius: 999px;
-  color: white;
+  color: black;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
@@ -260,10 +251,18 @@
   border-color: rgba(255,255,255,1);
 }
 
-.node-top    { top:-17px;  left:50%; transform:translateX(-50%); font-size:0.74rem; letter-spacing:0.3px; text-transform:none; font-weight:500; padding:0.5rem 1.4rem; white-space:nowrap; }
-.node-left   { left:-52px; top:50%;  transform:translateY(-50%); padding:0.5rem 1.4rem; white-space:nowrap; }
-.node-right  { right:-52px;top:50%;  transform:translateY(-50%); padding:0.5rem 1.4rem; white-space:nowrap; }
-.node-bottom { bottom:-22px; left:50%; transform:translateX(-50%); padding:0.55rem 1.3rem; white-space:normal; width:110px; text-align:center; }
+.node-top    {
+  background: #f5edd8;
+  top:-17px;  left:50%; transform:translateX(-50%); font-size:0.74rem; letter-spacing:0.3px; text-transform:none; font-weight:500; padding:0.5rem 1.4rem; white-space:nowrap; }
+.node-left   {
+  background: #f5edd8;
+  left:-52px; top:50%;  transform:translateY(-50%); padding:0.5rem 1.4rem; white-space:nowrap; }
+.node-right  {
+  background: #f5edd8;
+  right:-52px;top:50%;  transform:translateY(-50%); padding:0.5rem 1.4rem; white-space:nowrap; }
+.node-bottom {
+  background: #f5edd8;
+  bottom:-22px; left:50%; transform:translateX(-50%); padding:0.55rem 1.3rem; white-space:normal; width:110px; text-align:center; }
 
 /* Email footer */
 .email-footer {
@@ -276,6 +275,54 @@
 }
 
 /* ═══════════════════════════════════════
+   SCROLL DOWN BUTTON
+═══════════════════════════════════════ */
+.scroll-btn {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: white;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+
+.scroll-btn:hover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(3px);
+}
+
+.scroll-btn-label {
+  font-family: 'Montserrat', 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.scroll-btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scrollBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0);   opacity: 0.7; }
+  50%       { transform: translateY(5px); opacity: 1;   }
+}
+
+/* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
 @media (max-width: 860px) {
@@ -285,6 +332,7 @@
   .who-heading .line1, .who-heading .line2 { font-size: 3.5rem; letter-spacing: -2px; }
   .diagram { width: 260px; height: 260px; }
   .cursor-glow { display: none; }
+  .scroll-btn { bottom: 1.2rem; }
 }
 @media (max-width: 560px) {
   .who-left-inner { padding: 2.5rem 2rem 0; }

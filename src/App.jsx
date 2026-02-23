@@ -8,6 +8,7 @@ import Portfolio from "./components/Portfolio"
 import TrustedBy from "./components/TrustedBy"
 import Footer from "./components/Footer"
 
+
 function App() {
   const [entered, setEntered] = useState(false)
 
