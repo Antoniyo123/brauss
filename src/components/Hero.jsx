@@ -1,19 +1,20 @@
 import { useEffect, useRef } from "react"
+import logo from "../assets/logo-white.png"
 import "./Hero.css"
 
 const DOTS = [
-  { cls:"d1",  size:13, top: 8, left: 20,  op:0.90, delay:"0s"   },
-  { cls:"d2",  size: 5, top: 3, left: 65,  op:0.55, delay:"0.4s" },
-  { cls:"d3",  size: 8, top:22, left:105,  op:0.70, delay:"0.8s" },
-  { cls:"d4",  size: 4, top:10, left:145,  op:0.45, delay:"1.2s" },
-  { cls:"d5",  size:15, top:28, left:175,  op:0.85, delay:"0.2s" },
-  { cls:"d6",  size: 4, top: 4, left:220,  op:0.40, delay:"1.6s" },
-  { cls:"d7",  size: 7, top:16, left:255,  op:0.60, delay:"0.6s" },
-  { cls:"d8",  size:11, top:33, left:295,  op:0.75, delay:"1.0s" },
-  { cls:"d9",  size: 4, top:48, left:330,  op:0.45, delay:"1.4s" },
-  { cls:"d10", size: 7, top:18, left:365,  op:0.50, delay:"0.3s" },
-  { cls:"d11", size: 4, top:40, left:400,  op:0.38, delay:"1.8s" },
-  { cls:"d12", size: 5, top: 6, left:428,  op:0.48, delay:"0.9s" },
+  { cls:"d1",  size:13, top: 8,  left: 20,  op:0.90, delay:"0s"   },
+  { cls:"d2",  size: 5, top: 3,  left: 65,  op:0.55, delay:"0.4s" },
+  { cls:"d3",  size: 8, top:22,  left:105,  op:0.70, delay:"0.8s" },
+  { cls:"d4",  size: 4, top:10,  left:145,  op:0.45, delay:"1.2s" },
+  { cls:"d5",  size:15, top:28,  left:175,  op:0.85, delay:"0.2s" },
+  { cls:"d6",  size: 4, top: 4,  left:220,  op:0.40, delay:"1.6s" },
+  { cls:"d7",  size: 7, top:16,  left:255,  op:0.60, delay:"0.6s" },
+  { cls:"d8",  size:11, top:33,  left:295,  op:0.75, delay:"1.0s" },
+  { cls:"d9",  size: 4, top:48,  left:330,  op:0.45, delay:"1.4s" },
+  { cls:"d10", size: 7, top:18,  left:365,  op:0.50, delay:"0.3s" },
+  { cls:"d11", size: 4, top:40,  left:400,  op:0.38, delay:"1.8s" },
+  { cls:"d12", size: 5, top: 6,  left:428,  op:0.48, delay:"0.9s" },
 ]
 
 export default function Hero() {
@@ -77,21 +78,30 @@ export default function Hero() {
     }
   }, [])
 
+  const scrollDown = () =>
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
+
   return (
     <>
-      {/* Custom glow cursor — fixed, follows mouse */}
       <div className="cursor-glow" ref={glowRef} />
 
       <section className="who-page">
 
-        {/* ── LEFT ── */}
+        {/* ══ LEFT — cream panel ══ */}
         <div className="who-left">
           <div className="corner-arc" />
+
           <div className="who-left-inner">
+
+            {/* top label */}
+          
+
             <h1 className="who-heading">
               <span className="line1">who</span>
               <span className="line2">we are</span>
             </h1>
+
+            {/* animated ink dots */}
             <div className="splatter">
               {DOTS.map(({ cls, size, top, left, op, delay }) => (
                 <span key={cls} className="dot"
@@ -99,13 +109,16 @@ export default function Hero() {
                 />
               ))}
             </div>
-            <div className="brauss-logo">BRAUSS</div>
+
             <p className="who-desc">
-              A creative house within the creative industry,<br />
-              developing original ideas, brand experiences<br />
-              and intellectual properties with long&nbsp;–&nbsp;term value.
+              A creative house within the creative industry,
+              developing original ideas, brand experiences
+              and intellectual properties with long‑term value.
             </p>
+
           </div>
+
+          {/* bottom tagline */}
           <div className="who-left-bottom">
             <div className="divider-line" />
             <p className="tagline">
@@ -117,8 +130,12 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── RIGHT ── */}
+        {/* ══ RIGHT — purple panel ══ */}
         <div className="who-right" ref={rightRef}>
+
+          
+
+          {/* diagram — centred */}
           <div className="diagram-wrapper">
             <div className="diagram" ref={diagramRef}>
               <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +146,7 @@ export default function Hero() {
                 <line x1="170" y1="170" x2="170" y2="325" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
               </svg>
               <div className="eco-center">
-                <span className="eco-center-text">BRAUSS</span>
+                <span className="eco-center-text"><img src={logo} alt="BRAUSS Logo" /></span>
               </div>
               <div className="eco-node node-top">Creative Ecosystem</div>
               <div className="eco-node node-left">AGENCY</div>
@@ -138,22 +155,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <p className="email-footer">hello@braussnetworks.com</p>
-
-          {/* Scroll Down Button */}
-          <button
-            className="scroll-btn"
-            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-            aria-label="Scroll down"
-          >
-            <span className="scroll-btn-label">scroll</span>
-            <span className="scroll-btn-arrow">
-              <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-                <line x1="8" y1="0" x2="8" y2="20" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-                <polyline points="3,15 8,21 13,15" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-          </button>
+        
 
         </div>
 
