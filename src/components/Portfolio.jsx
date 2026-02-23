@@ -5,6 +5,7 @@ const divisions = [
   {
     id: "event",
     label: "Event Management",
+    number: "01",
     tagline: "From corporate to cultural experiences, we execute with precision and creative direction.",
     closing: "Strategy-led. Experience-driven.",
     columns: [
@@ -31,6 +32,7 @@ const divisions = [
   {
     id: "agency",
     label: "Agency",
+    number: "02",
     tagline: "We build brands that are culturally relevant and commercially strong.",
     closing: "We turn brands into ecosystems, not just campaigns.",
     columns: [
@@ -64,6 +66,7 @@ const divisions = [
   {
     id: "promoter",
     label: "Promoter",
+    number: "03",
     tagline: "We create large-scale experiences that connect artists, brands, and audiences.",
     closing: "We build moments that matter.",
     columns: [
@@ -94,49 +97,50 @@ export default function Services() {
   const div = divisions[active]
 
   return (
-    <section className="services">
+    <section className="services" id="services">
       <div className="services-container">
 
-        {/* ── Tab navigation ── */}
-        <nav className="sv-tabs">
-          {divisions.map((d, i) => (
-            <button
-              key={d.id}
-              className={`sv-tab ${i === active ? "sv-tab-active" : ""}`}
-              onClick={() => setActive(i)}
-            >
-              <span className="sv-tab-index">0{i + 1}</span>
-              {d.label}
-            </button>
-          ))}
-          {/* sliding underline */}
-          <span
-            className="sv-tab-indicator"
-            style={{ transform: `translateX(${active * 100}%)`, width: `calc(100% / ${divisions.length})` }}
-          />
-        </nav>
+        {/* ── Left sidebar: vertical tabs ── */}
+        <aside className="sv-sidebar">
+          <span className="sv-sidebar-label">Our Divisions</span>
+          <nav className="sv-tabs">
+            {divisions.map((d, i) => (
+              <button
+                key={d.id}
+                className={`sv-tab ${i === active ? "sv-tab-active" : ""}`}
+                onClick={() => setActive(i)}
+              >
+                <span className="sv-tab-num">{d.number}</span>
+                <span className="sv-tab-name">{d.label}</span>
+                <span className="sv-tab-arrow">→</span>
+              </button>
+            ))}
+          </nav>
+        </aside>
 
-        {/* ── Content panel ── */}
-        <div className="sv-panel" key={active}>
+        {/* ── Right: content panel ── */}
+        <div className="sv-content">
 
-          {/* Header row */}
+          {/* Big number watermark */}
+          <span className="sv-watermark" aria-hidden="true">{div.number}</span>
+
+          {/* Header */}
           <div className="sv-header">
-            <h2 className="sv-title">{div.label}</h2>
+            <div className="sv-header-left">
+              <span className="sv-eyebrow">Division {div.number}</span>
+              <h2 className="sv-title">{div.label}</h2>
+            </div>
             <p className="sv-tagline">{div.tagline}</p>
           </div>
 
           {/* Service columns */}
-          <div className={`sv-grid sv-cols-${div.columns.length}`}>
+          <div className={`sv-grid sv-cols-${div.columns.length}`} key={active}>
             {div.columns.map((col, i) => (
               <div className="sv-col" key={i}>
-                {col.title ? (
-                  <>
-                    <span className="sv-col-index">0{i + 1}</span>
-                    <h4 className="sv-col-title">{col.title}</h4>
-                  </>
-                ) : (
+                <div className="sv-col-header">
                   <span className="sv-col-index">0{i + 1}</span>
-                )}
+                  {col.title && <h4 className="sv-col-title">{col.title}</h4>}
+                </div>
                 <ul className="sv-list">
                   {col.items.map((item, j) => (
                     <li key={j} className="sv-item">
@@ -149,8 +153,12 @@ export default function Services() {
             ))}
           </div>
 
-          {/* Closing statement */}
-          <p className="sv-closing">{div.closing}</p>
+          {/* Closing */}
+          <div className="sv-closing-wrap">
+            <span className="sv-closing-line" />
+            <p className="sv-closing">{div.closing}</p>
+            <span className="sv-closing-line" />
+          </div>
 
         </div>
       </div>
