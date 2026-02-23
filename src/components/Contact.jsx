@@ -26,13 +26,35 @@ const socials = [
 export default function Contact() {
   return (
     <>
-      <section className="contact">
+      <section className="contact" id="contact">
+
+        {/* ── Spheres — left side, large & atmospheric ── */}
+        <div className="contact-spheres" aria-hidden="true">
+          <div className="cs cs-1" />
+          <div className="cs cs-2" />
+          <div className="cs cs-3" />
+          <div className="cs cs-4" />
+          <div className="cs cs-5" />
+        </div>
+
         <div className="contact-inner">
-          {/* Left */}
+
+          {/* ── LEFT ── */}
           <div className="contact-left">
-            <h2 className="contact-title">Contact Us</h2>
-            <h1 className="contact-title2">Let’s Build Something That Lasts.
-Tell us about your idea, and we’ll take it from there.</h1>
+            <div className="contact-left-top">
+              <span className="contact-eyebrow">Get in Touch</span>
+              <h2 className="contact-title">Contact<br />Us.</h2>
+            </div>
+            <p className="contact-subtitle">
+              Let's build something that lasts.<br />
+              Tell us about your idea, and we'll<br />
+              take it from there.
+            </p>
+            <div className="contact-info">
+              <a href="mailto:hello@braussnetworks.com" className="contact-email">
+                hello@braussnetworks.com
+              </a>
+            </div>
             <div className="contact-socials">
               {socials.map((s) => (
                 <a key={s.label} href="#" className="social-icon" aria-label={s.label}>
@@ -44,45 +66,42 @@ Tell us about your idea, and we’ll take it from there.</h1>
             </div>
           </div>
 
-          {/* Right: spheres + form */}
+          {/* ── RIGHT: form ── */}
           <div className="contact-right">
-            {/* Spheres behind form */}
-            <div className="cs-1" />
-            <div className="cs-2" />
-            <div className="cs-3" />
-            <div className="cs-4" />
-
-            {/* Form card on top */}
             <div className="contact-form-card">
-              <div className="cf-field">
-                <label>Full Name</label>
-                <input type="text" />
-              </div>
-              <div className="cf-field">
-                <label>Phone Number</label>
-                <input type="tel" />
+              <div className="cf-row">
+                <div className="cf-field">
+                  <label>Full Name</label>
+                  <input type="text" placeholder="Your name" />
+                </div>
+                <div className="cf-field">
+                  <label>Phone Number</label>
+                  <input type="tel" placeholder="+62" />
+                </div>
               </div>
               <div className="cf-field">
                 <label>Email</label>
-                <input type="email" />
+                <input type="email" placeholder="your@email.com" />
               </div>
               <div className="cf-field">
                 <label>Message</label>
-                <textarea rows={5} />
+                <textarea placeholder="Tell us about your project..." />
               </div>
               <div className="cf-submit-wrap">
-                <button className="cf-submit">SUMBIT</button>
+                <button className="cf-submit">
+                  Send Message
+                  <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
-      <footer className="contact-footer">
-        <div className="contact-footer-inner">
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </footer>
+    
     </>
   )
 }
