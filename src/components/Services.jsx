@@ -15,7 +15,6 @@ const items = [
     description:
       "A comprehensive brand identity system crafted for a creative studio. The project encompassed logo design, color palette development, typography selection, and full brand guidelines.",
     tools: ["Figma", "Illustrator", "Photoshop"],
-    tags: ["Logo", "Typography", "Guidelines"],
     images: [
       "https://picsum.photos/seed/brand1a/800/560",
       "https://picsum.photos/seed/brand1b/800/560",
@@ -35,7 +34,6 @@ const items = [
     description:
       "End-to-end redesign of an e-commerce platform focusing on conversion optimization and intuitive user flows. Led to a 38% increase in checkout completion rate post-launch.",
     tools: ["Figma", "Maze", "Hotjar"],
-    tags: ["Wireframe", "Prototype", "Research"],
     images: [
       "https://picsum.photos/seed/ecom2a/800/560",
       "https://picsum.photos/seed/ecom2b/800/560",
@@ -55,7 +53,6 @@ const items = [
     description:
       "Designed a health-tracking mobile application with a focus on accessibility and calm, motivating aesthetics. Supports both iOS and Android with dark mode and micro-animations.",
     tools: ["Figma", "Principle", "Zeplin"],
-    tags: ["iOS", "Android", "Design System"],
     images: [
       "https://picsum.photos/seed/mobile3a/800/560",
       "https://picsum.photos/seed/mobile3b/800/560",
@@ -75,7 +72,6 @@ const items = [
     description:
       "An advanced analytics dashboard for a SaaS platform — interactive charts, filterable data tables, and a real-time notification system for complex data at a glance.",
     tools: ["Figma", "D3.js", "Storybook"],
-    tags: ["SaaS", "Charts", "Real-time"],
     images: [
       "https://picsum.photos/seed/dash4a/800/560",
       "https://picsum.photos/seed/dash4b/800/560",
@@ -95,7 +91,6 @@ const items = [
     description:
       "A high-impact marketing landing page with scroll-driven animations and a dynamic hero section. Resulted in a 5.2% conversion rate — well above industry average.",
     tools: ["Figma", "Webflow", "GSAP"],
-    tags: ["Animation", "CRO", "Marketing"],
     images: [
       "https://picsum.photos/seed/land5a/800/560",
       "https://picsum.photos/seed/land5b/800/560",
@@ -115,7 +110,6 @@ const items = [
     description:
       "A vibrant visual identity for an events company, built around a modular graphic language that adapts across print, digital, and environmental applications.",
     tools: ["Illustrator", "InDesign", "Figma"],
-    tags: ["Print", "Digital", "Brand Book"],
     images: [
       "https://picsum.photos/seed/vis6a/800/560",
       "https://picsum.photos/seed/vis6b/800/560",
@@ -139,7 +133,7 @@ function ModalCarousel({ images, title }) {
           : c === images.length - 1 ? 0 : c + 1
       )
       setAnimDir(null)
-    }, 180)
+    }, 200)
   }
 
   return (
@@ -162,7 +156,6 @@ function ModalCarousel({ images, title }) {
               onClick={(e) => { e.stopPropagation(); setCurrent(i) }} />
           ))}
         </div>
-        <span className="mc-counter">{current + 1} / {images.length}</span>
       </div>
       <div className="mc-thumbs">
         {images.map((img, i) => (
@@ -179,10 +172,23 @@ function ModalCarousel({ images, title }) {
 /* ── Main Component ── */
 export default function Services() {
   const [modal, setModal] = useState(null)
+  const [isVisible, setIsVisible] = useState(false)
   const [hoveredId, setHoveredId] = useState(null)
 
+  const openModal = (item) => {
+    setModal(item)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsVisible(true))
+    })
+  }
+
+  const closeModal = () => {
+    setIsVisible(false)
+    setTimeout(() => setModal(null), 380)
+  }
+
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") setModal(null) }
+    const onKey = (e) => { if (e.key === "Escape") closeModal() }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [])
@@ -196,13 +202,12 @@ export default function Services() {
     <section className="portfolio" id="portfolio">
 
       {/* ── Header ── */}
-      <div className="portfolio-inner">
-        <div className="portfolio-header">
-          <span className="portfolio-eyebrow">Selected Work</span>
-          <h2 className="portfolio-title">Portfolio</h2>
-        </div>
+      <div className="portfolio-header">
+        <span className="portfolio-eyebrow">Selected Work</span>
+        <h2 className="portfolio-title">Portfolio</h2>
+      </div>
 
-      {/* ── Full-bleed Grid ── */}
+      {/* ── 3-col Grid ── */}
       <div className="pf-grid">
         {items.map((item) => (
           <div
@@ -210,32 +215,25 @@ export default function Services() {
             className={`pf-cell ${hoveredId && hoveredId !== item.id ? "pf-cell-dimmed" : ""}`}
             onMouseEnter={() => setHoveredId(item.id)}
             onMouseLeave={() => setHoveredId(null)}
-            onClick={() => setModal(item)}
+            onClick={() => openModal(item)}
           >
-            {/* Background image */}
             <img className="pf-cell-img" src={item.thumbnail} alt={item.caption} />
-
-            {/* Dark overlay base */}
             <div className="pf-cell-base-overlay" />
 
-            {/* Top-left label (always visible) */}
             <div className="pf-cell-top">
               <span className="pf-cell-category">{item.category}</span>
               <h3 className="pf-cell-title">{item.caption}</h3>
             </div>
 
-            {/* Bottom hover reveal */}
             <div className="pf-cell-bottom">
-              <p className="pf-cell-desc">{item.description}</p>
               <button className="pf-view-case">
-                VIEW CASE
-                <svg viewBox="0 0 24 24" fill="none" width="13" height="13">
+                View Case
+                <svg viewBox="0 0 24 24" fill="none" width="11" height="11">
                   <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
             </div>
 
-            {/* Status badge */}
             {item.status === "Live" && (
               <div className="pf-cell-live">
                 <span className="pf-live-dot" /> Live
@@ -244,70 +242,81 @@ export default function Services() {
           </div>
         ))}
       </div>
-      </div>{/* /portfolio-inner */}
 
       {/* ══ MODAL ══ */}
       {modal && (
-        <div className="pf-modal-backdrop" onClick={() => setModal(null)}>
-          <div className="pf-modal" onClick={(e) => e.stopPropagation()}>
-
-            <button className="pf-modal-close" onClick={() => setModal(null)}>
+        <div
+          className={`pf-modal-backdrop ${isVisible ? "pf-modal-backdrop--in" : ""}`}
+          onClick={closeModal}
+        >
+          <div
+            className={`pf-modal ${isVisible ? "pf-modal--in" : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button className="pf-modal-close" onClick={closeModal}>
               <svg viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </button>
 
-            <div className="pf-modal-left">
+            {/* LEFT — image carousel */}
+            <div className={`pf-modal-left ${isVisible ? "pf-modal-left--in" : ""}`}>
               <ModalCarousel images={modal.images} title={modal.caption} />
             </div>
 
+            {/* RIGHT — details */}
             <div className="pf-modal-right">
-              <div className="pf-modal-header">
-                <div className="pf-modal-badges">
-                  <span className="pf-badge pf-badge-cat">{modal.category}</span>
-                  <span className={`pf-badge ${modal.status === "Live" ? "pf-badge-live" : "pf-badge-done"}`}>
-                    {modal.status === "Live" && <span className="pf-live-dot" />}
-                    {modal.status}
-                  </span>
-                </div>
-                <h3 className="pf-modal-title">{modal.caption}</h3>
+
+              {/* Meta row: category + status + year */}
+              <div className={`pf-modal-meta ${isVisible ? "pf-stagger-1" : ""}`}>
+                <span className="pf-meta-cat">{modal.category}</span>
+                {modal.status === "Live"
+                  ? <span className="pf-meta-live"><span className="pf-live-dot" />Live</span>
+                  : <span className="pf-meta-done">Completed</span>
+                }
+                <span className="pf-meta-year">{modal.year}</span>
               </div>
 
-              <div className="pf-info-grid">
+              {/* Title */}
+              <h3 className={`pf-modal-title ${isVisible ? "pf-stagger-2" : ""}`}>
+                {modal.caption}
+              </h3>
+
+              {/* Accent line */}
+              <div className={`pf-accent-line ${isVisible ? "pf-stagger-2" : ""}`} />
+
+              {/* Info pills — client / duration / role */}
+              <div className={`pf-info-row ${isVisible ? "pf-stagger-3" : ""}`}>
                 {[
                   { label: "Client",   value: modal.client },
-                  { label: "Year",     value: modal.year },
                   { label: "Duration", value: modal.duration },
                   { label: "Role",     value: modal.role },
                 ].map(({ label, value }) => (
-                  <div className="pf-info-item" key={label}>
+                  <div className="pf-info-pill" key={label}>
                     <span className="pf-info-label">{label}</span>
                     <span className="pf-info-value">{value}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="pf-divider" />
+              {/* Description */}
+              <p className={`pf-modal-desc ${isVisible ? "pf-stagger-4" : ""}`}>
+                {modal.description}
+              </p>
 
-              <div className="pf-modal-section">
-                <h4 className="pf-section-title"><span className="pf-section-line" />About the Project</h4>
-                <p className="pf-modal-desc">{modal.description}</p>
-              </div>
-
-              <div className="pf-divider" />
-
-              <div className="pf-modal-section">
-                <h4 className="pf-section-title"><span className="pf-section-line" />Tools Used</h4>
+              {/* Tools */}
+              <div className={`pf-tools-section ${isVisible ? "pf-stagger-5" : ""}`}>
+                <span className="pf-tools-label">Tools Used</span>
                 <div className="pf-tools">
-                  {modal.tools.map((tool, i) => <span key={i} className="pf-tool">{tool}</span>)}
+                  {modal.tools.map((tool, i) => (
+                    <span key={i} className="pf-tool">{tool}</span>
+                  ))}
                 </div>
               </div>
 
-              <div className="pf-modal-tags">
-                {modal.tags.map((tag, i) => <span key={i} className="pf-modal-tag">#{tag}</span>)}
-              </div>
-
-              <button className="pf-modal-cta">
+              {/* CTA */}
+              <button className={`pf-modal-cta ${isVisible ? "pf-stagger-6" : ""}`}>
                 View Full Case Study
                 <svg viewBox="0 0 24 24" fill="none" width="15" height="15">
                   <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import "../styles/Portfolio.css"
 
 const divisions = [
@@ -96,12 +96,107 @@ export default function Services() {
   const [active, setActive] = useState(0)
   const div = divisions[active]
 
+  /* ── Refs for parallax targets ── */
+  const sectionRef    = useRef(null)
+  const watermarkRef  = useRef(null)
+  const headerRef     = useRef(null)
+  const gridRef       = useRef(null)
+  const closingRef    = useRef(null)
+  const sidebarRef    = useRef(null)
+  const bgShapeRef    = useRef(null)
+
+  /* ── Scroll + mouse parallax ── */
+  useEffect(() => {
+    const scrollState = { current: 0, target: 0 }
+    const mouseState  = { x: 0, y: 0, cx: 0, cy: 0 }
+    let rafId
+
+    const onScroll = () => {
+      const section = sectionRef.current
+      if (!section) return
+      const rect = section.getBoundingClientRect()
+      // progress: how far section has scrolled into view (0 = top of section at viewport bottom, 1 = bottom)
+      scrollState.target = Math.max(0, -rect.top)
+    }
+
+    const onMouse = (e) => {
+      mouseState.x = (e.clientX / window.innerWidth  - 0.5) * 2
+      mouseState.y = (e.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    const tick = () => {
+      rafId = requestAnimationFrame(tick)
+
+      // lerp scroll
+      scrollState.current += (scrollState.target - scrollState.current) * 0.07
+      const y = scrollState.current
+
+      // lerp mouse
+      mouseState.cx += (mouseState.x - mouseState.cx) * 0.05
+      mouseState.cy += (mouseState.y - mouseState.cy) * 0.05
+      const mx = mouseState.cx
+      const my = mouseState.cy
+
+      // Watermark — drifts fastest, also mouse-driven
+      if (watermarkRef.current) {
+        watermarkRef.current.style.transform =
+          `translateY(${y * -0.28}px) translateX(${mx * 18}px)`
+        watermarkRef.current.style.opacity =
+          Math.max(0, 0.07 - y * 0.00008).toString()
+      }
+
+      // Header — mid speed scroll + subtle mouse shift
+      if (headerRef.current) {
+        headerRef.current.style.transform =
+          `translateY(${y * -0.12}px) translate(${mx * -5}px, ${my * -3}px)`
+      }
+
+      // Grid — slowest scroll layer
+      if (gridRef.current) {
+        gridRef.current.style.transform =
+          `translateY(${y * -0.06}px)`
+      }
+
+      // Closing — very slight
+      if (closingRef.current) {
+        closingRef.current.style.transform =
+          `translateY(${y * -0.04}px)`
+      }
+
+      // Sidebar — counter-scroll (slight opposite direction creates depth)
+      if (sidebarRef.current) {
+        sidebarRef.current.style.transform =
+          `translateY(${y * 0.04}px)`
+      }
+
+      // Background shape — mouse parallax only
+      if (bgShapeRef.current) {
+        bgShapeRef.current.style.transform =
+          `translate(${mx * -22}px, ${my * -14}px) scale(1.1)`
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("mousemove", onMouse, { passive: true })
+    rafId = requestAnimationFrame(tick)
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("mousemove", onMouse)
+      cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
-    <section className="services" id="services">
+    <section className="services" id="services" ref={sectionRef}>
+
+      {/* Floating background shape — mouse parallax */}
+      <div className="sv-bg-shape" ref={bgShapeRef} />
+
       <div className="services-container">
 
-        {/* ── Left sidebar: vertical tabs ── */}
-        <aside className="sv-sidebar">
+        {/* ── Left sidebar ── */}
+        <aside className="sv-sidebar" ref={sidebarRef}>
           <span className="sv-sidebar-label">Our Divisions</span>
           <nav className="sv-tabs">
             {divisions.map((d, i) => (
@@ -118,14 +213,16 @@ export default function Services() {
           </nav>
         </aside>
 
-        {/* ── Right: content panel ── */}
+        {/* ── Right content panel ── */}
         <div className="sv-content">
 
-          {/* Big number watermark */}
-          <span className="sv-watermark" aria-hidden="true">{div.number}</span>
+          {/* Watermark — deepest parallax layer */}
+          <span className="sv-watermark" ref={watermarkRef} aria-hidden="true">
+            {div.number}
+          </span>
 
           {/* Header */}
-          <div className="sv-header">
+          <div className="sv-header" ref={headerRef}>
             <div className="sv-header-left">
               <span className="sv-eyebrow">Division {div.number}</span>
               <h2 className="sv-title">{div.label}</h2>
@@ -134,7 +231,7 @@ export default function Services() {
           </div>
 
           {/* Service columns */}
-          <div className={`sv-grid sv-cols-${div.columns.length}`} key={active}>
+          <div className={`sv-grid sv-cols-${div.columns.length}`} key={active} ref={gridRef}>
             {div.columns.map((col, i) => (
               <div className="sv-col" key={i}>
                 <div className="sv-col-header">
@@ -154,7 +251,7 @@ export default function Services() {
           </div>
 
           {/* Closing */}
-          <div className="sv-closing-wrap">
+          <div className="sv-closing-wrap" ref={closingRef}>
             <span className="sv-closing-line" />
             <p className="sv-closing">{div.closing}</p>
             <span className="sv-closing-line" />

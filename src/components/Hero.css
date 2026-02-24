@@ -10,6 +10,7 @@
   width: 100%;
   min-height: 100vh;
   font-family: 'DM Sans', sans-serif;
+  overflow: hidden; /* clip parallax overflows */
 }
 
 /* ═══════════════════════════════════════
@@ -59,25 +60,14 @@
   padding: 4rem 4rem 0;
 }
 
-/* ── Eyebrow ── */
-.who-eyebrow {
-  display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #9060c0;
-  margin-bottom: 1.2rem;
-  margin-top: 1rem;
-}
-
-/* ── Heading ── */
+/* ── Heading — parallax target ── */
 .who-heading {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   color: #1a0c36;
   line-height: 0.95;
+  will-change: transform;
+  /* Let JS drive transform; transitions only for mouse smoothing */
 }
 .who-heading .line1,
 .who-heading .line2 {
@@ -92,6 +82,7 @@
   height: 55px;
   margin-top: 0.8rem;
   margin-bottom: 2.5rem;
+  will-change: transform;
 }
 .dot {
   position: absolute;
@@ -107,35 +98,23 @@
 .dot:nth-child(3n)  { animation-duration: 3.1s; }
 .dot:nth-child(4n)  { animation-duration: 5.0s; }
 
-/* ── BRAUSS logotype ── */
-.brauss-logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 2.8rem;
-  color: #2e1060;
-  letter-spacing: -1.5px;
-  font-style: italic;
-  display: inline-block;
-  transform: skewX(-5deg);
-  margin-bottom: 1.4rem;
-  line-height: 1;
-}
-
-/* ── Description ── */
+/* ── Description — parallax target ── */
 .who-desc {
   font-size: 1rem;
   line-height: 1.85;
   color: #2a1a50;
   font-weight: 400;
   max-width: 400px;
+  will-change: transform;
 }
 
-/* ── Bottom tagline ── */
+/* ── Bottom tagline — parallax target ── */
 .who-left-bottom {
   position: relative;
   z-index: 1;
   padding: 0 4rem 3.5rem;
   margin-top: auto;
+  will-change: transform;
 }
 .divider-line {
   width: 60px;
@@ -160,24 +139,70 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;   /* diagram perfectly centred */
-  gap: 0;
+  justify-content: center;
   padding: 5rem 2rem 5rem;
   cursor: none;
+  overflow: hidden;
   background:
     radial-gradient(ellipse 100% 55% at 25% -5%, transparent 42%),
     radial-gradient(ellipse 60% 50% at 92% 12%, #4d1c85 0%, transparent 55%),
     linear-gradient(155deg, #7e3dba 0%, #5b2195 45%, #3b1272 100%);
 }
 
-/* Email — absolute top-right */
-.email-footer {
+/* ── Parallax background orb ── */
+.right-bg-orb {
   position: absolute;
-  top: 2rem; right: 2.5rem;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.65);
-  letter-spacing: 0.3px;
+  inset: -20%;
+  background: radial-gradient(ellipse 70% 60% at 60% 40%,
+    rgba(160,80,255,0.28) 0%,
+    rgba(80,20,160,0.12) 50%,
+    transparent 75%);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 0;
+  transform: scale(1.2); /* default, JS overrides */
+}
+
+/* ── Floating parallax rings ── */
+.px-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.px-ring-1 {
+  width: 500px; height: 500px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringFloat1 14s ease-in-out infinite;
+}
+.px-ring-2 {
+  width: 340px; height: 340px;
+  top: 15%; left: 60%;
+  animation: ringFloat2 18s ease-in-out infinite;
+  border-color: rgba(255,255,255,0.05);
+}
+.px-ring-3 {
+  width: 220px; height: 220px;
+  bottom: 10%; left: 15%;
+  animation: ringFloat3 11s ease-in-out infinite;
+  border-color: rgba(255,200,120,0.1);
+}
+
+@keyframes ringFloat1 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.6; }
+  50%       { transform: translate(-50%, -54%) scale(1.04); opacity: 1;   }
+}
+@keyframes ringFloat2 {
+  0%, 100% { transform: translate(0,  0px) scale(1);    opacity: 0.5; }
+  33%       { transform: translate(8px, -12px) scale(1.06); opacity: 0.9; }
+  66%       { transform: translate(-5px, 8px)  scale(0.97); opacity: 0.6; }
+}
+@keyframes ringFloat3 {
+  0%, 100% { transform: translate(0, 0)    scale(1);    opacity: 0.4; }
+  50%       { transform: translate(-8px, 10px) scale(1.08); opacity: 0.8; }
 }
 
 /* ═══════════════════════════════════════
@@ -185,6 +210,8 @@
 ═══════════════════════════════════════ */
 .diagram-wrapper {
   perspective: 900px;
+  position: relative;
+  z-index: 3;
 }
 
 .diagram {
@@ -269,51 +296,6 @@
 .node-bottom { bottom:-22px;left:50%; transform:translateX(-50%); padding:0.55rem 1.3rem; white-space:normal; width:110px; }
 
 /* ═══════════════════════════════════════
-   SCROLL BUTTON — centred, below diagram
-═══════════════════════════════════════ */
-.scroll-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  color: white;
-  opacity: 0.7;
-  transition: opacity 0.3s, transform 0.3s;
-  margin-top: 3rem;      /* space below diagram */
-  position: relative;    /* in normal flow, NOT absolute */
-  z-index: 10;
-}
-.scroll-btn:hover {
-  opacity: 1;
-  transform: translateY(4px);
-}
-
-.scroll-btn-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.85);
-}
-
-.scroll-btn-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: scrollBounce 1.8s ease-in-out infinite;
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateY(0);   opacity: 0.7; }
-  50%       { transform: translateY(6px); opacity: 1;   }
-}
-
-/* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
 @media (max-width: 860px) {
@@ -324,8 +306,8 @@
   .who-heading .line1,
   .who-heading .line2 { font-size: 3.5rem; letter-spacing: -2px; }
   .diagram     { width: 260px; height: 260px; }
-  .email-footer { font-size: 0.75rem; right: 1.5rem; }
-  .scroll-btn  { margin-top: 2.5rem; }
+  /* disable parallax transforms on mobile for performance */
+  .who-heading, .who-desc, .splatter, .who-left-bottom { will-change: auto; }
 }
 
 @media (max-width: 560px) {
@@ -333,7 +315,5 @@
   .who-left-bottom { padding: 0 2rem 2.5rem; }
   .who-heading .line1,
   .who-heading .line2 { font-size: 2.8rem; letter-spacing: -1.5px; }
-  .brauss-logo { font-size: 2rem; }
   .diagram     { width: 220px; height: 220px; }
-  .email-footer { display: none; }
 }

@@ -1,43 +1,65 @@
-#root {
-  width: 100%;
-  /* max-width: 1200px; */
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Animasi masuk untuk konten utama */
+.app-content {
+  animation: appEnter 1.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  will-change: opacity, transform, filter;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes appEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(6px);
   }
-  to {
-    transform: rotate(360deg);
+  40% {
+    opacity: 0.8;
+    transform: scale(1.01);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.scroll-reveal {
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
 }
 
-.card {
-  padding: 2em;
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
 }
 
-.read-the-docs {
-  color: #888;
+.scroll-reveal-fade-up {
+  transform: translateY(30px);
+}
+.scroll-reveal-fade-down {
+  transform: translateY(-30px);
+}
+.scroll-reveal-fade-left {
+  transform: translateX(30px);
+}
+.scroll-reveal-fade-right {
+  transform: translateX(-30px);
+}
+.scroll-reveal-scale {
+  transform: scale(0.9);
+}
+.scroll-reveal-zoom {
+  transform: scale(1.1);
+}
+.scroll-reveal-zoom.visible {
+  transform: scale(1);
+}
+
+/* Opsional: pastikan body tidak overflow */
+body {
+  margin: 0;
+  overflow-x: hidden;
 }
