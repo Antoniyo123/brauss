@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import "../styles/Services.css"
 
 const items = [
@@ -171,17 +171,75 @@ function ModalCarousel({ images, title }) {
 
 /* ── Main Component ── */
 export default function Services() {
-  const [modal, setModal] = useState(null)
+  const [modal, setModal]       = useState(null)
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredId, setHoveredId] = useState(null)
 
+  // Parallax refs
+  const sectionRef  = useRef(null)
+  const eyebrowRef  = useRef(null)
+  const titleRef    = useRef(null)
+  const gridRef     = useRef(null)
+  const orb1Ref     = useRef(null)
+  const orb2Ref     = useRef(null)
+  // Per-cell refs for inner image mouse parallax
+  const cellRefs    = useRef({})
+
+  useEffect(() => {
+    const scroll = { current: 0, target: 0 }
+    const mouse  = { x: 0, y: 0, cx: 0, cy: 0 }
+    let rafId
+
+    const onScroll = () => {
+      const el = sectionRef.current
+      if (!el) return
+      scroll.target = Math.max(0, -el.getBoundingClientRect().top)
+    }
+    const onMouse = (e) => {
+      mouse.x = (e.clientX / window.innerWidth  - 0.5) * 2
+      mouse.y = (e.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    const tick = () => {
+      rafId = requestAnimationFrame(tick)
+      scroll.current += (scroll.target - scroll.current) * 0.07
+      mouse.cx += (mouse.x - mouse.cx) * 0.055
+      mouse.cy += (mouse.y - mouse.cy) * 0.055
+
+      const y = scroll.current, mx = mouse.cx, my = mouse.cy
+
+      // ── Header layers ──
+      if (eyebrowRef.current)
+        eyebrowRef.current.style.transform = `translateY(${y * -0.20}px) translate(${mx * -7}px, ${my * -3}px)`
+
+      if (titleRef.current)
+        titleRef.current.style.transform   = `translateY(${y * -0.15}px) translate(${mx * -5}px, ${my * -4}px)`
+
+      // ── Grid — subtle lift ──
+      if (gridRef.current)
+        gridRef.current.style.transform    = `translateY(${y * -0.05}px)`
+
+      // ── Background orbs — counter-mouse ──
+      if (orb1Ref.current)
+        orb1Ref.current.style.transform    = `translate(${mx * 22}px, ${y * 0.08 + my * 14}px)`
+      if (orb2Ref.current)
+        orb2Ref.current.style.transform    = `translate(${mx * -16}px, ${y * -0.06 + my * -10}px)`
+    }
+
+    window.addEventListener("scroll",    onScroll, { passive: true })
+    window.addEventListener("mousemove", onMouse,  { passive: true })
+    rafId = requestAnimationFrame(tick)
+    return () => {
+      window.removeEventListener("scroll",    onScroll)
+      window.removeEventListener("mousemove", onMouse)
+      cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   const openModal = (item) => {
     setModal(item)
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setIsVisible(true))
-    })
+    requestAnimationFrame(() => requestAnimationFrame(() => setIsVisible(true)))
   }
-
   const closeModal = () => {
     setIsVisible(false)
     setTimeout(() => setModal(null), 380)
@@ -199,25 +257,48 @@ export default function Services() {
   }, [modal])
 
   return (
-    <section className="portfolio" id="portfolio">
+    <section className="portfolio" id="portfolio" ref={sectionRef}>
+
+      {/* ── Parallax background orbs ── */}
+      <div className="pf-orb pf-orb-1" ref={orb1Ref} aria-hidden="true" />
+      <div className="pf-orb pf-orb-2" ref={orb2Ref} aria-hidden="true" />
 
       {/* ── Header ── */}
       <div className="portfolio-header">
-        <span className="portfolio-eyebrow">Selected Work</span>
-        <h2 className="portfolio-title">Portfolio</h2>
+        <span className="portfolio-eyebrow" ref={eyebrowRef}>Selected Work</span>
+        <h2 className="portfolio-title" ref={titleRef}>Portfolio</h2>
       </div>
 
       {/* ── 3-col Grid ── */}
-      <div className="pf-grid">
+      <div className="pf-grid" ref={gridRef}>
         {items.map((item) => (
           <div
             key={item.id}
             className={`pf-cell ${hoveredId && hoveredId !== item.id ? "pf-cell-dimmed" : ""}`}
+            ref={el => cellRefs.current[item.id] = el}
             onMouseEnter={() => setHoveredId(item.id)}
-            onMouseLeave={() => setHoveredId(null)}
+            onMouseLeave={(e) => {
+              setHoveredId(null)
+              // Reset CSS vars
+              const el = cellRefs.current[item.id]
+              if (el) { el.style.setProperty("--px", "0px"); el.style.setProperty("--py", "0px") }
+            }}
+            onMouseMove={(e) => {
+              const el = cellRefs.current[item.id]
+              if (!el) return
+              const rect = el.getBoundingClientRect()
+              const nx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2  // -1 to 1
+              const ny = ((e.clientY - rect.top)  / rect.height - 0.5) * 2
+              el.style.setProperty("--px", `${nx * -8}px`)
+              el.style.setProperty("--py", `${ny * -6}px`)
+            }}
             onClick={() => openModal(item)}
           >
-            <img className="pf-cell-img" src={item.thumbnail} alt={item.caption} />
+            <img
+              className="pf-cell-img"
+              src={item.thumbnail}
+              alt={item.caption}
+            />
             <div className="pf-cell-base-overlay" />
 
             <div className="pf-cell-top">
@@ -253,22 +334,18 @@ export default function Services() {
             className={`pf-modal ${isVisible ? "pf-modal--in" : ""}`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close */}
             <button className="pf-modal-close" onClick={closeModal}>
               <svg viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </button>
 
-            {/* LEFT — image carousel */}
             <div className={`pf-modal-left ${isVisible ? "pf-modal-left--in" : ""}`}>
               <ModalCarousel images={modal.images} title={modal.caption} />
             </div>
 
-            {/* RIGHT — details */}
             <div className="pf-modal-right">
 
-              {/* Meta row: category + status + year */}
               <div className={`pf-modal-meta ${isVisible ? "pf-stagger-1" : ""}`}>
                 <span className="pf-meta-cat">{modal.category}</span>
                 {modal.status === "Live"
@@ -278,15 +355,12 @@ export default function Services() {
                 <span className="pf-meta-year">{modal.year}</span>
               </div>
 
-              {/* Title */}
               <h3 className={`pf-modal-title ${isVisible ? "pf-stagger-2" : ""}`}>
                 {modal.caption}
               </h3>
 
-              {/* Accent line */}
               <div className={`pf-accent-line ${isVisible ? "pf-stagger-2" : ""}`} />
 
-              {/* Info pills — client / duration / role */}
               <div className={`pf-info-row ${isVisible ? "pf-stagger-3" : ""}`}>
                 {[
                   { label: "Client",   value: modal.client },
@@ -300,12 +374,10 @@ export default function Services() {
                 ))}
               </div>
 
-              {/* Description */}
               <p className={`pf-modal-desc ${isVisible ? "pf-stagger-4" : ""}`}>
                 {modal.description}
               </p>
 
-              {/* Tools */}
               <div className={`pf-tools-section ${isVisible ? "pf-stagger-5" : ""}`}>
                 <span className="pf-tools-label">Tools Used</span>
                 <div className="pf-tools">
@@ -315,7 +387,6 @@ export default function Services() {
                 </div>
               </div>
 
-              {/* CTA */}
               <button className={`pf-modal-cta ${isVisible ? "pf-stagger-6" : ""}`}>
                 View Full Case Study
                 <svg viewBox="0 0 24 24" fill="none" width="15" height="15">

@@ -2,64 +2,48 @@ import { useState, useEffect } from "react";
 import "../styles/Preloader.css";
 
 import braussLogo from "../assets/logo-white.png";
-import bgCity from "../assets/jakarta background.jpeg";
+import bgCity     from "../assets/jakarta background.jpeg";
 
-const WORDS = ["BE", "BRAVE", "BE", "BRAUSS"];
+const WORDS        = ["BE", "BRAVE", "BE", "BRAUSS"];
 const CIRCLE_COUNT = 9;
 
 const Preloader = ({ onEnter, exiting }) => {
-  const [clicked, setClicked] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: -300, y: -300 });
+  const [clicked,    setClicked]    = useState(false);
+  const [cursorPos,  setCursorPos]  = useState({ x: -300, y: -300 });
   const [isHovering, setIsHovering] = useState(false);
-  const [wiggle, setWiggle] = useState(false);
-  const [ripples, setRipples] = useState([]);
-  const [hint, setHint] = useState(false);
-  const [wordsIn, setWordsIn] = useState(false);
+  const [wiggle,     setWiggle]     = useState(false);
+  const [ripples,    setRipples]    = useState([]);
+  const [hint,       setHint]       = useState(false);
+  const [wordsIn,    setWordsIn]    = useState(false);
   const [btnClicked, setBtnClicked] = useState(false);
 
-  // Efek untuk merespon prop exiting dari App
-  useEffect(() => {
-    if (exiting) {
-      setClicked(true);
-    }
-  }, [exiting]);
+  useEffect(() => { if (exiting) setClicked(true); }, [exiting]);
 
-  // Munculkan hint dan kata setelah 1.6 detik
   useEffect(() => {
-    const t = setTimeout(() => {
-      setHint(true);
-      setWordsIn(true);
-    }, 1600);
+    const t = setTimeout(() => { setHint(true); setWordsIn(true); }, 1800);
     return () => clearTimeout(t);
   }, []);
 
-  // Wiggle periodik pada tombol
   useEffect(() => {
     const id = setInterval(() => {
       setWiggle(true);
-      setTimeout(() => setWiggle(false), 600);
-    }, 3500);
+      setTimeout(() => setWiggle(false), 800);
+    }, 5500);
     return () => clearInterval(id);
   }, []);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e) =>
     setCursorPos({ x: e.clientX, y: e.clientY });
-  };
 
   const handleBtnClick = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const id = Date.now();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setRipples((prev) => [...prev, { x, y, id }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 1000);
-
+    const id   = Date.now();
+    setRipples(p => [...p, { x: e.clientX - rect.left, y: e.clientY - rect.top, id }]);
+    setTimeout(() => setRipples(p => p.filter(r => r.id !== id)), 1100);
     setBtnClicked(true);
     setTimeout(() => setBtnClicked(false), 200);
-
     setClicked(true);
-    onEnter(); // Beri tahu App bahwa tombol diklik
+    onEnter();
   };
 
   return (
@@ -68,50 +52,77 @@ const Preloader = ({ onEnter, exiting }) => {
         <defs>
           <filter id="pl-wavy">
             <feTurbulence type="turbulence" baseFrequency="0.02 0.05" numOctaves="2" result="noise">
-              <animate
-                attributeName="baseFrequency"
+              <animate attributeName="baseFrequency"
                 values="0.02 0.05;0.03 0.07;0.02 0.05"
-                dur="4s"
-                repeatCount="indefinite"
-              />
+                dur="5s" repeatCount="indefinite" />
             </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"
+              xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </defs>
       </svg>
 
-      <div className={`pl-preloader${clicked ? " pl-exit" : ""}`} onMouseMove={handleMouseMove}>
+      <div
+        className={`pl-preloader${clicked ? " pl-exit" : ""}`}
+        onMouseMove={handleMouseMove}
+      >
+        {/* ── Backgrounds ──────────────────────────────────── */}
         <div className="pl-bg-photo" style={{ backgroundImage: `url(${bgCity})` }} />
-        <div className="pl-bg-glow" />
-        <div className="pl-scanline" />
+        <div className="pl-overlay-bloom" />
+        <div className="pl-letterbox-top" />
+        <div className="pl-letterbox-bottom" />
+        <div className="pl-vignette" />
+        <div className="pl-fade-bottom" />
+        <div className="pl-fade-top" />
+        <div className="pl-grain" />
+
+        {/* ── Progress bar ─────────────────────────────────── */}
         <div className="pl-loader-bar" />
 
-        {/* Partikel debu */}
-        {Array.from({ length: 14 }).map((_, i) => (
+        {/* ── Corner ornaments ──────────────────────────────── */}
+        <div className="pl-corner pl-corner--tl" />
+        <div className="pl-corner pl-corner--tr" />
+        <div className="pl-corner pl-corner--bl" />
+        <div className="pl-corner pl-corner--br" />
+
+        {/* ── Subtle particles ──────────────────────────────── */}
+        {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
             className="pl-particle"
             style={{
-              width: `${4 + Math.random() * 7}px`,
-              height: `${4 + Math.random() * 7}px`,
-              left: `${5 + Math.random() * 90}%`,
-              top: `${8 + Math.random() * 82}%`,
-              "--dur": `${3 + Math.random() * 4}s`,
-              "--delay": `${Math.random() * 3}s`,
+              width:     `${2 + Math.random() * 4}px`,
+              height:    `${2 + Math.random() * 4}px`,
+              left:      `${8 + Math.random() * 84}%`,
+              top:       `${12 + Math.random() * 76}%`,
+              "--dur":   `${6 + Math.random() * 6}s`,
+              "--delay": `${Math.random() * 4}s`,
             }}
           />
         ))}
 
+        {/* ── Main content ──────────────────────────────────── */}
         <div className="pl-content">
-          <img src={braussLogo} alt="BRAUSS" className="pl-logo-img" draggable={false} />
+          <img
+            src={braussLogo}
+            alt="BRAUSS"
+            className="pl-logo-img"
+            draggable={false}
+          />
+
+          <p className="pl-meta">Jakarta · Creative Studio · Est. 2024</p>
 
           <div className="pl-btn-wrap">
             <p className={`pl-hint${hint ? " pl-hint-visible" : ""}`}>
-              click to enter&nbsp;<span className="pl-hint-arrow">↓</span>
+              click to enter <span className="pl-hint-arrow">↓</span>
             </p>
 
             <button
-              className={`pl-btn${wiggle && !isHovering ? " pl-wiggle" : ""}${btnClicked ? " pl-clicked" : ""}`}
+              className={[
+                "pl-btn",
+                wiggle && !isHovering ? "pl-wiggle"  : "",
+                btnClicked            ? "pl-clicked" : "",
+              ].filter(Boolean).join(" ")}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               onClick={handleBtnClick}
@@ -127,8 +138,8 @@ const Preloader = ({ onEnter, exiting }) => {
                       key={i}
                       className="pl-word"
                       style={{
-                        animationDelay: wordsIn ? `${i * 0.12}s` : "9999s",
-                        marginRight: i === 1 ? "8px" : "0",
+                        animationDelay: wordsIn ? `${i * 0.09}s` : "9999s",
+                        marginRight: i === 1 ? "5px" : "0",
                       }}
                     >
                       {word}
@@ -148,7 +159,14 @@ const Preloader = ({ onEnter, exiting }) => {
           </div>
         </div>
 
-        {/* Kursor kustom */}
+        {/* ── Bottom credit ──────────────────────────────────── */}
+        <div className="pl-credit">
+          <span className="pl-credit-line" />
+          <span className="pl-credit-text">A Jakarta Creative Experience</span>
+          <span className="pl-credit-line" />
+        </div>
+
+        {/* ── Custom cursor ──────────────────────────────────── */}
         <div
           className={`pl-cursor${isHovering ? " pl-hovering" : ""}`}
           style={{ left: cursorPos.x, top: cursorPos.y }}
@@ -156,7 +174,7 @@ const Preloader = ({ onEnter, exiting }) => {
         >
           <div className="pl-cursor-ring" />
           <div className="pl-cursor-dot" />
-          <div className="pl-cursor-label">ENTER</div>
+          <div className="pl-cursor-label">enter</div>
         </div>
       </div>
     </>

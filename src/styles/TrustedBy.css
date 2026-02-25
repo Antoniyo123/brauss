@@ -12,21 +12,43 @@
   padding: 0;
 }
 
+/* ── Parallax background orb (opposite mouse direction) ── */
+.trusted-bg-orb {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(196,158,224,0.18) 0%,
+    rgba(160,100,220,0.07) 45%,
+    transparent 70%
+  );
+  top: -100px;
+  right: -80px;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
 /* ── Divider lines ── */
 .trusted-divider-top,
 .trusted-divider-bottom {
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, #d4c8e8 20%, #b8a8d8 50%, #d4c8e8 80%, transparent 100%);
+  position: relative;
+  z-index: 2;
 }
 
 /* ══════════════════════════════════════
-   LAYOUT: left label + right marquees
+   LAYOUT
 ══════════════════════════════════════ */
 .trusted-layout {
   display: flex;
   align-items: stretch;
   min-height: 480px;
+  position: relative;
+  z-index: 2;
 }
 
 /* ── LEFT panel ── */
@@ -55,6 +77,7 @@
   color: #9060c0;
 }
 
+/* Heading — parallax target */
 .trusted-heading {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
@@ -64,14 +87,17 @@
   letter-spacing: -1.5px;
   font-style: italic;
   margin: 0;
+  will-change: transform;
 }
 
+/* Stat — parallax target */
 .trusted-stat {
   display: flex;
   align-items: baseline;
   gap: 0.8rem;
   padding-top: 0.5rem;
   border-top: 1px solid rgba(180,160,220,0.3);
+  will-change: transform;
 }
 
 .trusted-stat-num {
@@ -91,7 +117,7 @@
   line-height: 1.5;
 }
 
-/* ── RIGHT panel — marquee rows ── */
+/* ── RIGHT panel ── */
 .trusted-right {
   flex: 1;
   display: flex;
@@ -102,6 +128,11 @@
   padding: 2.5rem 0;
 }
 
+/* Row wrapper for per-row parallax */
+.tb-marquee-row-wrap {
+  will-change: transform;
+}
+
 /* ══════════════════════════════════════
    MARQUEE
 ══════════════════════════════════════ */
@@ -109,12 +140,10 @@
   overflow: hidden;
   width: 100%;
   padding: 0.9rem 0;
-  /* Fade edges */
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-/* Separator lines between rows */
 .tb-marquee-track + .tb-marquee-track {
   border-top: 1px solid rgba(180, 160, 220, 0.2);
 }
@@ -141,7 +170,6 @@
   to   { transform: translateX(0); }
 }
 
-/* Pause on hover */
 .tb-marquee-track:hover .tb-marquee-inner {
   animation-play-state: paused;
 }
@@ -173,7 +201,7 @@
 }
 
 /* ══════════════════════════════════════
-   FLOATING SPHERES
+   FLOATING SPHERES — individual parallax
 ══════════════════════════════════════ */
 .trusted-spheres {
   position: absolute;
@@ -185,7 +213,11 @@
   z-index: 1;
 }
 
-.ts { position: absolute; border-radius: 50%; }
+.ts {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
 
 .ts-1 {
   width: 170px; height: 170px;
@@ -215,15 +247,12 @@
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
-
-/* Tablet landscape */
 @media (max-width: 1024px) {
-  .trusted-left  { flex: 0 0 240px; padding: 3rem 2rem; }
+  .trusted-left    { flex: 0 0 240px; padding: 3rem 2rem; }
   .trusted-heading { font-size: 2.6rem; }
   .trusted-spheres { display: none; }
 }
 
-/* Tablet portrait — stack vertically */
 @media (max-width: 768px) {
   .trusted-layout  { flex-direction: column; }
   .trusted-left    {
@@ -231,8 +260,6 @@
     border-right: none;
     border-bottom: 1px solid rgba(180,160,220,0.3);
     padding: 3rem 2rem 2.5rem;
-    flex-direction: row;
-    align-items: center;
   }
   .trusted-left-inner {
     flex-direction: row;
@@ -241,13 +268,15 @@
     flex-wrap: wrap;
   }
   .trusted-heading  { font-size: 2.2rem; }
-  .trusted-right    { padding: 1.5rem 0; gap: 0; }
+  .trusted-right    { padding: 1.5rem 0; }
   .tb-logo img      { max-width: 85px; max-height: 36px; }
   .tb-marquee-inner { gap: 2.5rem; }
   .trusted-spheres  { display: none; }
+  /* Disable parallax on mobile */
+  .trusted-heading, .trusted-stat,
+  .tb-marquee-row-wrap, .trusted-bg-orb { will-change: auto; transform: none !important; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .trusted-left-inner { flex-direction: column; gap: 1.2rem; }
   .trusted-heading    { font-size: 2rem; }

@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Montserrat:wght@300;400;500&display=swap');
+
+:root {
+  --mn-bg:          #f5f0f8;
+  --mn-cream:       #fff5e3;
+  --mn-purple:      #3b1f6e;
+  --mn-purple-mid:  #7c4dbe;
+  --mn-purple-soft: rgba(85, 42, 128, 0.08);
+  --mn-line:        rgba(85, 42, 128, 0.1);
+  --mn-text:        rgba(30, 12, 60, 0.28);
+  --mn-text-active: #1e0c3c;
+  --mn-gold:        #c9a84c;
+}
+
+/* ── Root ─────────────────────────────────────────────────── */
+.mn-root {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--mn-bg);
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.mn-root.mn-visible { opacity: 1; }
+
+/* ── Background — very light, matching Services section ───── */
+.mn-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 10%,  #f5f2c8 0%, transparent 70%),
+    radial-gradient(ellipse 40% 45% at 80% 15%,  #f0eeff 0%, transparent 60%),
+    radial-gradient(ellipse 35% 40% at 70% 60%,  #ffffff 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 100% 100%, #3a0d6e 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 0%   100%, #7b4faa 0%, transparent 70%),
+    radial-gradient(ellipse 80% 80% at 0%   40%,  #c0a8d8 0%, transparent 80%);
+  z-index: 0;
+}
+
+/* Grain — very subtle on light bg */
+.mn-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cursor orb — very soft */
+.mn-orb {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(162, 135, 190, 0.1) 0%,
+    transparent 65%
+  );
+  transform: translate(-50%, -50%);
+  transition: left 2s cubic-bezier(0.22, 1, 0.36, 1),
+              top  2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Spheres — same palette as TrustedBy ─────────────────── */
+.mn-spheres {
+  position: absolute;
+  bottom: -50px; right: -30px;
+  width: 360px; height: 420px;
+  pointer-events: none;
+  z-index: 3;
+}
+.mn-sphere {
+  position: absolute;
+  border-radius: 50%;
+  animation: mn-float linear infinite;
+}
+.mn-sphere-1 {
+  width: 180px; height: 180px; top: 0; right: 65px;
+  background: radial-gradient(circle at 38% 32%, #ddbcf0, #a287be 60%, #552a80);
+  opacity: 0.55; animation-duration: 7s;
+}
+.mn-sphere-2 {
+  width: 145px; height: 145px; bottom: 85px; right: 0;
+  background: radial-gradient(circle at 38% 32%, #d8b0ec, #9060c8 60%, #552a80);
+  opacity: 0.4; animation-duration: 9s; animation-delay: -2.5s;
+}
+.mn-sphere-3 {
+  width: 118px; height: 118px; bottom: 22px; right: 108px;
+  background: radial-gradient(circle at 38% 32%, #d0a8e8, #8848b8 60%, #552a80);
+  opacity: 0.3; animation-duration: 11s; animation-delay: -4s;
+}
+.mn-sphere-4 {
+  width: 78px; height: 78px; top: 28px; right: 8px;
+  background: radial-gradient(circle at 38% 32%, #e8d0f8, #c090e0 60%, #9060c8);
+  opacity: 0.25; animation-duration: 8.5s; animation-delay: -1.5s;
+}
+.mn-sphere-5 {
+  width: 46px; height: 46px; top: 165px; right: 20px;
+  background: radial-gradient(circle at 40% 38%, #f5edd8, #d4b8f0 60%);
+  opacity: 0.22; animation-duration: 13s; animation-delay: -6s;
+}
+@keyframes mn-float {
+  0%,100% { transform: translateY(0)    rotate(0deg); }
+  33%      { transform: translateY(-14px) rotate(2deg); }
+  66%      { transform: translateY(-6px)  rotate(-1.5deg); }
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.mn-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 80px;
+  border-bottom: 1px solid var(--mn-line);
+  flex-shrink: 0;
+  opacity: 0;
+  animation: mn-fade 0.5s ease 0.1s forwards;
+}
+
+/* Logo purple-tinted — same as navbar on light bg */
+.mn-logo {
+  height: 120px; width: auto;
+  filter:
+    brightness(0) saturate(100%)
+    invert(22%) sepia(60%)
+    saturate(700%) hue-rotate(230deg)
+    brightness(0.85);
+  opacity: 0.9;
+}
+
+.mn-header-meta {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; font-weight: 400;
+  letter-spacing: 3.5px; text-transform: uppercase;
+  color: rgb(85 42 128);
+}
+
+/* ── Content ──────────────────────────────────────────────── */
+.mn-content {
+  flex: 1; display: flex; align-items: center;
+  position: relative; z-index: 10;
+}
+.mn-nav {
+  width: 100%;
+  padding: 0 60px 0 80px;
+  max-width: 860px;
+}
+.mn-list { list-style: none; margin: 0; padding: 0; }
+
+/* ── Item ─────────────────────────────────────────────────── */
+.mn-item {
+  border-bottom: 1px solid var(--mn-line);
+  opacity: 0; transform: translateY(16px);
+  animation: mn-item-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--idx) * 0.08s + 0.2s);
+}
+.mn-item:first-child { border-top: 1px solid var(--mn-line); }
+@keyframes mn-item-in { to { opacity: 1; transform: translateY(0); } }
+
+.mn-item--dimmed .mn-label-main { color: rgba(30, 12, 60, 0.08); }
+.mn-item--dimmed .mn-num        { opacity: 0.15; }
+
+/* ── Link ─────────────────────────────────────────────────── */
+.mn-link {
+  width: 100%; display: flex; align-items: center; gap: 24px;
+  padding: 22px 0;
+  background: none; border: none; cursor: pointer;
+  position: relative; text-align: left;
+  transition: padding-left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hover bg — same as Services row hover */
+.mn-link::before {
+  content: '';
+  position: absolute; inset: 0; left: -80px; right: -20px;
+  background: rgba(85, 42, 128, 0.04);
+  transform: translateX(-105%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mn-item--hovered .mn-link::before { transform: translateX(0); }
+
+/* Purple underline — like active tab in Services */
+.mn-link::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0;
+  height: 2px; width: 0;
+  background: var(--mn-purple);
+  opacity: 0.6;
+  transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mn-item--hovered .mn-link::after { width: 100%; }
+.mn-item--hovered .mn-link { padding-left: 8px; }
+
+/* ── Number — matches "OUR DIVISIONS" style ───────────────── */
+.mn-num {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--mn-purple-mid);
+  opacity: 0.4;
+  min-width: 26px; flex-shrink: 0;
+  transition: opacity 0.3s ease;
+  padding-top: 5px;
+}
+.mn-item--hovered .mn-num { opacity: 0.85; }
+
+/* ── Label — Syne bold italic like the big division names ─── */
+.mn-label-wrap {
+  flex: 1; display: flex; flex-direction: column; gap: 2px;
+}
+
+.mn-label-main {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 4.8vw, 4rem);
+  font-weight: 800;
+  font-style: italic;
+  color: rgb(85 42 128);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition:
+    color     0.32s ease,
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mn-item--hovered .mn-label-main {
+  color: var(--mn-text-active);
+  transform: translateX(6px);
+}
+
+.mn-label-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 400;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: transparent;
+  transform: translateY(-4px);
+  transition: color 0.28s ease 0.05s, transform 0.38s cubic-bezier(0.22,1,0.36,1) 0.05s;
+}
+.mn-item--hovered .mn-label-sub {
+  color: rgba(85, 42, 128, 0.38);
+  transform: translateY(0) translateX(6px);
+}
+
+/* ── Arrow — circle style matching Services arrow ─────────── */
+.mn-arrow {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(85, 42, 128, 0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  color: var(--mn-purple);
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-12px) scale(0.8);
+  transition:
+    opacity   0.28s ease,
+    transform 0.42s cubic-bezier(0.34, 1.4, 0.64, 1),
+    background 0.28s ease,
+    border-color 0.28s ease;
+}
+.mn-item--hovered .mn-arrow {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  background: rgba(85, 42, 128, 0.06);
+  border-color: rgba(85, 42, 128, 0.35);
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.mn-footer {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 60px;
+  border-top: 1px solid var(--mn-line);
+  flex-shrink: 0;
+  opacity: 0;
+  animation: mn-fade 0.5s ease 0.75s forwards;
+}
+.mn-footer-left { display: flex; align-items: center; gap: 16px; }
+.mn-footer-line { display: block; width: 36px; height: 1px; background: rgba(85,42,128,0.18); }
+.mn-footer-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 400;
+  letter-spacing: 3.5px; text-transform: uppercase;
+  color: rgba(85, 42, 128, 0.22);
+}
+.mn-footer-right {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px; font-weight: 400;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(85, 42, 128, 0.15);
+}
+
+@keyframes mn-fade { to { opacity: 1; } }
+
+/* ── Curtain — cream colored to match page ────────────────── */
+.mn-transition-curtain {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  background: #f7f3fc;
+  clip-path: inset(100% 0 0 0);
+  animation: curtain-wipe 0.85s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  pointer-events: none;
+}
+@keyframes curtain-wipe {
+  0%   { clip-path: inset(100% 0 0 0); }
+  42%  { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 100% 0); }
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .mn-header { padding: 0 24px; }
+  .mn-nav    { padding: 0 24px 0 28px; }
+  .mn-footer { padding: 16px 24px; }
+  .mn-link   { padding: 18px 0; gap: 16px; }
+  .mn-item--hovered .mn-link { padding-left: 0; }
+  .mn-spheres { width: 240px; height: 280px; right: -15px; bottom: -15px; }
+  .mn-sphere-1 { width: 120px; height: 120px; }
+  .mn-sphere-2 { width: 95px;  height: 95px; }
+  .mn-sphere-3 { width: 70px;  height: 70px; }
+  .mn-sphere-4 { width: 46px;  height: 46px; }
+  .mn-sphere-5 { display: none; }
+}
+@media (max-width: 480px) { .mn-spheres { display: none; } }

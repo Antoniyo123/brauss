@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import "../styles/Contact.css"
 
 const socials = [
@@ -24,84 +25,188 @@ const socials = [
 ]
 
 export default function Contact() {
+  const sectionRef   = useRef(null)
+
+  // Left column layers
+  const eyebrowRef   = useRef(null)
+  const titleRef     = useRef(null)
+  const subtitleRef  = useRef(null)
+  const emailRef     = useRef(null)
+  const socialsRef   = useRef(null)
+
+  // Right column
+  const formCardRef  = useRef(null)
+
+  // Spheres — individual refs
+  const cs1Ref = useRef(null)
+  const cs2Ref = useRef(null)
+  const cs3Ref = useRef(null)
+  const cs4Ref = useRef(null)
+  const cs5Ref = useRef(null)
+
+  // Background gradient orb
+  const bgOrbRef = useRef(null)
+
+  useEffect(() => {
+    const scroll = { current: 0, target: 0 }
+    const mouse  = { x: 0, y: 0, cx: 0, cy: 0 }
+    let rafId
+
+    const onScroll = () => {
+      const el = sectionRef.current
+      if (!el) return
+      scroll.target = Math.max(0, -el.getBoundingClientRect().top)
+    }
+
+    const onMouse = (e) => {
+      mouse.x = (e.clientX / window.innerWidth  - 0.5) * 2
+      mouse.y = (e.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    const tick = () => {
+      rafId = requestAnimationFrame(tick)
+
+      scroll.current += (scroll.target - scroll.current) * 0.07
+      mouse.cx += (mouse.x - mouse.cx) * 0.055
+      mouse.cy += (mouse.y - mouse.cy) * 0.055
+
+      const y  = scroll.current
+      const mx = mouse.cx
+      const my = mouse.cy
+
+      /* ── LEFT column: staggered scroll depths + mouse shift ── */
+      if (eyebrowRef.current)
+        eyebrowRef.current.style.transform = `translateY(${y * -0.20}px) translate(${mx * -6}px, ${my * -3}px)`
+
+      if (titleRef.current)
+        titleRef.current.style.transform   = `translateY(${y * -0.16}px) translate(${mx * -5}px, ${my * -4}px)`
+
+      if (subtitleRef.current)
+        subtitleRef.current.style.transform = `translateY(${y * -0.11}px) translate(${mx * -3}px, ${my * -2}px)`
+
+      if (emailRef.current)
+        emailRef.current.style.transform   = `translateY(${y * -0.08}px) translate(${mx * -2}px, ${my * -1}px)`
+
+      if (socialsRef.current)
+        socialsRef.current.style.transform = `translateY(${y * -0.05}px)`
+
+      /* ── RIGHT column: form card ── */
+      if (formCardRef.current)
+        formCardRef.current.style.transform = `translateY(${y * -0.09}px) translate(${mx * 4}px, ${my * 3}px)`
+
+      /* ── Spheres: each at a different depth ── */
+      if (cs1Ref.current)   // large anchor — slow
+        cs1Ref.current.style.transform = `translate(-50%,-50%) translate(${mx * -14}px, ${y * -0.18 + my * -10}px)`
+
+      if (cs2Ref.current)   // top-left small — fastest
+        cs2Ref.current.style.transform = `translate(${mx * -22}px, ${y * -0.30 + my * -16}px)`
+
+      if (cs3Ref.current)   // bottom-right medium
+        cs3Ref.current.style.transform = `translate(${mx * -10}px, ${y * -0.14 + my * -8}px)`
+
+      if (cs4Ref.current)   // top-right tiny
+        cs4Ref.current.style.transform = `translate(${mx * -26}px, ${y * -0.22 + my * -18}px)`
+
+      if (cs5Ref.current)   // bottom-left tiny
+        cs5Ref.current.style.transform = `translate(${mx * -8}px,  ${y * -0.10 + my * -6}px)`
+
+      /* ── Background orb: counter-mouse for depth ── */
+      if (bgOrbRef.current)
+        bgOrbRef.current.style.transform = `translate(${mx * 24}px, ${my * 16}px)`
+    }
+
+    window.addEventListener("scroll",    onScroll, { passive: true })
+    window.addEventListener("mousemove", onMouse,  { passive: true })
+    rafId = requestAnimationFrame(tick)
+
+    return () => {
+      window.removeEventListener("scroll",    onScroll)
+      window.removeEventListener("mousemove", onMouse)
+      cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
-    <>
-      <section className="contact" id="contact">
+    <section className="contact" id="contact" ref={sectionRef}>
 
-        {/* ── Spheres — left side, large & atmospheric ── */}
-        <div className="contact-spheres" aria-hidden="true">
-          <div className="cs cs-1" />
-          <div className="cs cs-2" />
-          <div className="cs cs-3" />
-          <div className="cs cs-4" />
-          <div className="cs cs-5" />
-        </div>
+      {/* ── Parallax background orb (counter-mouse) ── */}
+      <div className="contact-bg-orb" ref={bgOrbRef} aria-hidden="true" />
 
-        <div className="contact-inner">
+      {/* ── Spheres ── */}
+      <div className="contact-spheres" aria-hidden="true">
+        <div className="cs cs-1" ref={cs1Ref} />
+        <div className="cs cs-2" ref={cs2Ref} />
+        <div className="cs cs-3" ref={cs3Ref} />
+        <div className="cs cs-4" ref={cs4Ref} />
+        <div className="cs cs-5" ref={cs5Ref} />
+      </div>
 
-          {/* ── LEFT ── */}
-          <div className="contact-left">
-            <div className="contact-left-top">
-              <span className="contact-eyebrow">Get in Touch</span>
-              <h2 className="contact-title">Contact<br />Us.</h2>
-            </div>
-            <p className="contact-subtitle">
-              Let's build something that lasts.<br />
-              Tell us about your idea, and we'll<br />
-              take it from there.
-            </p>
-            <div className="contact-info">
-              <a href="mailto:hello@braussnetworks.com" className="contact-email">
-                hello@braussnetworks.com
+      <div className="contact-inner">
+
+        {/* ── LEFT ── */}
+        <div className="contact-left">
+
+          <div className="contact-left-top">
+            <span className="contact-eyebrow" ref={eyebrowRef}>Get in Touch</span>
+            <h2 className="contact-title" ref={titleRef}>Contact<br />Us.</h2>
+          </div>
+
+          <p className="contact-subtitle" ref={subtitleRef}>
+            Let's build something that lasts.<br />
+            Tell us about your idea, and we'll<br />
+            take it from there.
+          </p>
+
+          <div className="contact-info" ref={emailRef}>
+            <a href="mailto:hello@braussnetworks.com" className="contact-email">
+              hello@braussnetworks.com
+            </a>
+          </div>
+
+          <div className="contact-socials" ref={socialsRef}>
+            {socials.map((s) => (
+              <a key={s.label} href="#" className="social-icon" aria-label={s.label}>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d={s.path} />
+                </svg>
               </a>
-            </div>
-            <div className="contact-socials">
-              {socials.map((s) => (
-                <a key={s.label} href="#" className="social-icon" aria-label={s.label}>
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d={s.path} />
-                  </svg>
-                </a>
-              ))}
-            </div>
+            ))}
           </div>
-
-          {/* ── RIGHT: form ── */}
-          <div className="contact-right">
-            <div className="contact-form-card">
-              <div className="cf-row">
-                <div className="cf-field">
-                  <label>Full Name</label>
-                  <input type="text" placeholder="Your name" />
-                </div>
-                <div className="cf-field">
-                  <label>Phone Number</label>
-                  <input type="tel" placeholder="+62" />
-                </div>
-              </div>
-              <div className="cf-field">
-                <label>Email</label>
-                <input type="email" placeholder="your@email.com" />
-              </div>
-              <div className="cf-field">
-                <label>Message</label>
-                <textarea placeholder="Tell us about your project..." />
-              </div>
-              <div className="cf-submit-wrap">
-                <button className="cf-submit">
-                  Send Message
-                  <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
-                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </section>
 
-    
-    </>
+        {/* ── RIGHT: form ── */}
+        <div className="contact-right">
+          <div className="contact-form-card" ref={formCardRef}>
+            <div className="cf-row">
+              <div className="cf-field">
+                <label>Full Name</label>
+                <input type="text" placeholder="Your name" />
+              </div>
+              <div className="cf-field">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="+62" />
+              </div>
+            </div>
+            <div className="cf-field">
+              <label>Email</label>
+              <input type="email" placeholder="your@email.com" />
+            </div>
+            <div className="cf-field">
+              <label>Message</label>
+              <textarea placeholder="Tell us about your project..." />
+            </div>
+            <div className="cf-submit-wrap">
+              <button className="cf-submit">
+                Send Message
+                <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   )
 }

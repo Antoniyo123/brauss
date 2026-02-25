@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap');
 
-/* ── CSS Variables ── */
 :root {
   --nav-purple:       #4a3770;
   --nav-purple-light: #6b52a8;
   --nav-gold:         #c9a84c;
-  --nav-gold-light:   #e8c06a;
   --nav-cream:        #fff5e3;
-  --nav-dark:         rgba(30, 18, 60, 0.72);
+  --nav-dark:         rgba(30, 18, 60, 0.82);
 }
 
 /* ────────────────────────────────────────────
-   NAVBAR BASE
+   NAVBAR — always full-width strip
+   The pill shape lives on .navbar-inner
 ──────────────────────────────────────────── */
 .navbar {
   position: fixed;
@@ -22,19 +21,66 @@
   height: 90px;
   padding: 0 5rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  justify-content: space-between;
+  transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Gold–purple gradient line (visible only when scrolled) */
-.navbar::before {
+/* ── Inner: becomes the pill when scrolled ─────────────────── */
+.navbar-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0;
+  transition:
+    border-radius  0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    background     0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color   0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow     0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    padding        0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    max-width      0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* ────────────────────────────────────────────
+   SCROLLED — shrink outer, pill the inner
+──────────────────────────────────────────── */
+.navbar.scrolled {
+  top: 14px;
+  height: 64px;
+  /* Center the pill by using symmetric padding */
+  padding: 0 max(2rem, calc((100% - min(1000px, 92vw)) / 2));
+}
+
+.navbar.scrolled .navbar-inner {
+  max-width: min(1000px, 92vw);
+  border-radius: 100px;
+  background: var(--nav-dark);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px rgba(201, 168, 76, 0.06);
+  padding: 0 2rem;
+}
+
+/* Gold line on top of pill */
+.navbar.scrolled .navbar-inner::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  border-radius: 100px 100px 0 0;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -42,82 +88,45 @@
     var(--nav-purple-light) 70%,
     transparent 100%
   );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-/* ────────────────────────────────────────────
-   SCROLLED — floating pill
-──────────────────────────────────────────── */
-.navbar.scrolled {
-  top: 16px;
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
-  width: min(1000px, 92vw);
-  height: 64px;
-  padding: 0 2.5rem;
-  border-radius: 100px;
-  background: var(--nav-dark);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 0 0 1px rgba(201, 168, 76, 0.08);
-}
-
-.navbar.scrolled::before {
-  opacity: 1;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 /* ────────────────────────────────────────────
    LOGO
 ──────────────────────────────────────────── */
 .nav-logo {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .nav-logo img {
   height: 200px;
   width: auto;
   display: block;
-  /* Default: purple logo saat navbar di posisi top */
   filter:
-    brightness(0)
-    saturate(100%)
-    invert(22%)
-    sepia(60%)
-    saturate(700%)
-    hue-rotate(230deg)
+    brightness(0) saturate(100%)
+    invert(22%) sepia(60%)
+    saturate(700%) hue-rotate(230deg)
     brightness(0.85);
-  transition: filter 0.4s ease, transform 0.3s ease;
+  transition: filter 0.4s ease, transform 0.3s ease, height 0.4s ease;
 }
 
-/* Saat scrolled (bg gelap glassmorphism) → logo putih */
 .navbar.scrolled .nav-logo img {
   filter: brightness(0) invert(1);
-  height: 80px; /* kecilkan logo saat scrolled */
+  height: 80px;
 }
 
-/* Logo on light (cream/white) background → purple tint */
 .nav-logo img.on-light {
   filter:
-    brightness(0)
-    saturate(100%)
-    invert(22%)
-    sepia(60%)
-    saturate(700%)
-    hue-rotate(230deg)
+    brightness(0) saturate(100%)
+    invert(22%) sepia(60%)
+    saturate(700%) hue-rotate(230deg)
     brightness(0.85);
 }
 
-.nav-logo:hover img {
-  transform: scale(1.04);
-}
+.nav-logo:hover img { transform: scale(1.04); }
 
 /* ────────────────────────────────────────────
    NAV LINKS
@@ -127,11 +136,11 @@
   align-items: center;
   gap: 0.25rem;
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
 }
 
-.nav-links li a {
+.nav-links li a,
+.nav-links li button {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -139,152 +148,119 @@
   border-radius: 100px;
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
+  background: none; border: none;
+  cursor: pointer;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
   transition: color 0.3s ease;
 }
 
-/* Pill hover background */
-.nav-links li a::before {
+.nav-links li a::before,
+.nav-links li button::before {
   content: '';
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0);
   transition: background 0.3s ease;
 }
 
-.nav-links li a:hover {
-  color: rgba(255, 255, 255, 1);
-}
+.nav-links li a:hover,
+.nav-links li button:hover { color: rgba(255, 255, 255, 1); }
+.nav-links li a:hover::before,
+.nav-links li button:hover::before { background: rgba(255, 255, 255, 0.08); }
 
-.nav-links li a:hover::before {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* Active state — gold text + dot indicator */
-.nav-links li a.active {
-  color: var(--nav-gold);
-}
-
-.nav-links li a.active::after {
+.nav-links li a.active,
+.nav-links li button.active { color: var(--nav-gold); }
+.nav-links li a.active::after,
+.nav-links li button.active::after {
   content: '';
   position: absolute;
-  bottom: 2px;
-  left: 50%;
+  bottom: 2px; left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
+  width: 4px; height: 4px;
   border-radius: 50%;
   background: var(--nav-gold);
 }
 
-/* ────────────────────────────────────────────
-   CTA BUTTON — "Contact Us"
-──────────────────────────────────────────── */
-.nav-links li a.nav-cta {
+/* CTA */
+.nav-links li a.nav-cta,
+.nav-links li button.nav-cta {
   margin-left: 1rem;
   padding: 0.55rem 1.5rem;
-  background: #f5edd8;
-  color: #1a0f35;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  background: #f5edd8; color: #1a0f35;
+  font-weight: 600; letter-spacing: 0.12em;
   box-shadow: 0 2px 16px rgba(201, 168, 76, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
-
-.nav-links li a.nav-cta::before {
-  display: none; /* no pill bg overlay on cta */
-}
-
-.nav-links li a.nav-cta:hover {
+.nav-links li a.nav-cta::before,
+.nav-links li button.nav-cta::before,
+.nav-links li a.nav-cta::after,
+.nav-links li button.nav-cta::after { display: none; }
+.nav-links li a.nav-cta:hover,
+.nav-links li button.nav-cta:hover {
   color: #1a0f35;
   transform: translateY(-1px);
   box-shadow: 0 6px 24px rgba(201, 168, 76, 0.5);
   filter: brightness(1.06);
 }
 
-.nav-links li a.nav-cta::after {
-  display: none; /* no dot on cta */
-}
-
 /* ────────────────────────────────────────────
-   HAMBURGER (mobile)
+   HAMBURGER
 ──────────────────────────────────────────── */
 .nav-burger {
   display: none;
   flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+  gap: 5px; cursor: pointer;
   padding: 8px;
-  background: none;
-  border: none;
+  background: none; border: none;
+  z-index: 1100;
 }
-
 .nav-burger span {
   display: block;
-  width: 24px;
-  height: 1.5px;
-  background: white;
-  border-radius: 2px;
+  width: 24px; height: 1.5px;
+  background: white; border-radius: 2px;
   transition: all 0.35s ease;
   transform-origin: center;
 }
-
-/* Animated X when open */
-.nav-burger.open span:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
-}
-.nav-burger.open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.nav-burger.open span:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
-}
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ────────────────────────────────────────────
-   MOBILE FULLSCREEN DRAWER
+   MOBILE DRAWER
 ──────────────────────────────────────────── */
 .nav-drawer {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 100dvh;
   background: rgba(20, 10, 45, 0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; justify-content: center;
   gap: 2.5rem;
-  z-index: 999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
+  z-index: 1050;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
-
 .nav-drawer.open {
-  opacity: 1;
-  pointer-events: all;
+  opacity: 1; visibility: visible; pointer-events: all;
 }
-
-.nav-drawer a {
+.nav-drawer a,
+.nav-drawer button {
+  background: none; border: none; cursor: pointer;
   color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
+  font-weight: 300; letter-spacing: 0.08em;
+  text-decoration: none; padding: 0;
+  display: block; text-align: center;
   transition: color 0.3s ease, transform 0.3s ease;
 }
-
-.nav-drawer a:hover {
+.nav-drawer a:hover, .nav-drawer button:hover,
+.nav-drawer a.active, .nav-drawer button.active {
   color: var(--nav-gold);
   transform: translateX(12px);
 }
@@ -293,20 +269,15 @@
    RESPONSIVE
 ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0 1.5rem;
-  }
-
+  .navbar         { padding: 0 1.5rem; }
   .navbar.scrolled {
     top: 10px;
     padding: 0 1.5rem;
   }
-
-  .nav-links {
-    display: none;
+  .navbar.scrolled .navbar-inner {
+    max-width: 100%;
+    padding: 0 1.25rem;
   }
-
-  .nav-burger {
-    display: flex;
-  }
+  .nav-links  { display: none; }
+  .nav-burger { display: flex; }
 }
