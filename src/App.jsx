@@ -79,7 +79,7 @@ function App() {
           <Navbar />
           <section id="home">     <Home />      </section>
           <section id="portfolio"><Portfolio />  </section>
-          {/* <section id="services"> <Services />   </section> */}
+          <section id="services"> <Services />   </section>
           <section id="about">    <TrustedBy />  </section>
           <section id="contact">  <Contact />    </section>
           <Footer />

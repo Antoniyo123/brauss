@@ -244,8 +244,22 @@
   position: relative;
   width: 340px; height: 340px;
   transform-style: preserve-3d;
-  transition: filter 0.5s ease;
   will-change: transform;
+  /* hapus transition agar lerp di JS yang handle smoothness */
+}
+
+.diagram-spinner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: spinDiagram 12s linear infinite;
+  will-change: transform;
+}
+
+@keyframes spinDiagram {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
 }
 .diagram::before {
   content: '';

@@ -104,42 +104,66 @@ export default function Hero() {
   }, [])
 
   /* ── 3D tilt ── */
-  useEffect(() => {
-    const right   = rightRef.current
-    const diagram = diagramRef.current
-    const glow    = glowRef.current
-    if (!right || !diagram || !glow) return
+  /* ── Rotate Z (roda) + cursor control ── */
+useEffect(() => {
+  const spinner = diagramRef.current?.querySelector(".diagram-spinner")
+  const glow    = glowRef.current
+  const right   = rightRef.current
+  if (!spinner || !glow || !right) return
 
-    const lerp = (a, b, t) => a + (b - a) * t
-    const tick = () => {
-      rafRef.current = requestAnimationFrame(tick)
-      const s = tiltState.current
-      s.cx = lerp(s.cx, s.tx, 0.055)
-      s.cy = lerp(s.cy, s.ty, 0.055)
-      s.cs = lerp(s.cs, s.ts, 0.055)
-      diagram.style.transform = `rotateX(${-s.cx * 14}deg) rotateY(${s.cy * 14}deg) scale(${s.cs})`
-    }
-    rafRef.current = requestAnimationFrame(tick)
+  let angle       = 0
+  let speed       = 0.08
+  let targetSpeed = 0.08
+  let lastMouseX  = null
+  let isHovered   = false
+  let rafId
 
-    const onEnter = () => { tiltState.current.ts = 1.1; diagram.classList.add("hovered"); glow.style.opacity = "1" }
-    const onLeave = () => { tiltState.current.tx = 0; tiltState.current.ty = 0; tiltState.current.ts = 1; diagram.classList.remove("hovered"); glow.style.opacity = "0" }
-    const onMove  = (e) => {
-      glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"
-      const r = diagram.getBoundingClientRect()
-      tiltState.current.tx = Math.max(-1, Math.min(1, (e.clientY - r.top  - r.height/2) / (r.height/2)))
-      tiltState.current.ty = Math.max(-1, Math.min(1, (e.clientX - r.left - r.width /2) / (r.width /2)))
-    }
+  // Matikan CSS animation, ambil alih dengan JS
+  spinner.style.animation = "none"
 
-    right.addEventListener("mouseenter", onEnter)
-    right.addEventListener("mouseleave", onLeave)
-    right.addEventListener("mousemove",  onMove)
-    return () => {
-      cancelAnimationFrame(rafRef.current)
-      right.removeEventListener("mouseenter", onEnter)
-      right.removeEventListener("mouseleave", onLeave)
-      right.removeEventListener("mousemove",  onMove)
+  const tick = () => {
+    rafId = requestAnimationFrame(tick)
+    speed += (targetSpeed - speed) * 0.05
+    angle += speed
+    spinner.style.transform = `rotateZ(${angle}deg)`
+  }
+  rafId = requestAnimationFrame(tick)
+
+  const onEnter = () => {
+    isHovered = true
+    glow.style.opacity = "1"
+    lastMouseX = null
+  }
+
+  const onLeave = () => {
+    isHovered = false
+    targetSpeed = 0.08
+    lastMouseX = null
+    glow.style.opacity = "0"
+  }
+
+  const onMove = (e) => {
+    glow.style.left = e.clientX + "px"
+    glow.style.top  = e.clientY + "px"
+    if (!isHovered) return
+    if (lastMouseX !== null) {
+      const delta = e.clientX - lastMouseX
+      targetSpeed = delta * 0.4
     }
-  }, [])
+    lastMouseX = e.clientX
+  }
+
+  right.addEventListener("mouseenter", onEnter)
+  right.addEventListener("mouseleave", onLeave)
+  right.addEventListener("mousemove",  onMove)
+
+  return () => {
+    cancelAnimationFrame(rafId)
+    right.removeEventListener("mouseenter", onEnter)
+    right.removeEventListener("mouseleave", onLeave)
+    right.removeEventListener("mousemove",  onMove)
+  }
+}, [])
 
   return (
     <>
@@ -212,23 +236,30 @@ export default function Hero() {
           <div className="px-ring px-ring-4" ref={ring4Ref} />
 
           <div className="diagram-wrapper">
-            <div className="diagram" ref={diagramRef}>
-              <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="170" cy="170" r="155" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-                <line x1="170" y1="170" x2="170" y2="15"  stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-                <line x1="170" y1="170" x2="15"  y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-                <line x1="170" y1="170" x2="325" y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-                <line x1="170" y1="170" x2="170" y2="325" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-              </svg>
-              <div className="eco-center">
-                <span className="eco-center-text"><img src={logo} alt="BRAUSS Logo" /></span>
-              </div>
-              <div className="eco-node node-top">Creative Ecosystem</div>
-              <div className="eco-node node-left">AGENCY</div>
-              <div className="eco-node node-right">PROMOTER</div>
-              <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
-            </div>
-          </div>
+  <div className="diagram" ref={diagramRef}>
+    
+    {/* INI YANG MUTER — lingkaran + garis */}
+    <div className="diagram-spinner">
+      <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="170" cy="170" r="155" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+        <line x1="170" y1="115" x2="170" y2="15"  stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+        <line x1="115" y1="170" x2="15"  y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+        <line x1="225" y1="170" x2="325" y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+        <line x1="170" y1="225" x2="170" y2="325" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
+      </svg>
+    </div>
+
+    {/* INI DIAM — logo + node */}
+    <div className="eco-center">
+      <span className="eco-center-text"><img src={logo} alt="BRAUSS Logo" /></span>
+    </div>
+    <div className="eco-node node-top">Creative Ecosystem</div>
+    <div className="eco-node node-left">AGENCY</div>
+    <div className="eco-node node-right">PROMOTER</div>
+    <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
+
+  </div>
+</div>
         </div>
 
       </section>
