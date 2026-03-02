@@ -155,7 +155,7 @@
   background: none; border: none;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem; font-weight: 500;
+  font-size: 0.80rem; font-weight: 500;
   letter-spacing: 0.18em; text-transform: uppercase;
   transition: color 0.3s ease;
 }
@@ -284,4 +284,53 @@
   }
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
+}
+
+/* ===== TOMBOL GANTI BAHASA (DESKTOP) ===== */
+.nav-links li button.nav-lang {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.8rem !important;  /* override padding default */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  margin-left: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.nav-links li button.nav-lang:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--nav-gold);
+  color: var(--nav-gold);
+}
+
+/* Saat navbar menyusut (scrolled) */
+.navbar.scrolled .nav-links li button.nav-lang {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== TOMBOL GANTI BAHASA (MOBILE DRAWER) ===== */
+.nav-drawer .nav-drawer-lang {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-drawer .nav-drawer-lang:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--nav-gold);
+  color: var(--nav-gold);
 }

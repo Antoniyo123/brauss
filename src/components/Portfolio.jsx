@@ -197,7 +197,7 @@ export default function Services() {
 
         {/* ── Left sidebar ── */}
         <aside className="sv-sidebar" ref={sidebarRef}>
-          <span className="sv-sidebar-label">Our Divisions</span>
+          <span className="sv-sidebar-label">Our Services</span>
           <nav className="sv-tabs">
             {divisions.map((d, i) => (
               <button
@@ -224,7 +224,7 @@ export default function Services() {
           {/* Header */}
           <div className="sv-header" ref={headerRef}>
             <div className="sv-header-left">
-              <span className="sv-eyebrow">Division {div.number}</span>
+              <span className="sv-eyebrow">Services {div.number}</span>
               <h2 className="sv-title">{div.label}</h2>
             </div>
             <p className="sv-tagline">{div.tagline}</p>

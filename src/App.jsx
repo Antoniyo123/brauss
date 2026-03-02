@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import Preloader  from "./components/Preloader"
 import PageReveal from "./components/PageReveal"
-import MainNav    from "./components/MainNav"
+import BrandLoader from "./components/BrandLoader"  // komponen baru
 import Navbar     from "./components/Navbar"
 import Home       from "./components/Hero"
 import Services   from "./components/Services"
@@ -10,52 +10,40 @@ import Portfolio  from "./components/Portfolio"
 import TrustedBy  from "./components/TrustedBy"
 import Footer     from "./components/Footer"
 
-/*
-  PHASE MACHINE (simplified)
-  ─────────────────────────────────────────────────────
-  "idle"          → Preloader shown
-  "exiting"       → Preloader fades, burst fires
-  "nav"           → MainNav fullscreen shown
-  "transitioning" → MainNav fades, burst fires
-  "page"          → Full page shown, scroll to target
-  ─────────────────────────────────────────────────────
-*/
-
 function App() {
   const [phase,    setPhase]    = useState("idle")
-  const [target,   setTarget]   = useState("home")
   const [burstKey, setBurstKey] = useState(0)
 
-  /* ── Preloader done → show MainNav ─────────────── */
+  // Preloader selesai → masuk ke brand loader
   const handlePreloaderEnter = () => {
     if (phase !== "idle") return
-    setBurstKey(k => k + 1)
+    setBurstKey(k => k + 1)          // burst pertama
     setPhase("exiting")
-    setTimeout(() => setPhase("nav"), 950)
+    setTimeout(() => setPhase("brand"), 950) // durasi preloader exit
   }
 
-  /* ── MainNav item clicked → go straight to page ── */
-  const handleNavigate = (id) => {
-    if (phase !== "nav") return
-    setTarget(id)
-    setBurstKey(k => k + 1)
+  // Brand loader selesai → transisi ke halaman utama
+  const handleBrandComplete = () => {
+    setBurstKey(k => k + 1)          // burst kedua
     setPhase("transitioning")
     setTimeout(() => setPhase("page"), 950)
   }
 
-  /* ── Scroll to target after page mounts ─────────── */
+  // Scroll ke home setelah page muncul
   useEffect(() => {
     if (phase !== "page") return
-    const t = setTimeout(() => {
-      const el = document.getElementById(target)
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+    const timer = setTimeout(() => {
+      const homeSection = document.getElementById("home")
+      if (homeSection) {
+        homeSection.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
     }, 120)
-    return () => clearTimeout(t)
-  }, [phase, target])
+    return () => clearTimeout(timer)
+  }, [phase])
 
   return (
     <>
-      {/* Preloader */}
+      {/* Preloader (idle / exiting) */}
       {(phase === "idle" || phase === "exiting") && (
         <Preloader
           onEnter={handlePreloaderEnter}
@@ -63,23 +51,22 @@ function App() {
         />
       )}
 
-      {/* Burst overlay */}
+      {/* Burst overlay untuk kedua transisi */}
       {(phase === "exiting" || phase === "transitioning") && (
         <PageReveal key={burstKey} active />
       )}
 
-      {/* Fullscreen nav menu — only shown between preloader and page */}
-      {phase === "nav" && (
-        <MainNav onNavigate={handleNavigate} />
+      {/* Brand Loader */}
+      {phase === "brand" && (
+        <BrandLoader onComplete={handleBrandComplete} />
       )}
 
-      {/* Full scrollable page */}
+      {/* Halaman utama */}
       {phase === "page" && (
         <div className="page-enter">
           <Navbar />
           <section id="home">     <Home />      </section>
           <section id="portfolio"><Portfolio />  </section>
-          <section id="services"> <Services />   </section>
           <section id="about">    <TrustedBy />  </section>
           <section id="contact">  <Contact />    </section>
           <Footer />

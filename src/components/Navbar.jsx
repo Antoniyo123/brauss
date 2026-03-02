@@ -2,10 +2,29 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import "../styles/Navbar.css"
 import logo from "../assets/logobraus.png"
 
+
+// Terjemahan untuk navbar
+const translations = {
+  en: {
+    home: "Home",
+    about: "About",
+    portfolio: "Portfolio",
+    contact: "Contact Us",
+    Services: "Services"
+  },
+  id: {
+    home: "Beranda",
+    about: "Tentang",
+    
+    contact: "Hubungi Kami",
+    Services: "Layanan"
+  }
+}
+
 const LINKS = [
-  { id: "home",      label: "Home"      },
-  { id: "about",     label: "About"     },
-  { id: "portfolio", label: "Portfolio" },
+  { id: "home",      labelKey: "home"      },
+  { id: "about",     labelKey: "about"     },
+  { id: "services",  labelKey: "Services"  },
 ]
 
 export default function Navbar() {
@@ -13,7 +32,12 @@ export default function Navbar() {
   const [onLight,   setOnLight]   = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [active,    setActive]    = useState("home")
+  const [lang,      setLang]      = useState("en") // 'en' atau 'id'
   const logoRef = useRef(null)
+
+  const toggleLanguage = () => {
+    setLang(prev => prev === "en" ? "id" : "en")
+  }
 
   const scrollTo = useCallback((id) => {
     const el = document.getElementById(id)
@@ -80,19 +104,25 @@ export default function Navbar() {
           <button key={l.id} onClick={() => scrollTo(l.id)}
             className={active === l.id ? "active" : ""}
             tabIndex={menuOpen ? 0 : -1}>
-            {l.label}
+            {translations[lang][l.labelKey]}
           </button>
         ))}
         <button onClick={() => scrollTo("contact")}
           className={active === "contact" ? "active" : ""}
           tabIndex={menuOpen ? 0 : -1}>
-          Contact Us
+          {translations[lang].contact}
         </button>
+        {/* Tombol ganti bahasa di mobile */}
+        <button onClick={toggleLanguage}
+  className="nav-drawer-lang"
+  tabIndex={menuOpen ? 0 : -1}>
+  {lang === "en" ? "🇮🇩 Indonesia" : "🇬🇧 English"}
+</button>
       </div>
 
       {/* Navbar */}
       <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-        {/* ↓ This inner wrapper becomes the pill on scroll */}
+        {/* Inner wrapper menjadi pill saat scroll */}
         <div className="navbar-inner">
 
           <div className="nav-logo" ref={logoRef} role="button" tabIndex={0}
@@ -107,14 +137,21 @@ export default function Navbar() {
               <li key={l.id}>
                 <button className={active === l.id ? "active" : ""}
                   onClick={() => scrollTo(l.id)}>
-                  {l.label}
+                  {translations[lang][l.labelKey]}
                 </button>
               </li>
             ))}
             <li>
               <button className={`nav-cta${active === "contact" ? " active" : ""}`}
                 onClick={() => scrollTo("contact")}>
-                Contact Us
+                {translations[lang].contact}
+              </button>
+            </li>
+            {/* Tombol ganti bahasa di desktop */}
+            <li>
+              <button className="nav-lang" onClick={toggleLanguage}
+                aria-label="Switch language">
+                {lang === "en" ? "ID" : "EN"}
               </button>
             </li>
           </ul>

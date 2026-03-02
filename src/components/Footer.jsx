@@ -161,7 +161,7 @@ export default function Footer() {
           <div className="footer-col" ref={navColRef}>
             <span className="footer-col-label">Navigate</span>
             <ul className="footer-nav">
-              {["Home","About","Services","Portfolio","Contact Us"].map(l => (
+              {["Home","About","Services","Contact Us"].map(l => (
                 <li key={l}>
                   <a href={`#${l.toLowerCase().replace(" ","-")}`} className="footer-nav-link">{l}</a>
                 </li>

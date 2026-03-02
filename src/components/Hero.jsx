@@ -22,7 +22,6 @@ export default function Hero() {
   const diagramRef = useRef(null)
   const glowRef    = useRef(null)
 
-  // Parallax layer refs
   const headingRef = useRef(null)
   const descRef    = useRef(null)
   const taglineRef = useRef(null)
@@ -37,9 +36,7 @@ export default function Hero() {
   const ring3Ref   = useRef(null)
   const ring4Ref   = useRef(null)
 
-  const rafRef       = useRef(null)
   const scrollRafRef = useRef(null)
-  const tiltState    = useRef({ tx:0, ty:0, cx:0, cy:0, ts:1, cs:1 })
   const scrollState  = useRef({ current:0, target:0 })
   const mouseState   = useRef({ x:0, y:0, cx:0, cy:0 })
 
@@ -69,7 +66,10 @@ export default function Hero() {
       if (ring4Ref.current)    ring4Ref.current.style.transform    = `translateY(${y * 0.20}px)`
     }
     scrollRafRef.current = requestAnimationFrame(tick)
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(scrollRafRef.current) }
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      cancelAnimationFrame(scrollRafRef.current)
+    }
   }, [])
 
   /* ── Mouse parallax ── */
@@ -100,70 +100,71 @@ export default function Hero() {
         taglineRef.current.style.transform = `translateY(${s.current * -0.05}px) translate(${m.cx * -1.5}px, ${m.cy * -1}px)`
     }
     rafId = requestAnimationFrame(tick)
-    return () => { window.removeEventListener("mousemove", onMouse); cancelAnimationFrame(rafId) }
+    return () => {
+      window.removeEventListener("mousemove", onMouse)
+      cancelAnimationFrame(rafId)
+    }
   }, [])
 
-  /* ── 3D tilt ── */
-  /* ── Rotate Z (roda) + cursor control ── */
-useEffect(() => {
-  const spinner = diagramRef.current?.querySelector(".diagram-spinner")
-  const glow    = glowRef.current
-  const right   = rightRef.current
-  if (!spinner || !glow || !right) return
+  /* ── Spinner + cursor speed control ── */
+  useEffect(() => {
+    const spinner = diagramRef.current?.querySelector(".diagram-spinner")
+    const glow    = glowRef.current
+    const right   = rightRef.current
+    if (!spinner || !glow || !right) return
 
-  let angle       = 0
-  let speed       = 0.08
-  let targetSpeed = 0.08
-  let lastMouseX  = null
-  let isHovered   = false
-  let rafId
+    let angle       = 0
+    let speed       = 0.08
+    let targetSpeed = 0.08
+    let lastMouseX  = null
+    let isHovered   = false
+    let rafId
 
-  // Matikan CSS animation, ambil alih dengan JS
-  spinner.style.animation = "none"
+    // Matikan CSS animation, ambil alih sepenuhnya dengan JS
+    spinner.style.animation = "none"
 
-  const tick = () => {
-    rafId = requestAnimationFrame(tick)
-    speed += (targetSpeed - speed) * 0.05
-    angle += speed
-    spinner.style.transform = `rotateZ(${angle}deg)`
-  }
-  rafId = requestAnimationFrame(tick)
-
-  const onEnter = () => {
-    isHovered = true
-    glow.style.opacity = "1"
-    lastMouseX = null
-  }
-
-  const onLeave = () => {
-    isHovered = false
-    targetSpeed = 0.08
-    lastMouseX = null
-    glow.style.opacity = "0"
-  }
-
-  const onMove = (e) => {
-    glow.style.left = e.clientX + "px"
-    glow.style.top  = e.clientY + "px"
-    if (!isHovered) return
-    if (lastMouseX !== null) {
-      const delta = e.clientX - lastMouseX
-      targetSpeed = delta * 0.4
+    const tick = () => {
+      rafId = requestAnimationFrame(tick)
+      speed += (targetSpeed - speed) * 0.05
+      angle += speed
+      // Hanya spinner yang dirotasi — static layer tidak tersentuh
+      spinner.style.transform = `rotateZ(${angle}deg)`
     }
-    lastMouseX = e.clientX
-  }
+    rafId = requestAnimationFrame(tick)
 
-  right.addEventListener("mouseenter", onEnter)
-  right.addEventListener("mouseleave", onLeave)
-  right.addEventListener("mousemove",  onMove)
+    const onEnter = () => {
+      isHovered = true
+      glow.style.opacity = "1"
+      lastMouseX = null
+    }
+    const onLeave = () => {
+      isHovered = false
+      targetSpeed = 0.08
+      lastMouseX = null
+      glow.style.opacity = "0"
+    }
+    const onMove = (e) => {
+      glow.style.left = e.clientX + "px"
+      glow.style.top  = e.clientY + "px"
+      if (!isHovered) return
+      if (lastMouseX !== null) {
+        const delta = e.clientX - lastMouseX
+        targetSpeed = delta * 0.4
+      }
+      lastMouseX = e.clientX
+    }
 
-  return () => {
-    cancelAnimationFrame(rafId)
-    right.removeEventListener("mouseenter", onEnter)
-    right.removeEventListener("mouseleave", onLeave)
-    right.removeEventListener("mousemove",  onMove)
-  }
-}, [])
+    right.addEventListener("mouseenter", onEnter)
+    right.addEventListener("mouseleave", onLeave)
+    right.addEventListener("mousemove",  onMove)
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      right.removeEventListener("mouseenter", onEnter)
+      right.removeEventListener("mouseleave", onLeave)
+      right.removeEventListener("mousemove",  onMove)
+    }
+  }, [])
 
   return (
     <>
@@ -173,10 +174,7 @@ useEffect(() => {
 
         {/* ══ LEFT ══ */}
         <div className="who-left">
-
-          {/* Top block — all stacked tightly */}
           <div className="who-top-block">
-            <p className="who-eyebrow" ref={eyebrowRef}>Creative House · Jakarta</p>
 
             <h1 className="who-heading" ref={headingRef}>
               <span className="line1">who</span>
@@ -212,54 +210,64 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* Bottom tagline — pinned to bottom via justify-content:space-between */}
           <div className="who-left-bottom" ref={taglineRef}>
             <div className="divider-line" />
-            <p className="tagline">
+            <p className="tagline-hero">
               From ideas to owned impact.<br />
               We build creative assets<br />
               and experiences that live<br />
               beyond a single project.
             </p>
           </div>
-
         </div>
 
         {/* ══ RIGHT ══ */}
         <div className="who-right" ref={rightRef}>
-          <div className="right-bg-orb" ref={bgOrbRef} />
+          <div className="right-bg-orb"  ref={bgOrbRef} />
           <div className="right-layer-1" ref={layer1Ref} />
           <div className="right-layer-2" ref={layer2Ref} />
           <div className="px-ring px-ring-1" ref={ring1Ref} />
           <div className="px-ring px-ring-2" ref={ring2Ref} />
           <div className="px-ring px-ring-3" ref={ring3Ref} />
           <div className="px-ring px-ring-4" ref={ring4Ref} />
+          <div className="px-ring px-ring-5" />
 
           <div className="diagram-wrapper">
-  <div className="diagram" ref={diagramRef}>
-    
-    {/* INI YANG MUTER — lingkaran + garis */}
-    <div className="diagram-spinner">
-      <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="170" cy="170" r="155" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-        <line x1="170" y1="115" x2="170" y2="15"  stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-        <line x1="115" y1="170" x2="15"  y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-        <line x1="225" y1="170" x2="325" y2="170" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-        <line x1="170" y1="225" x2="170" y2="325" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" />
-      </svg>
-    </div>
 
-    {/* INI DIAM — logo + node */}
-    <div className="eco-center">
-      <span className="eco-center-text"><img src={logo} alt="BRAUSS Logo" /></span>
-    </div>
-    <div className="eco-node node-top">Creative Ecosystem</div>
-    <div className="eco-node node-left">AGENCY</div>
-    <div className="eco-node node-right">PROMOTER</div>
-    <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
+            {/* ── SPINNER ONLY — yang muter ── */}
+            <div className="diagram" ref={diagramRef}>
+              <div className="diagram-spinner">
+                <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="170" cy="170" r="155" fill="none"
+                    stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" strokeDasharray="4 8" />
+                  <circle cx="170" cy="170" r="100" fill="none"
+                    stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+                  <line x1="170" y1="115" x2="170" y2="15"  stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
+                  <line x1="115" y1="170" x2="15"  y2="170" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
+                  <line x1="225" y1="170" x2="325" y2="170" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
+                  <line x1="170" y1="225" x2="170" y2="325" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
+                  <circle cx="170" cy="15"  r="3" fill="rgba(255,255,255,0.7)" />
+                  <circle cx="15"  cy="170" r="3" fill="rgba(255,255,255,0.7)" />
+                  <circle cx="325" cy="170" r="3" fill="rgba(255,255,255,0.7)" />
+                  <circle cx="170" cy="325" r="3" fill="rgba(255,255,255,0.7)" />
+                </svg>
+              </div>
+            </div>
 
-  </div>
-</div>
+            {/* ── STATIC LAYER — tidak ikut muter ── */}
+            <div className="diagram-static">
+              <div className="eco-center">
+                <span className="eco-center-text">
+                  <img src={logo} alt="BRAUSS Logo" />
+                </span>
+              </div>
+              <div className="eco-node node-top">Creative Ecosystem</div>
+              <div className="eco-node node-left">AGENCY</div>
+              <div className="eco-node node-right">PROMOTER</div>
+              <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
+            </div>
+
+          </div>
         </div>
 
       </section>

@@ -1,0 +1,383 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
+
+/* ═══════════════════════════════════════
+   ROOT
+═══════════════════════════════════════ */
+.bl {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ═══════════════════════════════════════
+   LAYER 1 — deep background
+═══════════════════════════════════════ */
+.bl-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 50%,  rgba(180,140,255,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 50% at 85% 10%,  rgba(120,60,220,0.09)  0%, transparent 55%),
+    radial-gradient(ellipse 45% 55% at 10% 90%,  rgba(100,40,200,0.06)  0%, transparent 55%),
+    linear-gradient(160deg, #fef9ed 0%, #fdf3e0 45%, #f7ebd7 100%);
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   LAYER 2 — grain / paper texture
+═══════════════════════════════════════ */
+.bl-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════
+   LAYER 3 — vignette
+═══════════════════════════════════════ */
+.bl-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 90% at 50% 50%,
+    transparent 40%, rgba(200, 160, 100, 0.12) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════
+   LAYER 4 — floating orbs (depth blobs)
+═══════════════════════════════════════ */
+.bl-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.bl-orb-1 {
+  width: 500px; height: 500px;
+  top: -120px; right: -100px;
+  background: radial-gradient(circle, rgba(140,80,240,0.08) 0%, transparent 70%);
+  animation: orbDrift1 18s ease-in-out infinite alternate;
+}
+.bl-orb-2 {
+  width: 380px; height: 380px;
+  bottom: -80px; left: -60px;
+  background: radial-gradient(circle, rgba(200,160,80,0.09) 0%, transparent 70%);
+  animation: orbDrift2 14s ease-in-out infinite alternate;
+}
+.bl-orb-3 {
+  width: 280px; height: 280px;
+  top: 40%; left: 55%;
+  background: radial-gradient(circle, rgba(160,100,255,0.06) 0%, transparent 70%);
+  animation: orbDrift3 20s ease-in-out infinite alternate;
+}
+.bl-orb-4 {
+  width: 200px; height: 200px;
+  top: 15%; left: 15%;
+  background: radial-gradient(circle, rgba(255,200,80,0.05) 0%, transparent 70%);
+  animation: orbDrift1 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbDrift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-30px, 40px) scale(1.1); }
+}
+@keyframes orbDrift2 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, -25px) scale(1.08); }
+}
+@keyframes orbDrift3 {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(calc(-50% + 20px), calc(-50% - 30px)) scale(1.12); }
+}
+
+/* ═══════════════════════════════════════
+   LAYER 5 — orbital rings
+═══════════════════════════════════════ */
+.bl-ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.bl-ring-1 {
+  width: 600px; height: 600px;
+  margin: -300px 0 0 -300px;
+  border: 1px solid rgba(85, 42, 128, 0.07);
+  animation: ringRotate 40s linear infinite;
+}
+.bl-ring-2 {
+  width: 420px; height: 420px;
+  margin: -210px 0 0 -210px;
+  border: 1px solid rgba(85, 42, 128, 0.05);
+  animation: ringRotate 28s linear infinite reverse;
+}
+.bl-ring-3 {
+  width: 260px; height: 260px;
+  margin: -130px 0 0 -130px;
+  border: 1px solid rgba(85, 42, 128, 0.06);
+  animation: ringRotate 18s linear infinite;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════
+   LAYER 6 — main content
+═══════════════════════════════════════ */
+.bl-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: contentFadeIn 0.8s ease forwards;
+}
+
+@keyframes contentFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Logo ── */
+.bl-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.4rem;
+}
+
+/* Soft glow behind logo */
+
+
+.bl-logo {
+  width: 200px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  animation:
+    logoReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both,
+    logoColor  8s ease-in-out 1.1s infinite;
+}
+
+@keyframes logoColor {
+  0% {
+    filter:
+      drop-shadow(0 4px 20px rgba(85, 42, 128, 0.4))
+      brightness(0) invert(1)
+      sepia(1) saturate(6) hue-rotate(240deg);
+    /* #552a80 — brand purple */
+  }
+  25% {
+    filter:
+      drop-shadow(0 4px 20px rgba(162, 135, 190, 0.45))
+      brightness(0) invert(1)
+      sepia(1) saturate(3) hue-rotate(255deg);
+    /* #a287be — soft lavender */
+  }
+  50% {
+    filter:
+      drop-shadow(0 4px 20px rgba(51, 23, 82, 0.5))
+      brightness(0) invert(1)
+      sepia(1) saturate(8) hue-rotate(235deg);
+    /* #331752 — deep dark purple */
+  }
+  75% {
+    filter:
+      drop-shadow(0 4px 20px rgba(255, 245, 227, 0.35))
+      brightness(0) invert(1);
+    /* #fff5e3 — cream/white */
+  }
+  100% {
+    filter:
+      drop-shadow(0 4px 20px rgba(85, 42, 128, 0.4))
+      brightness(0) invert(1)
+      sepia(1) saturate(6) hue-rotate(240deg);
+    /* kembali ke #552a80 */
+  }
+}
+
+.bl-logo-glow {
+  position: absolute;
+  width: 280px; height: 120px;
+  filter: blur(24px);
+  pointer-events: none;
+  border-radius: 50%;
+  animation: glowPulse 8s ease-in-out 1.1s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    background: radial-gradient(ellipse,
+      rgba(85, 42, 128, 0.28) 0%, transparent 70%);
+    /* #552a80 */
+  }
+  25% {
+    background: radial-gradient(ellipse,
+      rgba(162, 135, 190, 0.28) 0%, transparent 70%);
+    /* #a287be */
+  }
+  50% {
+    background: radial-gradient(ellipse,
+      rgba(51, 23, 82, 0.32) 0%, transparent 70%);
+    /* #331752 */
+  }
+  75% {
+    background: radial-gradient(ellipse,
+      rgba(255, 245, 227, 0.22) 0%, transparent 70%);
+    /* #fff5e3 */
+  }
+  100% {
+    background: radial-gradient(ellipse,
+      rgba(85, 42, 128, 0.28) 0%, transparent 70%);
+    /* #552a80 */
+  }
+}
+
+/* ── Divider ── */
+.bl-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.4rem;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+.bl-divider-line {
+  width: 48px; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(85,42,128,0.25), transparent);
+}
+.bl-divider-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(85, 42, 128, 0.35);
+  box-shadow: 0 0 6px rgba(85,42,128,0.2);
+}
+
+/* ── Tagline ── */
+.bl-tagline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.9rem;
+  margin-bottom: 2.8rem;
+  animation: fadeUp 0.8s ease 0.55s both;
+}
+
+.bl-tag-item {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(85, 42, 128, 0.55);
+  white-space: nowrap;
+}
+
+.bl-tag-sep {
+  color: rgba(162, 135, 190, 0.5);
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 300;
+}
+
+/* ── Progress bar ── */
+.bl-progress {
+  width: 160px;
+  animation: fadeUp 0.8s ease 0.7s both;
+}
+
+.bl-progress-track {
+  width: 100%;
+  height: 1.5px;
+  background: rgba(85, 42, 128, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bl-progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+    rgba(85, 42, 128, 0.3),
+    rgba(140, 80, 220, 0.7),
+    rgba(85, 42, 128, 0.3));
+  box-shadow: 0 0 8px rgba(140, 80, 220, 0.4);
+  position: relative;
+}
+
+/* Shimmer on progress fill */
+.bl-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 40px; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-40px); opacity: 0; }
+  50%  { opacity: 1; }
+  to   { transform: translateX(40px); opacity: 0; }
+}
+
+/* ── Shared fade-up animation ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   LAYER 7 — corner accents
+═══════════════════════════════════════ */
+.bl-corner {
+  position: absolute;
+  width: 28px; height: 28px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.25;
+}
+
+.bl-corner-tl { top: 28px;    left: 28px;    border-top: 1px solid #552a80;   border-left:  1px solid #552a80; }
+.bl-corner-tr { top: 28px;    right: 28px;   border-top: 1px solid #552a80;   border-right: 1px solid #552a80; }
+.bl-corner-bl { bottom: 28px; left: 28px;    border-bottom: 1px solid #552a80; border-left:  1px solid #552a80; }
+.bl-corner-br { bottom: 28px; right: 28px;   border-bottom: 1px solid #552a80; border-right: 1px solid #552a80; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 560px) {
+  .bl-logo       { width: 150px; }
+  .bl-tag-item   { font-size: 0.56rem; letter-spacing: 0.2em; }
+  .bl-ring-1     { width: 420px; height: 420px; margin: -210px 0 0 -210px; }
+  .bl-ring-2     { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+  .bl-progress   { width: 120px; }
+  .bl-corner     { width: 20px; height: 20px; top: 20px; }
+  .bl-corner-tl,
+  .bl-corner-tr  { top: 20px; }
+  .bl-corner-tl,
+  .bl-corner-bl  { left: 20px; }
+  .bl-corner-tr,
+  .bl-corner-br  { right: 20px; }
+  .bl-corner-bl,
+  .bl-corner-br  { bottom: 20px; }
+}
