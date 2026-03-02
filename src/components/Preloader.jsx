@@ -4,9 +4,6 @@ import "../styles/Preloader.css";
 import braussLogo from "../assets/logo-white.png";
 import bgCity     from "../assets/jakarta background.jpeg";
 
-const WORDS        = ["BE", "BRAVE", "BE", "BRAUSS"];
-const CIRCLE_COUNT = 9;
-
 const Preloader = ({ onEnter, exiting }) => {
   const [clicked,    setClicked]    = useState(false);
   const [cursorPos,  setCursorPos]  = useState({ x: -300, y: -300 });
@@ -79,12 +76,6 @@ const Preloader = ({ onEnter, exiting }) => {
         {/* ── Progress bar ─────────────────────────────────── */}
         <div className="pl-loader-bar" />
 
-        {/* ── Corner ornaments ──────────────────────────────── */}
-        <div className="pl-corner pl-corner--tl" />
-        <div className="pl-corner pl-corner--tr" />
-        <div className="pl-corner pl-corner--bl" />
-        <div className="pl-corner pl-corner--br" />
-
         {/* ── Subtle particles ──────────────────────────────── */}
         {Array.from({ length: 10 }).map((_, i) => (
           <div
@@ -110,41 +101,39 @@ const Preloader = ({ onEnter, exiting }) => {
             draggable={false}
           />
 
-          <p className="pl-meta">Jakarta · Creative Studio · Est. 2024</p>
 
           <div className="pl-btn-wrap">
             <p className={`pl-hint${hint ? " pl-hint-visible" : ""}`}>
               click to enter <span className="pl-hint-arrow">↓</span>
             </p>
 
-            <button
-              className={[
-                "pl-btn",
-                wiggle && !isHovering ? "pl-wiggle"  : "",
-                btnClicked            ? "pl-clicked" : "",
-              ].filter(Boolean).join(" ")}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-              onClick={handleBtnClick}
-            >
-              <div className="pl-scallop">
-                {Array.from({ length: CIRCLE_COUNT }).map((_, i) => (
-                  <div key={i} className="pl-scallop-circle" />
-                ))}
+            {/* ── DISCOVER CTA — no scallop ── */}
+            <div className="pl-discover-wrap">
 
-                <div className="pl-scallop-text">
-                  {WORDS.map((word, i) => (
-                    <span
-                      key={i}
-                      className="pl-word"
-                      style={{
-                        animationDelay: wordsIn ? `${i * 0.09}s` : "9999s",
-                        marginRight: i === 1 ? "5px" : "0",
-                      }}
-                    >
-                      {word}
-                    </span>
-                  ))}
+              <button
+                className={[
+                  "pl-discover-btn",
+                  wiggle && !isHovering ? "pl-wiggle"  : "",
+                  btnClicked            ? "pl-clicked" : "",
+                ].filter(Boolean).join(" ")}
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                onClick={handleBtnClick}
+              >
+                {/* Frame with top/bottom border */}
+                <div className="pl-discover-frame">
+                  <span className="pl-discover-label">Discover</span>
+                </div>
+
+                {/* Underline */}
+                <span className="pl-discover-underline" />
+
+                {/* Side ornament row */}
+                <div className="pl-discover-orn">
+                  <span className="pl-discover-orn-line" />
+                  <span className="pl-discover-dot" />
+                  <span className="pl-discover-dot pl-discover-dot--r" />
+                  <span className="pl-discover-orn-line pl-discover-orn-line--r" />
                 </div>
 
                 {ripples.map(({ id, x, y }) => (
@@ -154,18 +143,13 @@ const Preloader = ({ onEnter, exiting }) => {
                     style={{ width: 80, height: 80, left: x - 40, top: y - 40 }}
                   />
                 ))}
-              </div>
-            </button>
+              </button>
+
+            </div>
           </div>
         </div>
 
-        {/* ── Bottom credit ──────────────────────────────────── */}
-        <div className="pl-credit">
-          <span className="pl-credit-line" />
-          <span className="pl-credit-text">A Jakarta Creative Experience</span>
-          <span className="pl-credit-line" />
-        </div>
-
+    
         {/* ── Custom cursor ──────────────────────────────────── */}
         <div
           className={`pl-cursor${isHovering ? " pl-hovering" : ""}`}

@@ -33,7 +33,6 @@
   inset: 0;
   background-size: cover;
   background-position: center;
-  /* More desaturated, darker — cinematic not neon */
   filter: grayscale(60%) brightness(0.32) contrast(1.1);
   z-index: 0;
   transform: scale(1.04);
@@ -46,7 +45,6 @@
 }
 
 /* ── Overlays ─────────────────────────────────────────────── */
-/* Warm vignette — cream/purple not neon */
 .pl-bg-glow {
   position: absolute;
   inset: 0;
@@ -100,10 +98,10 @@
   animation: pl-float var(--dur) ease-in-out infinite var(--delay);
 }
 
-/* @keyframes pl-float {
-  0%, 100% { transform: translateY(0)     opacity: 0.3; }
-  50%       { transform: translateY(-28px); opacity: 0.08; }
-} */
+@keyframes pl-float {
+  0%, 100% { transform: translateY(0);      opacity: 0.3; }
+  50%       { transform: translateY(-28px);  opacity: 0.08; }
+}
 
 /* ── SVG filter ───────────────────────────────────────────── */
 .pl-svg-filters {
@@ -173,10 +171,10 @@
   font-weight: 400;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(255, 245, 227, 0.38);
+  color: rgba(255, 245, 227, 0.632);
   opacity: 0;
   transition: opacity 1.2s ease;
-  order: -1; /* above button */
+  order: -1;
 }
 .pl-hint.pl-hint-visible {
   opacity: 1;
@@ -239,7 +237,6 @@
   align-items: center;
 }
 
-/* Circles: cream color matching brand — not white/neon */
 .pl-scallop-circle {
   width: 64px;
   height: 64px;
@@ -253,7 +250,7 @@
 .pl-scallop-circle:first-child { margin-left: 0; }
 
 .pl-btn:hover .pl-scallop-circle {
-  background: #e8daf0; /* soft lavender on hover, not purple shock */
+  background: #e8daf0;
 }
 
 /* ── Text on scallop ──────────────────────────────────────── */
@@ -274,7 +271,6 @@
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
-  /* Deep purple — elegant not neon */
   color: #3a1a5e;
   white-space: nowrap;
   opacity: 0;
@@ -290,7 +286,7 @@
 .pl-ripple {
   position: absolute;
   border-radius: 50%;
-  background: rgba(201, 168, 76, 0.3); /* gold ripple */
+  background: rgba(201, 168, 76, 0.3);
   transform: scale(0);
   animation: pl-ripple-anim 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   pointer-events: none;
@@ -356,4 +352,583 @@
 @keyframes pl-fade-up {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NEW — DISCOVER CTA (no scallop)
+   Hanya bagian ini yang berubah dari versi sebelumnya
+══════════════════════════════════════════════════════════════ */
+
+/* Wrapper */
+.pl-discover-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: pl-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.9s forwards;
+}
+
+/* ── Button ────────────────────────────────────────────────── */
+.pl-discover-btn {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1),
+              filter 0.4s ease;
+}
+
+.pl-discover-btn:hover {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 8px 32px rgba(162, 135, 190, 0.4));
+}
+
+.pl-discover-btn.pl-wiggle {
+  animation: pl-wiggle 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.pl-discover-btn.pl-clicked {
+  transform: scale(0.95) !important;
+  filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.55));
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+/* ── Inner frame — the visible "button face" ──────────────── */
+.pl-discover-frame {
+  position: relative;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Border: top & bottom only — editorial feel */
+  border-top:    1px solid rgba(255, 245, 227, 0.22);
+  border-bottom: 1px solid rgba(255, 245, 227, 0.22);
+
+  transition:
+    border-color  0.4s ease,
+    padding       0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Breathing glow behind the frame */
+.pl-discover-frame::before {
+  content: '';
+  position: absolute;
+  inset: -1px -20px;
+  background: radial-gradient(ellipse 100% 200% at 50% 50%,
+    rgba(124, 82, 168, 0.07) 0%,
+    transparent 70%);
+  pointer-events: none;
+  animation: pl-discover-breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes pl-discover-breathe {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+.pl-discover-btn:hover .pl-discover-frame {
+  border-color: rgba(255, 245, 227, 0.55);
+  padding: 16px 52px;
+}
+
+.pl-discover-btn:hover .pl-discover-frame::before {
+  background: radial-gradient(ellipse 100% 200% at 50% 50%,
+    rgba(201, 168, 76, 0.1) 0%,
+    transparent 70%);
+  animation: none;
+  opacity: 1;
+}
+
+/* Corner ticks on the frame — replaces scallop circles */
+.pl-discover-frame::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-top:    1px solid transparent;
+  border-bottom: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+}
+
+.pl-discover-btn:hover .pl-discover-frame::after {
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
+/* ── Label — the main text ────────────────────────────────── */
+.pl-discover-label {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(2rem, 1.4vw, 2.2rem);
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  position: relative;
+
+  /* Shimmer sweep — looping light pass */
+  background: linear-gradient(
+    105deg,
+    rgba(189, 126, 189, 0.9)  0%,
+    rgba(255, 245, 227, 0.7)  35%,
+    rgba(255, 255, 255, 1)    50%,
+    rgba(255, 245, 227, 0.7)  65%,
+    rgba(255, 245, 227, 0.7)  100%
+  );
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pl-discover-shimmer 5s ease-in-out 2.8s infinite;
+
+  transition: letter-spacing 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.pl-discover-btn:hover .pl-discover-label {
+  letter-spacing: 0.6em;
+  animation: none;
+  background: linear-gradient(
+    105deg,
+    #a287be 0%,
+    #e8daf0 50%,
+    #a287be 100%
+  );
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@keyframes pl-discover-shimmer {
+  0%        { background-position: 240% 0; }
+  60%, 100% { background-position: -40% 0; }
+}
+
+/* ── Underline — draws in, turns gold on hover ────────────── */
+.pl-discover-underline {
+  display: block;
+  height: 1px;
+  width: 0%;
+  margin-top: 6px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 245, 227, 0.45),
+    transparent);
+  transition:
+    width      0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+    background 0.4s ease;
+}
+
+.pl-discover-wrap .pl-discover-underline {
+  width: 100%;
+}
+
+.pl-discover-btn:hover .pl-discover-underline {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(167, 106, 167, 0.8),
+    transparent);
+}
+
+/* ── Side ornament row — below underline ──────────────────── */
+.pl-discover-orn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.pl-discover-orn-line {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 245, 227, 0.2));
+  transition: width 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.pl-discover-orn-line--r {
+  background: linear-gradient(to left, transparent, rgba(137, 94, 135, 0.2));
+}
+
+.pl-discover-wrap:has(.pl-discover-btn:hover) .pl-discover-orn-line {
+  width: 52px;
+}
+
+/* Pulsing dot */
+.pl-discover-dot {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(255, 245, 227, 0.5);
+  animation: pl-dot-pulse 2.4s ease-in-out infinite;
+}
+.pl-discover-dot--r { animation-delay: 0.7s; }
+
+@keyframes pl-dot-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(2); }
+}
+
+.pl-discover-wrap:has(.pl-discover-btn:hover) .pl-discover-dot {
+  animation: none;
+  opacity: 1;
+  background: rgba(201, 168, 76, 0.9);
+  transform: scale(1.6);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.6);
+}
+
+/* ── Ripple ────────────────────────────────────────────────── */
+.pl-discover-btn .pl-ripple {
+  background: rgba(201, 168, 76, 0.22);
+}
+
+@media (pointer: coarse) {
+  .pl-preloader { cursor: auto; }
+  .pl-cursor    { display: none !important; }
+
+  /* Restore pointer events & visual feedback untuk touch */
+  .pl-discover-btn {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Active state sebagai pengganti :hover pada touch */
+  .pl-discover-btn:active {
+    transform: scale(0.95) !important;
+    filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.55));
+  }
+
+  .pl-discover-btn:active .pl-discover-frame {
+    border-color: rgba(255, 245, 227, 0.55);
+  }
+
+  .pl-discover-btn:active .pl-discover-label {
+    letter-spacing: 0.55em;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LARGE DESKTOP  ≥ 1280px  (sudah di-handle file utama)
+───────────────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .pl-logo-img {
+    width: clamp(340px, 28vw, 520px);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LAPTOP / TABLET LANDSCAPE  1024px – 1279px
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1279px) and (min-width: 1024px) {
+  .pl-logo-img {
+    width: clamp(220px, 26vw, 360px);
+  }
+
+  .pl-discover-label {
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+  }
+
+  .pl-discover-frame {
+    padding: 14px 36px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TABLET PORTRAIT  768px – 1023px
+───────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .pl-logo-img {
+    width: clamp(200px, 38vw, 320px);
+  }
+
+  .pl-discover-label {
+    font-size: clamp(1.5rem, 3.2vw, 1.9rem);
+    letter-spacing: 0.38em;
+  }
+
+  .pl-discover-frame {
+    padding: 14px 34px;
+  }
+
+  .pl-discover-btn:hover .pl-discover-frame {
+    padding: 14px 44px;
+  }
+
+  .pl-btn-wrap {
+    margin-top: -48px;
+    gap: 16px;
+  }
+
+  .pl-hint {
+    font-size: 8.5px;
+    letter-spacing: 3.5px;
+  }
+
+  .pl-discover-orn-line {
+    width: 28px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PHABLET / HP BESAR  480px – 767px
+───────────────────────────────────────────────────────────── */
+@media (max-width: 767px) and (min-width: 480px) {
+  /* Background lebih gelap supaya teks tetap terbaca */
+  .pl-bg-photo {
+    filter: grayscale(65%) brightness(0.28) contrast(1.1);
+  }
+
+  .pl-logo-img {
+    width: clamp(160px, 52vw, 260px);
+  }
+
+  .pl-btn-wrap {
+    margin-top: -40px;
+    gap: 14px;
+  }
+
+  .pl-discover-label {
+    font-size: clamp(1.25rem, 5vw, 1.65rem);
+    letter-spacing: 0.35em;
+  }
+
+  .pl-discover-frame {
+    padding: 13px 28px;
+  }
+
+  .pl-discover-btn:hover .pl-discover-frame,
+  .pl-discover-btn:active .pl-discover-frame {
+    padding: 13px 36px;
+  }
+
+  .pl-hint {
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+
+  .pl-discover-orn-line {
+    width: 24px;
+  }
+
+  .pl-discover-orn {
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  /* Kurangi jumlah partikel yang terlihat di layar kecil
+     via opacity — partikel tetap ada tapi tidak mengganggu */
+  .pl-particle:nth-child(n+7) {
+    display: none;
+  }
+
+  /* Letterbox lebih tipis */
+  .pl-letterbox-top,
+  .pl-letterbox-bottom {
+    height: 40px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HP KECIL  < 480px  (iPhone SE, Galaxy A series kecil, dsb.)
+───────────────────────────────────────────────────────────── */
+@media (max-width: 479px) {
+  .pl-bg-photo {
+    filter: grayscale(70%) brightness(0.26) contrast(1.15);
+    /* Posisikan bagian tengah/atas foto — lebih dramatis di portrait */
+    background-position: center 30%;
+  }
+
+  .pl-logo-img {
+    width: clamp(140px, 64vw, 220px);
+  }
+
+  .pl-btn-wrap {
+    margin-top: -32px;
+    gap: 12px;
+  }
+
+  .pl-discover-label {
+    font-size: clamp(1.1rem, 6.5vw, 1.4rem);
+    letter-spacing: 0.28em;
+    /* Kurangi letter-spacing agar tidak terpotong di layar sempit */
+  }
+
+  .pl-discover-btn:hover .pl-discover-label,
+  .pl-discover-btn:active .pl-discover-label {
+    letter-spacing: 0.38em;
+  }
+
+  .pl-discover-frame {
+    padding: 12px 22px;
+  }
+
+  .pl-discover-btn:hover .pl-discover-frame,
+  .pl-discover-btn:active .pl-discover-frame {
+    padding: 12px 28px;
+  }
+
+  .pl-hint {
+    font-size: 7.5px;
+    letter-spacing: 2.5px;
+  }
+
+  /* Sembunyikan ornamen samping — terlalu ramai di layar kecil */
+  .pl-discover-orn {
+    display: none;
+  }
+
+  /* Sembunyikan partikel berlebih */
+  .pl-particle:nth-child(n+5) {
+    display: none;
+  }
+
+  /* Underline lebih pendek secara proporsional — sudah otomatis via % */
+
+  .pl-letterbox-top,
+  .pl-letterbox-bottom {
+    height: 28px;
+  }
+
+  /* Loader bar lebih tebal agar terlihat di layar kecil */
+  .pl-loader-bar {
+    height: 1.5px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ULTRA-SMALL  < 360px  (perangkat lawas / layar sangat kecil)
+───────────────────────────────────────────────────────────── */
+@media (max-width: 359px) {
+  .pl-logo-img {
+    width: 58vw;
+  }
+
+  .pl-discover-label {
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+  }
+
+  .pl-discover-frame {
+    padding: 10px 18px;
+  }
+
+  .pl-hint {
+    font-size: 7px;
+    letter-spacing: 2px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LANDSCAPE PHONE  (tinggi < 500px, lebar > tinggi)
+   Contoh: iPhone SE landscape, Galaxy S landscape
+───────────────────────────────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .pl-content {
+    /* Perkecil gap vertikal, beri ruang di atas/bawah */
+    gap: 0;
+    padding: 8px 0;
+  }
+
+  .pl-logo-img {
+    width: clamp(100px, 22vh, 180px);
+  }
+
+  .pl-btn-wrap {
+    margin-top: -16px;
+    gap: 8px;
+  }
+
+  .pl-discover-label {
+    font-size: clamp(1rem, 3.5vh, 1.4rem);
+    letter-spacing: 0.28em;
+  }
+
+  .pl-discover-frame {
+    padding: 10px 24px;
+  }
+
+  .pl-hint {
+    font-size: 7px;
+    letter-spacing: 2.5px;
+  }
+
+  .pl-discover-orn {
+    margin-top: 2px;
+    gap: 8px;
+  }
+
+  .pl-letterbox-top,
+  .pl-letterbox-bottom {
+    height: 20px;
+  }
+
+  /* Sembunyikan partikel di landscape kecil */
+  .pl-particle {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   AKSESIBILITAS — reduce motion
+───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pl-bg-photo,
+  .pl-logo-img,
+  .pl-particle,
+  .pl-discover-label,
+  .pl-discover-frame::before,
+  .pl-discover-dot,
+  .pl-hint-arrow,
+  .pl-loader-bar,
+  .pl-discover-underline {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Tampilkan langsung tanpa animasi masuk */
+  .pl-logo-img {
+    opacity: 1;
+    transform: none;
+  }
+
+  .pl-discover-wrap {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .pl-hint.pl-hint-visible {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .pl-discover-underline {
+    width: 100% !important;
+  }
+
+  /* Exit tetap berfungsi tapi lebih cepat */
+  .pl-preloader.pl-exit {
+    transition: opacity 0.3s ease !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HIGH CONTRAST / FORCED COLORS (aksesibilitas Windows)
+───────────────────────────────────────────────────────────── */
+@media (forced-colors: active) {
+  .pl-discover-label {
+    -webkit-text-fill-color: ButtonText;
+    color: ButtonText;
+    background: none;
+  }
+
+  .pl-discover-frame {
+    border-color: ButtonText;
+  }
 }

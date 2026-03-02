@@ -1,6 +1,17 @@
 /* ══════════════════════════════════════
    CONTACT SECTION
 ══════════════════════════════════════ */
+
+
+@font-face {
+  font-family: 'Roc Grotesk';
+  src: url('../assets/fonts/Fontspring-DEMO-rocgrotesk-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style:  normal;
+  font-display: swap;
+}
+
+
 .contact {
   position: relative;
   overflow: hidden;
@@ -129,7 +140,7 @@
 }
 
 .contact-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Roc Grotesk', sans-serif;
   font-weight: 800;
   font-size: clamp(3rem, 5vw, 5rem);
   color: #1a0c36;

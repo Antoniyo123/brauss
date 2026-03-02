@@ -1,25 +1,32 @@
 import { useEffect, useRef } from "react"
-import logo from "../assets/logobraus.png"
 import "../styles/BrandLoader.css"
 
+// ── Wave letter configs ───────────────────────────────────────────────────────
+const BRAVE_LETTERS  = ["B", "R", "A", "V", "E"]
+const BRAUSS_LETTERS = ["B", "R", "A", "U", "S", "S"]
+const BASE_DUR = 2.4 // seconds per cycle
+
+function waveDelay(i, total) {
+  return ((i / total) * BASE_DUR * 0.6).toFixed(2)
+}
+
 export default function BrandLoader({ onComplete }) {
-  const loaderRef   = useRef()
-  const progressRef = useRef()
-  const fillRef     = useRef()
+  const loaderRef = useRef()
+  const fillRef   = useRef()
 
   useEffect(() => {
-    // Progress bar animasi
+    // Animate progress bar fill
     if (fillRef.current) {
       fillRef.current.style.transition = "width 2.8s cubic-bezier(0.4, 0, 0.2, 1)"
       fillRef.current.style.width = "100%"
     }
 
+    // Fade out after 3 seconds then call onComplete
     const timer = setTimeout(() => {
-      // Fade out loader
       if (loaderRef.current) {
         loaderRef.current.style.transition = "opacity 0.5s ease, transform 0.5s ease"
-        loaderRef.current.style.opacity = "0"
-        loaderRef.current.style.transform = "scale(1.03)"
+        loaderRef.current.style.opacity    = "0"
+        loaderRef.current.style.transform  = "scale(1.03)"
       }
       setTimeout(onComplete, 500)
     }, 3000)
@@ -39,7 +46,7 @@ export default function BrandLoader({ onComplete }) {
       {/* ── Layer 3: vignette ── */}
       <div className="bl-vignette" />
 
-      {/* ── Layer 4: floating orbs (depth) ── */}
+      {/* ── Layer 4: floating orbs ── */}
       <div className="bl-orb bl-orb-1" />
       <div className="bl-orb bl-orb-2" />
       <div className="bl-orb bl-orb-3" />
@@ -50,13 +57,45 @@ export default function BrandLoader({ onComplete }) {
       <div className="bl-ring bl-ring-2" />
       <div className="bl-ring bl-ring-3" />
 
-      {/* ── Layer 6: main content ── */}
-      <div className="bl-content">
+      {/* ── Layer 6: main wave text content ── */}
+      <div className="bl-wave-wrap">
 
-        {/* Logo */}
-        <div className="bl-logo-wrap">
-          <div className="bl-logo-glow" />
-          <img src={logo} alt="BRAUSS" className="bl-logo" />
+        {/* BE BRAVE */}
+        <div className="bl-be-label" style={{ animationDelay: "0.2s" }}>be</div>
+        <div className="bl-wave-line bl-wave-line--brave">
+          <div className="bl-word-wrap">
+            {BRAVE_LETTERS.map((ch, i) => (
+              <span
+                key={i}
+                className="bl-letter bl-letter--brave"
+                style={{
+                  "--wave-delay":    `${waveDelay(i, BRAVE_LETTERS.length)}s`,
+                  "--wave-duration": `${BASE_DUR}s`,
+                }}
+              >
+                {ch}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* BE BRAUSS */}
+        <div className="bl-be-label" style={{ marginTop: "1.2rem", animationDelay: "0.3s" }}>be</div>
+        <div className="bl-wave-line bl-wave-line--brauss">
+          <div className="bl-word-wrap">
+            {BRAUSS_LETTERS.map((ch, i) => (
+              <span
+                key={i}
+                className="bl-letter bl-letter--brauss"
+                style={{
+                  "--wave-delay":    `${waveDelay(i, BRAUSS_LETTERS.length)}s`,
+                  "--wave-duration": `${BASE_DUR}s`,
+                }}
+              >
+                {ch}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Divider */}
@@ -75,8 +114,8 @@ export default function BrandLoader({ onComplete }) {
           <span className="bl-tag-item">Brand Experiences</span>
         </div>
 
-        {/* Progress */}
-        <div className="bl-progress" ref={progressRef}>
+        {/* Progress bar */}
+        <div className="bl-progress">
           <div className="bl-progress-track">
             <div className="bl-progress-fill" ref={fillRef} />
           </div>

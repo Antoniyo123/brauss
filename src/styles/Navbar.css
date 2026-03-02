@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400;1,700&family=Syne:wght@700;800&display=swap');
 
-
 :root {
   --nav-purple:       #4a3770;
   --nav-purple-light: #6b52a8;
@@ -100,6 +99,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  z-index: 1100;
 }
 
 .nav-logo img {
@@ -117,7 +117,6 @@
 .navbar.scrolled .nav-logo img {
   filter: brightness(0) invert(1);
   height: 90px;
-
 }
 
 .nav-logo img.on-light {
@@ -128,7 +127,9 @@
     brightness(0.85);
 }
 
-.nav-logo:hover img { transform: scale(1.04); }
+.nav-logo:hover img { 
+  transform: scale(1.04); 
+}
 
 /* ────────────────────────────────────────────
    NAV LINKS
@@ -138,13 +139,13 @@
   align-items: center;
   gap: 0.25rem;
   list-style: none;
-  margin: 0; padding: 0;
+  margin: 0; 
+  padding: 0;
 }
 
 .nav-links li a,
 .nav-links li button {
   font-family: 'Syne', sans-serif;
-
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -152,37 +153,51 @@
   border-radius: 100px;
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  background: none; border: none;
+  background: none; 
+  border: none;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.80rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
+  font-size: 0.80rem; 
+  font-weight: 500;
+  letter-spacing: 0.18em; 
+  text-transform: uppercase;
   transition: color 0.3s ease;
 }
 
 .nav-links li a::before,
 .nav-links li button::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute; 
+  inset: 0;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0);
   transition: background 0.3s ease;
 }
 
 .nav-links li a:hover,
-.nav-links li button:hover { color: rgba(255, 255, 255, 1); }
+.nav-links li button:hover { 
+  color: rgba(255, 255, 255, 1); 
+}
+
 .nav-links li a:hover::before,
-.nav-links li button:hover::before { background: rgba(255, 255, 255, 0.08); }
+.nav-links li button:hover::before { 
+  background: rgba(255, 255, 255, 0.08); 
+}
 
 .nav-links li a.active,
-.nav-links li button.active { color: var(--nav-gold); }
+.nav-links li button.active { 
+  color: var(--nav-gold); 
+}
+
 .nav-links li a.active::after,
 .nav-links li button.active::after {
   content: '';
   position: absolute;
-  bottom: 2px; left: 50%;
+  bottom: 2px; 
+  left: 50%;
   transform: translateX(-50%);
-  width: 4px; height: 4px;
+  width: 4px; 
+  height: 4px;
   border-radius: 50%;
   background: var(--nav-gold);
 }
@@ -192,15 +207,21 @@
 .nav-links li button.nav-cta {
   margin-left: 1rem;
   padding: 0.55rem 1.5rem;
-  background: #f5edd8; color: #1a0f35;
-  font-weight: 600; letter-spacing: 0.12em;
+  background: #f5edd8; 
+  color: #1a0f35;
+  font-weight: 600; 
+  letter-spacing: 0.12em;
   box-shadow: 0 2px 16px rgba(201, 168, 76, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
+
 .nav-links li a.nav-cta::before,
 .nav-links li button.nav-cta::before,
 .nav-links li a.nav-cta::after,
-.nav-links li button.nav-cta::after { display: none; }
+.nav-links li button.nav-cta::after { 
+  display: none; 
+}
+
 .nav-links li a.nav-cta:hover,
 .nav-links li button.nav-cta:hover {
   color: #1a0f35;
@@ -210,89 +231,14 @@
 }
 
 /* ────────────────────────────────────────────
-   HAMBURGER
+   TOMBOL GANTI BAHASA (DESKTOP)
 ──────────────────────────────────────────── */
-.nav-burger {
-  display: none;
-  flex-direction: column;
-  gap: 5px; cursor: pointer;
-  padding: 8px;
-  background: none; border: none;
-  z-index: 1100;
-}
-.nav-burger span {
-  display: block;
-  width: 24px; height: 1.5px;
-  background: white; border-radius: 2px;
-  transition: all 0.35s ease;
-  transform-origin: center;
-}
-.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-/* ────────────────────────────────────────────
-   MOBILE DRAWER
-──────────────────────────────────────────── */
-.nav-drawer {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 100dvh;
-  background: rgba(20, 10, 45, 0.97);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  display: flex;
-  flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 2.5rem;
-  z-index: 1050;
-  opacity: 0; visibility: hidden; pointer-events: none;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-.nav-drawer.open {
-  opacity: 1; visibility: visible; pointer-events: all;
-}
-.nav-drawer a,
-.nav-drawer button {
-  background: none; border: none; cursor: pointer;
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 300; letter-spacing: 0.08em;
-  text-decoration: none; padding: 0;
-  display: block; text-align: center;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-.nav-drawer a:hover, .nav-drawer button:hover,
-.nav-drawer a.active, .nav-drawer button.active {
-  color: var(--nav-gold);
-  transform: translateX(12px);
-}
-
-/* ────────────────────────────────────────────
-   RESPONSIVE
-──────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .navbar         { padding: 0 1.5rem; }
-  .navbar.scrolled {
-    top: 10px;
-    padding: 0 1.5rem;
-  }
-  .navbar.scrolled .navbar-inner {
-    max-width: 100%;
-    padding: 0 1.25rem;
-  }
-  .nav-links  { display: none; }
-  .nav-burger { display: flex; }
-}
-
-/* ===== TOMBOL GANTI BAHASA (DESKTOP) ===== */
 .nav-links li button.nav-lang {
   font-family: 'Syne', sans-serif;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.05em;
-  padding: 0.3rem 0.8rem !important;  /* override padding default */
+  padding: 0.3rem 0.8rem !important;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   margin-left: 0.5rem;
@@ -307,13 +253,183 @@
   color: var(--nav-gold);
 }
 
-/* Saat navbar menyusut (scrolled) */
 .navbar.scrolled .nav-links li button.nav-lang {
   background: rgba(0, 0, 0, 0.3);
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* ===== TOMBOL GANTI BAHASA (MOBILE DRAWER) ===== */
+/* ────────────────────────────────────────────
+   HAMBURGER
+──────────────────────────────────────────── */
+.nav-burger {
+  color: white;
+  display: none;
+  flex-direction: column;
+  gap: 5px; 
+  cursor: pointer;
+  padding: 8px;
+  background: none; 
+  border: none;
+  z-index: 1100;
+  position: relative;
+}
+
+.nav-burger span {
+  display: block;
+  width: 24px; 
+  height: 1.5px;
+  background: #7c3aaa; 
+  border-radius: 2px;
+  transition: all 0.35s ease;
+  transform-origin: center;
+}
+
+.nav-burger.open span:nth-child(1) { 
+  transform: translateY(6.5px) rotate(45deg); 
+}
+
+.nav-burger.open span:nth-child(2) { 
+  opacity: 0; 
+  transform: scaleX(0); 
+}
+
+.nav-burger.open span:nth-child(3) { 
+  transform: translateY(-6.5px) rotate(-45deg); 
+}
+
+/* ────────────────────────────────────────────
+   MOBILE DRAWER
+──────────────────────────────────────────── */
+.nav-drawer {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  right: 0;
+  height: 100dvh;
+  background: rgba(20, 10, 45, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 1050;
+  opacity: 0; 
+  visibility: hidden; 
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.nav-drawer.open {
+  opacity: 1; 
+  visibility: visible; 
+  pointer-events: all;
+}
+
+/* Close button inside drawer */
+.nav-drawer-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  z-index: 1100;
+  transition: all 0.3s ease;
+  min-width: 48px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-drawer-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--nav-gold);
+  transform: rotate(90deg);
+}
+
+.nav-drawer-close span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.35s ease;
+  transform-origin: center;
+}
+
+.nav-drawer-close.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-drawer-close.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-drawer-close.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Drawer content wrapper */
+.nav-drawer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  height: 100%;
+  padding: 4rem 2rem;
+}
+
+.nav-drawer-content a,
+.nav-drawer-content > button {
+  background: none; 
+  border: none; 
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 300; 
+  letter-spacing: 0.08em;
+  text-decoration: none; 
+  padding: 0;
+  display: block; 
+  text-align: center;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.nav-drawer-content a::after,
+.nav-drawer-content > button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--nav-gold);
+  transition: width 0.3s ease;
+}
+
+.nav-drawer-content a:hover::after,
+.nav-drawer-content > button.active::after {
+  width: 60%;
+}
+
+.nav-drawer-content a:hover, 
+.nav-drawer-content > button:hover,
+.nav-drawer-content a.active, 
+.nav-drawer-content > button.active {
+  color: var(--nav-gold);
+  transform: translateX(12px);
+}
+
+/* ────────────────────────────────────────────
+   TOMBOL GANTI BAHASA (MOBILE DRAWER)
+──────────────────────────────────────────── */
 .nav-drawer .nav-drawer-lang {
   margin-top: 2rem;
   font-size: 1.2rem;
@@ -333,4 +449,469 @@
   background: rgba(255, 215, 0, 0.15);
   border-color: var(--nav-gold);
   color: var(--nav-gold);
+}
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+════════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────
+   LARGE DESKTOP (1440px+)
+──────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .navbar {
+    padding: 0 6rem;
+  }
+  
+  .navbar.scrolled {
+    padding: 0 max(3rem, calc((100% - 1200px) / 2));
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    max-width: 1200px;
+    padding: 0 2.5rem;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
+  }
+  
+  .nav-logo img {
+    height: 220px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 100px;
+  }
+}
+
+/* ────────────────────────────────────────────
+   DESKTOP (1024px - 1439px)
+──────────────────────────────────────────── */
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .navbar {
+    padding: 0 4rem;
+  }
+  
+  .navbar.scrolled {
+    padding: 0 max(2rem, calc((100% - 900px) / 2));
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    max-width: 900px;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .nav-links li a.nav-cta,
+  .nav-links li button.nav-cta {
+    padding: 0.5rem 1.3rem;
+  }
+}
+
+/* ────────────────────────────────────────────
+   TABLET LANDSCAPE (769px - 1023px)
+──────────────────────────────────────────── */
+@media (max-width: 1023px) and (min-width: 769px) {
+  .navbar {
+    padding: 0 2.5rem;
+    height: 80px;
+  }
+  
+  .navbar.scrolled {
+    top: 12px;
+    height: 60px;
+    padding: 0 2rem;
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    max-width: 95%;
+    padding: 0 1.5rem;
+  }
+  
+  .nav-logo img {
+    height: 160px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 75px;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    padding: 0.35rem 0.9rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+  
+  .nav-links li a.nav-cta,
+  .nav-links li button.nav-cta {
+    padding: 0.45rem 1.2rem;
+    margin-left: 0.5rem;
+  }
+  
+  .nav-links li button.nav-lang {
+    padding: 0.25rem 0.7rem !important;
+    font-size: 0.7rem;
+  }
+  
+  .nav-links {
+    gap: 0.15rem;
+  }
+}
+
+/* ────────────────────────────────────────────
+   TABLET PORTRAIT & MOBILE (max-width: 768px)
+──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1.5rem;
+    height: 70px;
+  }
+  
+  .navbar.scrolled {
+    top: 10px;
+    height: 56px;
+    padding: 0 1rem;
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    max-width: 100%;
+    padding: 0 1rem;
+    border-radius: 50px;
+  }
+  
+  .nav-logo img {
+    height: 120px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 60px;
+  }
+  
+  /* Hide desktop navigation */
+  .nav-links {
+    display: none;
+  }
+  
+  /* Show hamburger */
+  .nav-burger {
+    display: flex;
+  }
+  
+  /* Mobile drawer adjustments */
+  .nav-drawer-close {
+    top: 1.25rem;
+    right: 1.25rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .nav-drawer-close span {
+    width: 22px;
+  }
+  
+  .nav-drawer-content {
+    gap: 1.8rem;
+    padding: 3rem 1rem;
+  }
+  
+  .nav-drawer-content a,
+  .nav-drawer-content > button {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+  
+  .nav-drawer .nav-drawer-lang {
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+/* ────────────────────────────────────────────
+   SMALL MOBILE (max-width: 480px)
+──────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 1rem;
+    height: 65px;
+  }
+  
+  .navbar.scrolled {
+    top: 8px;
+    height: 52px;
+    padding: 0 0.75rem;
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    padding: 0 0.75rem;
+    border-radius: 40px;
+  }
+  
+  .nav-logo img {
+    height: 100px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 50px;
+  }
+  
+  .nav-burger {
+    padding: 6px;
+  }
+  
+  .nav-burger span {
+    width: 20px;
+    height: 1.5px;
+  }
+  
+  .nav-burger.open span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  
+  .nav-burger.open span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+  
+  /* Mobile drawer close button */
+  .nav-drawer-close {
+    top: 1rem;
+    right: 1rem;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 10px;
+  }
+  
+  .nav-drawer-close span {
+    width: 20px;
+    height: 1.5px;
+  }
+  
+  .nav-drawer-close.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  
+  .nav-drawer-close.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  
+  /* Mobile drawer content */
+  .nav-drawer-content {
+    gap: 1.5rem;
+    padding: 2.5rem 0.75rem;
+  }
+  
+  .nav-drawer-content a,
+  .nav-drawer-content > button {
+    font-size: clamp(1.3rem, 4.5vw, 2rem);
+    letter-spacing: 0.05em;
+  }
+  
+  .nav-drawer .nav-drawer-lang {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+    margin-top: 1rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .nav-drawer-content a:hover,
+  .nav-drawer-content > button:hover,
+  .nav-drawer-content a.active,
+  .nav-drawer-content > button.active {
+    transform: translateX(8px);
+  }
+}
+
+/* ────────────────────────────────────────────
+   EXTRA SMALL MOBILE (max-width: 375px)
+──────────────────────────────────────────── */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0 0.75rem;
+    height: 60px;
+  }
+  
+  .navbar.scrolled {
+    top: 6px;
+    height: 48px;
+    padding: 0 0.5rem;
+  }
+  
+  .navbar.scrolled .navbar-inner {
+    padding: 0 0.5rem;
+  }
+  
+  .nav-logo img {
+    height: 85px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 45px;
+  }
+  
+  .nav-burger span {
+    width: 18px;
+  }
+  
+  /* Drawer close button for extra small */
+  .nav-drawer-close {
+    top: 0.75rem;
+    right: 0.75rem;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 8px;
+  }
+  
+  .nav-drawer-close span {
+    width: 18px;
+  }
+  
+  .nav-drawer-content {
+    gap: 1.2rem;
+    padding: 2rem 0.5rem;
+  }
+  
+  .nav-drawer-content a,
+  .nav-drawer-content > button {
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+  }
+  
+  .nav-drawer .nav-drawer-lang {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* ────────────────────────────────────────────
+   LANDSCAPE ORIENTATION (Mobile/Tablet)
+──────────────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar {
+    height: 55px;
+  }
+  
+  .navbar.scrolled {
+    height: 48px;
+    top: 6px;
+  }
+  
+  .nav-logo img {
+    height: 80px;
+  }
+  
+  .navbar.scrolled .nav-logo img {
+    height: 42px;
+  }
+  
+  .nav-drawer-close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .nav-drawer-content {
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .nav-drawer-content a,
+  .nav-drawer-content > button {
+    font-size: clamp(1rem, 3vh, 1.5rem);
+  }
+  
+  .nav-drawer .nav-drawer-lang {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ────────────────────────────────────────────
+   TOUCH DEVICE OPTIMIZATIONS
+──────────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase touch targets */
+  .nav-burger {
+    padding: 12px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .nav-drawer-close {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  .nav-drawer-content a,
+  .nav-drawer-content > button {
+    padding: 0.5rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nav-drawer .nav-drawer-lang {
+    min-height: 44px;
+    min-width: 120px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .nav-links li a:hover::before,
+  .nav-links li button:hover::before {
+    background: rgba(255, 255, 255, 0);
+  }
+  
+  .nav-logo:hover img {
+    transform: scale(1);
+  }
+  
+  .nav-drawer-close:hover {
+    transform: none;
+  }
+}
+
+/* ────────────────────────────────────────────
+   ACCESSIBILITY & REDUCED MOTION
+──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .nav-burger span {
+    transition: none;
+  }
+  
+  .nav-drawer {
+    transition: none;
+  }
+}
+
+/* ────────────────────────────────────────────
+   HIGH CONTRAST MODE
+──────────────────────────────────────────── */
+@media (prefers-contrast: high) {
+  .navbar.scrolled .navbar-inner {
+    border: 2px solid white;
+  }
+  
+  .nav-links li a,
+  .nav-links li button {
+    color: white;
+  }
+  
+  .nav-burger span {
+    background: white;
+  }
 }

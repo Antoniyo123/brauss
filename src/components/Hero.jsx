@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react"
+import { useLanguage } from "../context/LanguageContext"
 import logo from "../assets/logo-white.png"
 import "./Hero.css"
 
@@ -17,11 +18,38 @@ const DOTS = [
   { cls:"d12", size: 4, top: 4,  left:412,  op:0.42, delay:"0.9s" },
 ]
 
+/*
+  PARALLAX TUNING GUIDE — ubah nilai di sini untuk menyesuaikan intensitas:
+
+  SCROLL multiplier  → semakin kecil = semakin diam saat scroll
+  MOUSE  multiplier  → semakin kecil = semakin diam saat mouse bergerak
+  lerp factor (0.04) → semakin kecil = semakin lambat mengejar (lebih smooth)
+
+  Nilai sebelumnya vs sekarang:
+    heading scroll: -0.22 → -0.10
+    dots    scroll: -0.30 → -0.12
+    desc    scroll: -0.14 → -0.06
+    stats   scroll: -0.09 → -0.04
+    tagline scroll: -0.05 → -0.02
+    bg orb  scroll: +0.18 → +0.08
+    rings   scroll: ±0.20 → ±0.07
+
+    heading mouse:  -8/-5 → -4/-2.5
+    dots    mouse: -14/-8 → -6/-3
+    desc    mouse:  -4/-2.5 → -2/-1
+    stats   mouse:  -2/-1.5 → -1/-0.6
+    tagline mouse: -1.5/-1 → -0.6/-0.4
+
+    lerp scroll: 0.07  → 0.05  (lebih smooth)
+    lerp mouse:  0.04  → 0.035 (lebih smooth)
+*/
+
 export default function Hero() {
+  const { t } = useLanguage()
+
   const rightRef   = useRef(null)
   const diagramRef = useRef(null)
   const glowRef    = useRef(null)
-
   const headingRef = useRef(null)
   const descRef    = useRef(null)
   const taglineRef = useRef(null)
@@ -37,8 +65,8 @@ export default function Hero() {
   const ring4Ref   = useRef(null)
 
   const scrollRafRef = useRef(null)
-  const scrollState  = useRef({ current:0, target:0 })
-  const mouseState   = useRef({ x:0, y:0, cx:0, cy:0 })
+  const scrollState  = useRef({ current: 0, target: 0 })
+  const mouseState   = useRef({ x: 0, y: 0, cx: 0, cy: 0 })
 
   /* ── Scroll parallax ── */
   useEffect(() => {
@@ -48,22 +76,24 @@ export default function Hero() {
     const tick = () => {
       scrollRafRef.current = requestAnimationFrame(tick)
       const s = scrollState.current
-      s.current += (s.target - s.current) * 0.07
+      // lerp diturunkan: 0.07 → 0.05
+      s.current += (s.target - s.current) * 0.05
       const y = s.current
 
-      if (eyebrowRef.current) eyebrowRef.current.style.transform = `translateY(${y * -0.06}px)`
-      if (headingRef.current)  headingRef.current.style.transform  = `translateY(${y * -0.22}px)`
-      if (dotsRef.current)     dotsRef.current.style.transform     = `translateY(${y * -0.30}px)`
-      if (descRef.current)     descRef.current.style.transform     = `translateY(${y * -0.14}px)`
-      if (statsRef.current)    statsRef.current.style.transform    = `translateY(${y * -0.09}px)`
-      if (taglineRef.current)  taglineRef.current.style.transform  = `translateY(${y * -0.05}px)`
-      if (bgOrbRef.current)    bgOrbRef.current.style.transform    = `translateY(${y * 0.18}px) scale(1.2)`
-      if (layer1Ref.current)   layer1Ref.current.style.transform   = `translateY(${y * 0.10}px)`
-      if (layer2Ref.current)   layer2Ref.current.style.transform   = `translateY(${y * -0.08}px)`
-      if (ring1Ref.current)    ring1Ref.current.style.transform    = `translate(-50%, calc(-50% + ${y * 0.06}px))`
-      if (ring2Ref.current)    ring2Ref.current.style.transform    = `translateY(${y * 0.14}px)`
-      if (ring3Ref.current)    ring3Ref.current.style.transform    = `translateY(${y * -0.10}px)`
-      if (ring4Ref.current)    ring4Ref.current.style.transform    = `translateY(${y * 0.20}px)`
+      // Scroll multiplier diturunkan ~50% dari sebelumnya
+      if (eyebrowRef.current) eyebrowRef.current.style.transform = `translateY(${y * -0.03}px)`
+      if (headingRef.current)  headingRef.current.style.transform  = `translateY(${y * -0.10}px)`
+      if (dotsRef.current)     dotsRef.current.style.transform     = `translateY(${y * -0.12}px)`
+      if (descRef.current)     descRef.current.style.transform     = `translateY(${y * -0.06}px)`
+      if (statsRef.current)    statsRef.current.style.transform    = `translateY(${y * -0.04}px)`
+      if (taglineRef.current)  taglineRef.current.style.transform  = `translateY(${y * -0.02}px)`
+      if (bgOrbRef.current)    bgOrbRef.current.style.transform    = `translateY(${y * 0.08}px) scale(1.2)`
+      if (layer1Ref.current)   layer1Ref.current.style.transform   = `translateY(${y * 0.05}px)`
+      if (layer2Ref.current)   layer2Ref.current.style.transform   = `translateY(${y * -0.04}px)`
+      if (ring1Ref.current)    ring1Ref.current.style.transform    = `translate(-50%, calc(-50% + ${y * 0.03}px))`
+      if (ring2Ref.current)    ring2Ref.current.style.transform    = `translateY(${y * 0.06}px)`
+      if (ring3Ref.current)    ring3Ref.current.style.transform    = `translateY(${y * -0.04}px)`
+      if (ring4Ref.current)    ring4Ref.current.style.transform    = `translateY(${y * 0.07}px)`
     }
     scrollRafRef.current = requestAnimationFrame(tick)
     return () => {
@@ -85,19 +115,21 @@ export default function Hero() {
       rafId = requestAnimationFrame(tick)
       const m = mouseState.current
       const s = scrollState.current
-      m.cx += (m.x - m.cx) * 0.04
-      m.cy += (m.y - m.cy) * 0.04
+      // lerp diturunkan: 0.04 → 0.035
+      m.cx += (m.x - m.cx) * 0.035
+      m.cy += (m.y - m.cy) * 0.035
 
+      // Mouse multiplier diturunkan ~50% dari sebelumnya
       if (headingRef.current)
-        headingRef.current.style.transform = `translateY(${s.current * -0.22}px) translate(${m.cx * -8}px, ${m.cy * -5}px)`
+        headingRef.current.style.transform = `translateY(${s.current * -0.10}px) translate(${m.cx * -4}px, ${m.cy * -2.5}px)`
       if (dotsRef.current)
-        dotsRef.current.style.transform    = `translateY(${s.current * -0.30}px) translate(${m.cx * -14}px, ${m.cy * -8}px)`
+        dotsRef.current.style.transform    = `translateY(${s.current * -0.12}px) translate(${m.cx * -6}px, ${m.cy * -3}px)`
       if (descRef.current)
-        descRef.current.style.transform    = `translateY(${s.current * -0.14}px) translate(${m.cx * -4}px, ${m.cy * -2.5}px)`
+        descRef.current.style.transform    = `translateY(${s.current * -0.06}px) translate(${m.cx * -2}px, ${m.cy * -1}px)`
       if (statsRef.current)
-        statsRef.current.style.transform   = `translateY(${s.current * -0.09}px) translate(${m.cx * -2}px, ${m.cy * -1.5}px)`
+        statsRef.current.style.transform   = `translateY(${s.current * -0.04}px) translate(${m.cx * -1}px, ${m.cy * -0.6}px)`
       if (taglineRef.current)
-        taglineRef.current.style.transform = `translateY(${s.current * -0.05}px) translate(${m.cx * -1.5}px, ${m.cy * -1}px)`
+        taglineRef.current.style.transform = `translateY(${s.current * -0.02}px) translate(${m.cx * -0.6}px, ${m.cy * -0.4}px)`
     }
     rafId = requestAnimationFrame(tick)
     return () => {
@@ -106,51 +138,47 @@ export default function Hero() {
     }
   }, [])
 
-  /* ── Spinner + cursor speed control ── */
+  /* ── Spinner + cursor speed ── */
   useEffect(() => {
     const spinner = diagramRef.current?.querySelector(".diagram-spinner")
     const glow    = glowRef.current
     const right   = rightRef.current
     if (!spinner || !glow || !right) return
 
-    let angle       = 0
-    let speed       = 0.08
-    let targetSpeed = 0.08
-    let lastMouseX  = null
-    let isHovered   = false
-    let rafId
+    let angle = 0, speed = 0.08, targetSpeed = 0.08
+    let lastMouseX = null, isHovered = false, rafId
 
-    // Matikan CSS animation, ambil alih sepenuhnya dengan JS
     spinner.style.animation = "none"
+    const nodes = spinner.querySelectorAll(".eco-node")
 
     const tick = () => {
       rafId = requestAnimationFrame(tick)
       speed += (targetSpeed - speed) * 0.05
       angle += speed
-      // Hanya spinner yang dirotasi — static layer tidak tersentuh
       spinner.style.transform = `rotateZ(${angle}deg)`
+      nodes.forEach(node => {
+        const base = node.dataset.baseTransform || ""
+        node.style.transform = `${base} rotate(${-angle}deg)`
+      })
     }
     rafId = requestAnimationFrame(tick)
 
-    const onEnter = () => {
-      isHovered = true
-      glow.style.opacity = "1"
-      lastMouseX = null
-    }
-    const onLeave = () => {
-      isHovered = false
-      targetSpeed = 0.08
-      lastMouseX = null
-      glow.style.opacity = "0"
-    }
-    const onMove = (e) => {
+    nodes.forEach(node => {
+      if (!node.dataset.baseTransform) {
+        if (node.classList.contains("node-top"))    node.dataset.baseTransform = "translateX(-50%)"
+        if (node.classList.contains("node-left"))   node.dataset.baseTransform = "translateY(-50%)"
+        if (node.classList.contains("node-right"))  node.dataset.baseTransform = "translateY(-50%)"
+        if (node.classList.contains("node-bottom")) node.dataset.baseTransform = "translateX(-50%)"
+      }
+    })
+
+    const onEnter = () => { isHovered = true;  glow.style.opacity = "1"; lastMouseX = null }
+    const onLeave = () => { isHovered = false; targetSpeed = 0.08; lastMouseX = null; glow.style.opacity = "0" }
+    const onMove  = (e) => {
       glow.style.left = e.clientX + "px"
       glow.style.top  = e.clientY + "px"
       if (!isHovered) return
-      if (lastMouseX !== null) {
-        const delta = e.clientX - lastMouseX
-        targetSpeed = delta * 0.4
-      }
+      if (lastMouseX !== null) targetSpeed = (e.clientX - lastMouseX) * 0.4
       lastMouseX = e.clientX
     }
 
@@ -166,19 +194,19 @@ export default function Hero() {
     }
   }, [])
 
+  const taglineLines = t("heroTagline").split("\n")
+
   return (
     <>
       <div className="cursor-glow" ref={glowRef} />
-
       <section className="who-page">
 
         {/* ══ LEFT ══ */}
         <div className="who-left">
           <div className="who-top-block">
-
             <h1 className="who-heading" ref={headingRef}>
-              <span className="line1">who</span>
-              <span className="line2">we are</span>
+              <span className="line1">{t("heroHeadLine1")}</span>
+              <span className="line2">{t("heroHeadLine2")}</span>
             </h1>
 
             <div className="splatter" ref={dotsRef}>
@@ -188,24 +216,20 @@ export default function Hero() {
               ))}
             </div>
 
-            <p className="who-desc" ref={descRef}>
-              A creative house within the creative industry,
-              developing original ideas, brand experiences
-              and intellectual properties with long‑term value.
-            </p>
+            <p className="who-desc" ref={descRef}>{t("heroDesc")}</p>
 
             <div className="who-stats" ref={statsRef}>
               <div className="who-stat-item">
-                <span className="who-stat-num">3+</span>
-                <span className="who-stat-label">Services</span>
+                <span className="who-stat-num">{t("heroStat1Num")}</span>
+                <span className="who-stat-label">{t("heroStat1Label")}</span>
               </div>
               <div className="who-stat-item">
-                <span className="who-stat-num">100+</span>
-                <span className="who-stat-label">Projects</span>
+                <span className="who-stat-num">{t("heroStat2Num")}</span>
+                <span className="who-stat-label">{t("heroStat2Label")}</span>
               </div>
               <div className="who-stat-item">
-                <span className="who-stat-num">Est.</span>
-                <span className="who-stat-label">2024 Jakarta</span>
+                <span className="who-stat-num">{t("heroStat3Num")}</span>
+                <span className="who-stat-label">{t("heroStat3Label")}</span>
               </div>
             </div>
           </div>
@@ -213,10 +237,9 @@ export default function Hero() {
           <div className="who-left-bottom" ref={taglineRef}>
             <div className="divider-line" />
             <p className="tagline-hero">
-              From ideas to owned impact.<br />
-              We build creative assets<br />
-              and experiences that live<br />
-              beyond a single project.
+              {taglineLines.map((line, i) => (
+                <span key={i}>{line}{i < taglineLines.length - 1 && <br />}</span>
+              ))}
             </p>
           </div>
         </div>
@@ -233,8 +256,6 @@ export default function Hero() {
           <div className="px-ring px-ring-5" />
 
           <div className="diagram-wrapper">
-
-            {/* ── SPINNER ONLY — yang muter ── */}
             <div className="diagram" ref={diagramRef}>
               <div className="diagram-spinner">
                 <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
@@ -251,22 +272,19 @@ export default function Hero() {
                   <circle cx="325" cy="170" r="3" fill="rgba(255,255,255,0.7)" />
                   <circle cx="170" cy="325" r="3" fill="rgba(255,255,255,0.7)" />
                 </svg>
+                <div className="eco-node node-top">Creative Ecosystem</div>
+                <div className="eco-node node-left">AGENCY</div>
+                <div className="eco-node node-right">PROMOTER</div>
+                <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
               </div>
             </div>
-
-            {/* ── STATIC LAYER — tidak ikut muter ── */}
             <div className="diagram-static">
               <div className="eco-center">
                 <span className="eco-center-text">
                   <img src={logo} alt="BRAUSS Logo" />
                 </span>
               </div>
-              <div className="eco-node node-top">Creative Ecosystem</div>
-              <div className="eco-node node-left">AGENCY</div>
-              <div className="eco-node node-right">PROMOTER</div>
-              <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
             </div>
-
           </div>
         </div>
 

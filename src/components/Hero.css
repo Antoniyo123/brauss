@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,700&family=Syne:wght@700;800&display=swap');
+@font-face {
+  font-family: 'Roc Grotesk';
+  src: url('../assets/fonts/Fontspring-DEMO-rocgrotesk-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style:  normal;
+  font-display: swap;
+}
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -14,7 +20,7 @@
 }
 
 /* ═══════════════════════════════════════
-   CURSOR GLOW — sharper, more intentional
+   CURSOR GLOW
 ═══════════════════════════════════════ */
 .cursor-glow {
   position: fixed;
@@ -46,14 +52,12 @@
   overflow: hidden;
   padding: 7rem 5rem 4rem 5rem;
 
-  /* Layered depth background */
   background:
     radial-gradient(ellipse 90% 60% at -10% 110%, rgba(160,100,255,0.055) 0%, transparent 55%),
     radial-gradient(ellipse 55% 40% at 110% -5%,  rgba(255,210,100,0.07)  0%, transparent 55%),
     linear-gradient(165deg, #fef9ed 0%, #fdf3e0 55%, #f8ebd8 100%);
 }
 
-/* Grain texture overlay — gives paper feel */
 .who-left::before {
   content: '';
   position: absolute; inset: 0;
@@ -63,7 +67,6 @@
   z-index: 0;
 }
 
-/* Edge depth shadow — creates physical separation from right panel */
 .who-left::after {
   content: '';
   position: absolute;
@@ -102,9 +105,9 @@
   background: rgba(85, 42, 128, 0.32);
 }
 
-/* ── Heading — bigger, more presence ── */
+/* ── Heading ── */
 .who-heading {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Roc Grotesk', sans-serif;
   font-weight: 800;
   color: #1a0c36;
   line-height: 0.87;
@@ -114,14 +117,15 @@
   display: block;
   font-size: clamp(3.8rem, 7.2vw, 6.2rem);
   letter-spacing: -3px;
+  font-style: italic;
 }
 .who-heading .line2 {
+  margin-left: 6rem;
   display: block;
   font-size: clamp(3.8rem, 7.2vw, 6.2rem);
   letter-spacing: -3px;
   padding-left: 3.8rem;
-  /* Ghost gradient text */
-  background: linear-gradient(135deg, rgba(26,12,54,0.35) 0%, rgba(110,55,190,0.25) 100%);
+  background: linear-gradient(135deg, rgb(26 12 54 / 40%) 0%, rgb(110 55 190 / 68%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -154,14 +158,14 @@
 .who-desc {
   font-size: 0.875rem;
   line-height: 1.95;
-  color: rgba(42, 26, 80, 0.72);
+  color: rgba(42, 26, 80, 0.863);
   font-weight: 400;
   max-width: 335px;
   margin-top: 1.6rem;
   will-change: transform;
 }
 
-/* ── Stats — divided, not just spaced ── */
+/* ── Stats ── */
 .who-stats {
   display: flex;
   gap: 0;
@@ -193,7 +197,6 @@
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1;
-  /* Subtle purple gradient */
   background: linear-gradient(135deg, #6b2fa0 0%, #8b44c0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -235,7 +238,6 @@
   cursor: none;
   overflow: hidden;
 
-  /* More dramatic dark-to-light depth */
   background:
     radial-gradient(ellipse 70% 65% at 50% 50%, rgba(140,60,240,0.2) 0%, transparent 65%),
     radial-gradient(ellipse 55% 55% at 82% 15%, rgba(110,35,210,0.4) 0%, transparent 55%),
@@ -243,7 +245,6 @@
     linear-gradient(155deg, #8844d0 0%, #5c1e98 28%, #3c1275 62%, #1e0640 100%);
 }
 
-/* Grain */
 .who-right::before {
   content: '';
   position: absolute; inset: 0;
@@ -254,7 +255,6 @@
   mix-blend-mode: overlay;
 }
 
-/* Vignette — very important for depth */
 .who-right::after {
   content: '';
   position: absolute; inset: 0;
@@ -287,7 +287,7 @@
   will-change: transform; pointer-events: none; z-index: 1;
 }
 
-/* ── Rings — more layered ── */
+/* ── Rings ── */
 .px-ring {
   position: absolute;
   border-radius: 50%;
@@ -338,7 +338,6 @@
 /* ═══════════════════════════════════════
    DIAGRAM
 ═══════════════════════════════════════ */
-/* ── diagram-wrapper harus jadi positioning context ── */
 .diagram-wrapper {
   position: relative;
   width: 340px;
@@ -347,24 +346,17 @@
   z-index: 3;
 }
 
-/* ── Static layer: overlay persis di atas spinner, tidak ikut rotate ── */
 .diagram-static {
   position: absolute;
   inset: 0;
   width: 340px;
   height: 340px;
-  pointer-events: none;   /* klik/hover tembus ke bawah secara default */
+  pointer-events: none;
   z-index: 4;
 }
 
-/* Aktifkan interaksi hanya untuk nodes & center */
-.diagram-static .eco-node,
 .diagram-static .eco-center {
   pointer-events: auto;
-}
-@keyframes diagPulse {
-  0%,100% { transform: scale(1);     opacity: .65; }
-  50%      { transform: scale(1.14); opacity: 1; }
 }
 
 .diagram {
@@ -384,11 +376,10 @@
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   overflow: visible;
-  /* Glow on SVG lines */
   filter: drop-shadow(0 0 6px rgba(255,255,255,0.18));
 }
 
-/* ── Center circle — glassmorphism ── */
+/* ── Center circle ── */
 .eco-center {
   position: absolute;
   top: 50%; left: 50%;
@@ -401,7 +392,6 @@
   justify-content: center;
   z-index: 3;
 
-  /* Glass effect */
   background: radial-gradient(circle at 38% 32%,
     rgba(255,255,255,0.14) 0%,
     rgba(255,255,255,0.04) 55%,
@@ -409,20 +399,11 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   box-shadow:
-    /* outer glow */
     0 0 40px rgba(200,130,255,0.18),
-    /* inner light edge */
     inset 0 1.5px 1.5px rgba(255,255,255,0.22),
     inset 0 -1.5px 1.5px rgba(0,0,0,0.12);
 
   transition: box-shadow 0.5s ease, border-color 0.5s ease;
-}
-.diagram.hovered .eco-center {
-  box-shadow:
-    0 0 60px rgba(220,150,255,0.32),
-    inset 0 1.5px 1.5px rgba(255,255,255,0.3),
-    inset 0 -1.5px 1.5px rgba(0,0,0,0.16);
-  border-color: #fff;
 }
 
 .eco-center-text {
@@ -437,7 +418,9 @@
   opacity: 0.9;
 }
 
-/* ── Nodes — glassmorphism pill ── */
+/* ═══════════════════════════════════════
+   NODES — ikut spinner, teks counter-rotate
+═══════════════════════════════════════ */
 .eco-node {
   position: absolute;
   border: 1.5px solid rgba(255,255,255,0.82);
@@ -456,7 +439,6 @@
   color: #1a0c36;
   line-height: 1.35;
 
-  /* Glass */
   background: rgba(253, 246, 230, 0.9);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -464,55 +446,232 @@
     0 6px 20px rgba(20, 5, 60, 0.28),
     0 1px 0 rgba(255,255,255,0.85) inset,
     0 -1px 0 rgba(0,0,0,0.04) inset;
-
-  transition: box-shadow 0.35s ease, transform 0.3s ease, border-color 0.35s ease;
 }
 
-.eco-node:hover {
-  box-shadow:
-    0 10px 32px rgba(20, 5, 60, 0.38),
-    0 1px 0 rgba(255,255,255,0.95) inset,
-    0 0 18px rgba(210,160,255,0.22);
-  border-color: rgba(255,255,255,1);
+/* Node positions — sama dengan sebelumnya */
+.node-top    {
+  top: -22px; left: 50%;
+  transform: translateX(-50%);
+  font-size: .68rem; letter-spacing: .03em; text-transform: none;
+  font-weight: 500; padding: .5rem 1.5rem; white-space: nowrap;
 }
-.diagram.hovered .eco-node {
-  box-shadow:
-    0 7px 26px rgba(20, 5, 60, 0.32),
-    0 1px 0 rgba(255,255,255,0.9) inset,
-    0 0 14px rgba(200,150,255,0.12);
-}
-
-.node-top    { top: -22px; left: 50%; transform: translateX(-50%);
-               font-size: .68rem; letter-spacing: .03em; text-transform: none;
-               font-weight: 500; padding: .5rem 1.5rem; white-space: nowrap; }
 .node-left   { left: -60px; top: 50%; transform: translateY(-50%); white-space: nowrap; }
 .node-right  { right: -60px; top: 50%; transform: translateY(-50%); white-space: nowrap; }
-.node-bottom { bottom: -26px; left: 50%; transform: translateX(-50%);
-               white-space: normal; width: 112px; }
+.node-bottom {
+  bottom: -26px; left: 50%;
+  transform: translateX(-50%);
+  white-space: normal; width: 112px;
+}
 
-.node-top:hover    { transform: translateX(-50%) scale(1.07) !important; }
-.node-left:hover   { transform: translateY(-50%) scale(1.07) !important; }
-.node-right:hover  { transform: translateY(-50%) scale(1.07) !important; }
-.node-bottom:hover { transform: translateX(-50%) scale(1.07) !important; }
+/*
+  Counter-rotate inner content agar teks tetap tegak saat node ikut berputar.
+  JS mengupdate --spin setiap frame sesuai angle spinner.
+*/
+.eco-node::before {
+  content: attr(data-label);
+}
+
+.node-top    > *,
+.node-left   > *,
+.node-right  > *,
+.node-bottom > * {
+  display: inline-block;
+  transform: rotate(calc(var(--spin, 0) * -1deg));
+}
+
+/*
+  Karena konten node adalah text node langsung (bukan child element),
+  kita wrap teks dengan span lewat CSS display trick —
+  tapi karena JSX sudah menghasilkan text node, kita pakai
+  pendekatan berbeda: counter-rotate seluruh node dengan
+  CSS animation yang sync dengan JS angle via custom property.
+*/
+
+/* Setiap node counter-rotates dirinya sendiri */
+.diagram-spinner .eco-node {
+  /* akan di-set oleh JS via style.setProperty */
+  transform-origin: center center;
+}
 
 /* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
-@media (max-width: 900px) {
-  .who-page  { flex-direction: column; height: auto; }
-  .who-left  { padding: 3.5rem 2.8rem 3rem; }
-  .who-right { min-height: 65vh; cursor: auto; }
-  .cursor-glow { display: none; }
+
+/* ── Tablet landscape: 901px – 1200px ── */
+@media (max-width: 1200px) {
+  /* .who-left  { padding: 6rem 3.5rem 3.5rem; } */
   .who-heading .line1,
-  .who-heading .line2 { font-size: 2.8rem; letter-spacing: -1.5px; }
-  .who-heading .line2  { padding-left: 2rem; }
-  .diagram   { width: 270px; height: 270px; }
+  .who-heading .line2 { font-size: clamp(3rem, 6vw, 5rem); }
+  .who-heading .line2 { padding-left: 2.8rem; }
+  .who-desc   { max-width: 300px; }
+  .diagram-wrapper { width: 300px; height: 300px; }
+  .diagram    { width: 300px; height: 300px; }
+  .diagram-static { width: 300px; height: 300px; }
 }
-@media (max-width: 560px) {
-  .who-left  { padding: 2.8rem 1.8rem 2.5rem; }
+
+/* ── Tablet portrait: 768px – 900px ── */
+@media (max-width: 900px) {
+  .who-page {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  /* Left stacks on top */
+  .who-left {
+    flex: none;
+    width: 100%;
+    padding: 5rem 3rem 3rem;
+  }
+
+  /* Right fills remaining */
+  .who-right {
+    flex: none;
+    width: 100%;
+    min-height: 55vh;
+    cursor: auto;
+  }
+
+  .cursor-glow { display: none; }
+
   .who-heading .line1,
-  .who-heading .line2 { font-size: 2.2rem; letter-spacing: -1px; }
-  .who-heading .line2  { padding-left: 1.2rem; }
-  .diagram   { width: 220px; height: 220px; }
-  .who-stat-item { padding: 0 1rem; }
+  .who-heading .line2 { font-size: 3rem; letter-spacing: -1.5px; }
+  .who-heading .line2 { padding-left: 2.2rem; }
+
+  .who-desc   { max-width: 100%; font-size: 0.85rem; }
+
+  .who-stats  { gap: 0; margin-top: 1.6rem; padding-top: 1.4rem; }
+  .who-stat-item { padding: 0 1.2rem; }
+  .who-stat-num  { font-size: 1.4rem; }
+
+  .diagram-wrapper { width: 280px; height: 280px; }
+  .diagram    { width: 280px; height: 280px; }
+  .diagram-static { width: 280px; height: 280px; }
+
+  .eco-node   { font-size: 0.6rem; padding: 0.4rem 1rem; }
+  .node-left  { left: -52px; }
+  .node-right { right: -52px; }
+  .node-top   { top: -18px; }
+  .node-bottom { bottom: -20px; width: 96px; }
+
+  .eco-center { width: 100px; height: 100px; }
+  .eco-center-text img { width: 52px; }
+
+  /* Rings — scale down */
+  .px-ring-1 { width: 440px; height: 440px; }
+  .px-ring-2 { width: 300px; height: 300px; }
+}
+
+/* ── Mobile large: 560px – 767px ── */
+@media (max-width: 767px) {
+  .who-left  { padding: 4rem 2.2rem 2.5rem; }
+
+  .who-heading .line1,
+  .who-heading .line2 { font-size: 2.6rem; letter-spacing: -1.2px; }
+  .who-heading .line2 { padding-left: 1.8rem; }
+
+  .who-desc  { font-size: 0.82rem; line-height: 1.85; }
+
+  .who-stats { flex-wrap: wrap; }
+  .who-stat-item {
+    flex: 0 0 50%;
+    padding: 0.8rem 0.8rem;
+  }
+  .who-stat-item:first-child { padding-left: 0; }
+  .who-stat-item + .who-stat-item::before { display: none; }
+  .who-stat-num  { font-size: 1.3rem; }
+  .who-stat-label { font-size: 0.52rem; }
+
+  .who-right  { min-height: 50vh; }
+
+  .diagram-wrapper { width: 250px; height: 250px; }
+  .diagram    { width: 250px; height: 250px; }
+  .diagram-static { width: 250px; height: 250px; }
+
+  .eco-node   { font-size: 0.55rem; padding: 0.35rem 0.8rem; }
+  .node-left  { left: -46px; }
+  .node-right { right: -46px; }
+  .node-top   { top: -16px; }
+  .node-bottom { bottom: -18px; width: 88px; }
+
+  .eco-center { width: 90px; height: 90px; }
+  .eco-center-text img { width: 46px; }
+
+  .px-ring-1  { width: 360px; height: 360px; }
+  .px-ring-2  { display: none; }
+  .px-ring-3  { width: 200px; height: 200px; }
+  .px-ring-4  { display: none; }
+
+  .tagline-hero { font-size: 0.78rem; }
+}
+
+/* ── Mobile small: ≤ 480px ── */
+@media (max-width: 480px) {
+  .who-left  { padding: 3.5rem 1.6rem 2rem; }
+
+  .who-heading .line1,
+  .who-heading .line2 { font-size: 2.1rem; letter-spacing: -0.8px; }
+  .who-heading .line2 { padding-left: 1.2rem; }
+
+  .who-desc  { font-size: 0.8rem; margin-top: 1.2rem; }
+
+  .who-stats {
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.2rem;
+  }
+  .who-stat-item {
+    flex: none;
+    width: 100%;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .who-stat-item + .who-stat-item::before { display: none; }
+  .who-stat-num  { font-size: 1.2rem; min-width: 48px; }
+  .who-stat-label { letter-spacing: 0.15em; }
+
+  .who-right  { min-height: 44vh; }
+
+  .diagram-wrapper { width: 210px; height: 210px; }
+  .diagram    { width: 210px; height: 210px; }
+  .diagram-static { width: 210px; height: 210px; }
+
+  .eco-node   { font-size: 0.5rem; padding: 0.3rem 0.65rem; letter-spacing: 0.05em; }
+  .node-left  { left: -38px; }
+  .node-right { right: -38px; }
+  .node-top   { top: -14px; }
+  .node-bottom { bottom: -16px; width: 78px; font-size: 0.48rem; }
+
+  .eco-center { width: 76px; height: 76px; }
+  .eco-center-text img { width: 38px; }
+
+  .px-ring-1  { width: 290px; height: 290px; }
+  .px-ring-3  { width: 160px; height: 160px; }
+
+  .tagline-hero { font-size: 0.74rem; line-height: 1.8; }
+  .divider-line { margin-bottom: 1rem; }
+
+  .splatter   { display: none; }
+}
+
+/* ── Mobile XS: ≤ 360px ── */
+@media (max-width: 360px) {
+  .who-left   { padding: 3rem 1.2rem 1.8rem; }
+
+  .who-heading .line1,
+  .who-heading .line2 { font-size: 1.85rem; letter-spacing: -0.5px; }
+  .who-heading .line2 { padding-left: 0.8rem; }
+
+  .diagram-wrapper { width: 180px; height: 180px; }
+  .diagram    { width: 180px; height: 180px; }
+  .diagram-static { width: 180px; height: 180px; }
+
+  .eco-node   { font-size: 0.44rem; padding: 0.25rem 0.5rem; }
+  .node-left  { left: -32px; }
+  .node-right { right: -32px; }
+
+  .eco-center { width: 66px; height: 66px; }
+  .eco-center-text img { width: 32px; }
 }

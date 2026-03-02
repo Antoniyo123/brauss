@@ -1,6 +1,16 @@
 /* ══════════════════════════════════════
    FOOTER BASE
 ══════════════════════════════════════ */
+
+@font-face {
+  font-family: 'Roc Grotesk';
+  src: url('../assets/fonts/Fontspring-DEMO-rocgrotesk-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style:  normal;
+  font-display: swap;
+}
+
+
 .footer {
   background: #fff5e3;
   position: relative;
@@ -85,7 +95,7 @@
 }
 
 .footer-cta-heading {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Roc Grotesk', sans-serif;
   font-weight: 800;
   font-style: italic;
   font-size: clamp(2.8rem, 5vw, 5.2rem);
@@ -180,7 +190,7 @@
 }
 
 .footer-logo {
-  width: 130px;
+  width: 200px;
   height: auto;
   display: block;
   filter:

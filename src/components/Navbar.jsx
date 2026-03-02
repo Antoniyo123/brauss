@@ -1,47 +1,26 @@
 import { useEffect, useState, useRef, useCallback } from "react"
+import { useLanguage } from "../context/LanguageContext"
 import "../styles/Navbar.css"
 import logo from "../assets/logobraus.png"
 
-
-// Terjemahan untuk navbar
-const translations = {
-  en: {
-    home: "Home",
-    about: "About",
-    portfolio: "Portfolio",
-    contact: "Contact Us",
-    Services: "Services"
-  },
-  id: {
-    home: "Beranda",
-    about: "Tentang",
-    
-    contact: "Hubungi Kami",
-    Services: "Layanan"
-  }
-}
-
 const LINKS = [
-  { id: "home",      labelKey: "home"      },
-  { id: "about",     labelKey: "about"     },
-  { id: "services",  labelKey: "Services"  },
+  { id: "home",     labelKey: "home"     },
+  { id: "services", labelKey: "services" },
+  { id: "about",    labelKey: "about"    },
+  
 ]
 
 export default function Navbar() {
+  const { lang, t, toggleLanguage } = useLanguage()
+
   const [scrolled,  setScrolled]  = useState(false)
   const [onLight,   setOnLight]   = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [active,    setActive]    = useState("home")
-  const [lang,      setLang]      = useState("en") // 'en' atau 'id'
   const logoRef = useRef(null)
 
-  const toggleLanguage = () => {
-    setLang(prev => prev === "en" ? "id" : "en")
-  }
-
   const scrollTo = useCallback((id) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
     setMenuOpen(false)
   }, [])
 
@@ -60,16 +39,12 @@ export default function Navbar() {
         const bg = window.getComputedStyle(el).backgroundColor
         if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
           const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/)
-          if (m) {
-            const lum = 0.299 * +m[1] + 0.587 * +m[2] + 0.114 * +m[3]
-            setOnLight(lum > 180)
-          }
+          if (m) setOnLight(0.299 * +m[1] + 0.587 * +m[2] + 0.114 * +m[3] > 180)
           break
         }
         el = el.parentElement
       }
     }
-
     function trackSection() {
       const ids = [...LINKS.map(l => l.id), "contact"]
       for (const id of ids) {
@@ -79,7 +54,6 @@ export default function Navbar() {
         if (rect.top <= 120 && rect.bottom > 120) { setActive(id); break }
       }
     }
-
     checkScroll(); trackSection()
     window.addEventListener("scroll", checkScroll,  { passive: true })
     window.addEventListener("scroll", trackSection, { passive: true })
@@ -100,31 +74,38 @@ export default function Navbar() {
     <>
       {/* Mobile drawer */}
       <div className={`nav-drawer ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
-        {LINKS.map(l => (
-          <button key={l.id} onClick={() => scrollTo(l.id)}
-            className={active === l.id ? "active" : ""}
-            tabIndex={menuOpen ? 0 : -1}>
-            {translations[lang][l.labelKey]}
-          </button>
-        ))}
-        <button onClick={() => scrollTo("contact")}
-          className={active === "contact" ? "active" : ""}
-          tabIndex={menuOpen ? 0 : -1}>
-          {translations[lang].contact}
+        <button
+          className={`nav-drawer-close ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(false)}
+          aria-label="Close menu"
+        >
+          <span /><span /><span />
         </button>
-        {/* Tombol ganti bahasa di mobile */}
-        <button onClick={toggleLanguage}
-  className="nav-drawer-lang"
-  tabIndex={menuOpen ? 0 : -1}>
-  {lang === "en" ? "🇮🇩 Indonesia" : "🇬🇧 English"}
-</button>
+
+        <div className="nav-drawer-content">
+          {LINKS.map(l => (
+            <button key={l.id} onClick={() => scrollTo(l.id)}
+              className={active === l.id ? "active" : ""}
+              tabIndex={menuOpen ? 0 : -1}>
+              {t(l.labelKey)}
+            </button>
+          ))}
+          <button onClick={() => scrollTo("contact")}
+            className={active === "contact" ? "active" : ""}
+            tabIndex={menuOpen ? 0 : -1}>
+            {t("contact")}
+          </button>
+          <button onClick={toggleLanguage}
+            className="nav-drawer-lang"
+            tabIndex={menuOpen ? 0 : -1}>
+            {lang === "en" ? "🇮🇩 Indonesia" : "🇬🇧 English"}
+          </button>
+        </div>
       </div>
 
       {/* Navbar */}
       <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-        {/* Inner wrapper menjadi pill saat scroll */}
         <div className="navbar-inner">
-
           <div className="nav-logo" ref={logoRef} role="button" tabIndex={0}
             onClick={() => scrollTo("home")}
             onKeyDown={e => e.key === "Enter" && scrollTo("home")}
@@ -137,17 +118,16 @@ export default function Navbar() {
               <li key={l.id}>
                 <button className={active === l.id ? "active" : ""}
                   onClick={() => scrollTo(l.id)}>
-                  {translations[lang][l.labelKey]}
+                  {t(l.labelKey)}
                 </button>
               </li>
             ))}
             <li>
               <button className={`nav-cta${active === "contact" ? " active" : ""}`}
                 onClick={() => scrollTo("contact")}>
-                {translations[lang].contact}
+                {t("contact")}
               </button>
             </li>
-            {/* Tombol ganti bahasa di desktop */}
             <li>
               <button className="nav-lang" onClick={toggleLanguage}
                 aria-label="Switch language">
@@ -161,7 +141,6 @@ export default function Navbar() {
             aria-label="Toggle menu" aria-expanded={menuOpen}>
             <span /><span /><span />
           </button>
-
         </div>
       </nav>
     </>

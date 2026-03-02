@@ -1,111 +1,58 @@
 import { useState, useEffect, useRef } from "react"
+import { useLanguage } from "../context/LanguageContext"
 import "../styles/Portfolio.css"
 
-const divisions = [
+const DIVISION_KEYS = [
   {
-    id: "event",
-    label: "Event Management",
-    number: "01",
-    tagline: "From corporate to cultural experiences, we execute with precision and creative direction.",
-    closing: "Strategy-led. Experience-driven.",
+    id:         "event",
+    number:     "01",
+    labelKey:   "div1Label",
+    taglineKey: "div1Tagline",
+    closingKey: "div1Closing",
     columns: [
-      {
-        title: "Corporate & Brand Events",
-        items: [
-          "Company Gathering & Outing",
-          "Brand / Product Launch",
-          "Webinars (Offline / Online / Hybrid)",
-          "Live Stream Broadcast",
-        ],
-      },
-      {
-        title: "Experiential & Entertainment",
-        items: [
-          "Music Festival",
-          "Booth & Exhibition",
-          "K-Pop Fan Meeting",
-          "Special Activation & Gala",
-        ],
-      },
+      { titleKey: "div1Col1Title", itemsKey: "div1Col1Items" },
+      { titleKey: "div1Col2Title", itemsKey: "div1Col2Items" },
     ],
   },
   {
-    id: "agency",
-    label: "Agency",
-    number: "02",
-    tagline: "We build brands that are culturally relevant and commercially strong.",
-    closing: "We turn brands into ecosystems, not just campaigns.",
+    id:         "agency",
+    number:     "02",
+    labelKey:   "div2Label",
+    taglineKey: "div2Tagline",
+    closingKey: "div2Closing",
     columns: [
-      {
-        title: "Brand & Marketing",
-        items: [
-          "Brand Development",
-          "Digital Campaign",
-          "Digital Ads & Media Buying",
-          "Social Media Management",
-        ],
-      },
-      {
-        title: "Creative & Production",
-        items: [
-          "Content Production",
-          "Branded Merchandise",
-          "Website Development",
-        ],
-      },
-      {
-        title: "Talent & Community",
-        items: [
-          "KOL & KOC Management",
-          "Influencer Strategy",
-          "Community Building",
-        ],
-      },
+      { titleKey: "div2Col1Title", itemsKey: "div2Col1Items" },
+      { titleKey: "div2Col2Title", itemsKey: "div2Col2Items" },
+      { titleKey: "div2Col3Title", itemsKey: "div2Col3Items" },
     ],
   },
   {
-    id: "promoter",
-    label: "Promoter",
-    number: "03",
-    tagline: "We create large-scale experiences that connect artists, brands, and audiences.",
-    closing: "We build moments that matter.",
+    id:         "promoter",
+    number:     "03",
+    labelKey:   "div3Label",
+    taglineKey: "div3Tagline",
+    closingKey: "div3Closing",
     columns: [
-      {
-        title: null,
-        items: [
-          "Concert & Fan Meeting Promoter",
-          "International Artist Liaison",
-          "Licensing & Rights Management",
-          "Ticketing Strategy & Operations",
-        ],
-      },
-      {
-        title: null,
-        items: [
-          "Venue & Production Management",
-          "Media & Publicity Coordination",
-          "Sponsorship Acquisition",
-          "IP Creation & Ownership",
-        ],
-      },
+      { titleKey: null, itemsKey: "div3Col1Items" },
+      { titleKey: null, itemsKey: "div3Col2Items" },
     ],
   },
 ]
 
 export default function Services() {
+  const { t, tArr } = useLanguage()
+
   const [active, setActive] = useState(0)
-  const div = divisions[active]
+  const div = DIVISION_KEYS[active]
 
-  /* ── Refs for parallax targets ── */
-  const sectionRef    = useRef(null)
-  const watermarkRef  = useRef(null)
-  const headerRef     = useRef(null)
-  const gridRef       = useRef(null)
-  const closingRef    = useRef(null)
-  const sidebarRef    = useRef(null)
-  const bgShapeRef    = useRef(null)
+  const sectionRef   = useRef(null)
+  const watermarkRef = useRef(null)
+  const headerRef    = useRef(null)
+  const gridRef      = useRef(null)
+  const closingRef   = useRef(null)
+  const sidebarRef   = useRef(null)
+  const bgShapeRef   = useRef(null)
 
-  /* ── Scroll + mouse parallax ── */
   useEffect(() => {
     const scrollState = { current: 0, target: 0 }
     const mouseState  = { x: 0, y: 0, cx: 0, cy: 0 }
@@ -114,74 +61,45 @@ export default function Services() {
     const onScroll = () => {
       const section = sectionRef.current
       if (!section) return
-      const rect = section.getBoundingClientRect()
-      // progress: how far section has scrolled into view (0 = top of section at viewport bottom, 1 = bottom)
-      scrollState.target = Math.max(0, -rect.top)
+      scrollState.target = Math.max(0, -section.getBoundingClientRect().top)
     }
-
     const onMouse = (e) => {
       mouseState.x = (e.clientX / window.innerWidth  - 0.5) * 2
       mouseState.y = (e.clientY / window.innerHeight - 0.5) * 2
     }
-
     const tick = () => {
       rafId = requestAnimationFrame(tick)
-
-      // lerp scroll
       scrollState.current += (scrollState.target - scrollState.current) * 0.07
       const y = scrollState.current
-
-      // lerp mouse
       mouseState.cx += (mouseState.x - mouseState.cx) * 0.05
       mouseState.cy += (mouseState.y - mouseState.cy) * 0.05
-      const mx = mouseState.cx
-      const my = mouseState.cy
+      const mx = mouseState.cx, my = mouseState.cy
 
-      // Watermark — drifts fastest, also mouse-driven
       if (watermarkRef.current) {
         watermarkRef.current.style.transform =
           `translateY(${y * -0.28}px) translateX(${mx * 18}px)`
         watermarkRef.current.style.opacity =
           Math.max(0, 0.07 - y * 0.00008).toString()
       }
-
-      // Header — mid speed scroll + subtle mouse shift
-      if (headerRef.current) {
+      if (headerRef.current)
         headerRef.current.style.transform =
           `translateY(${y * -0.12}px) translate(${mx * -5}px, ${my * -3}px)`
-      }
-
-      // Grid — slowest scroll layer
-      if (gridRef.current) {
-        gridRef.current.style.transform =
-          `translateY(${y * -0.06}px)`
-      }
-
-      // Closing — very slight
-      if (closingRef.current) {
-        closingRef.current.style.transform =
-          `translateY(${y * -0.04}px)`
-      }
-
-      // Sidebar — counter-scroll (slight opposite direction creates depth)
-      if (sidebarRef.current) {
-        sidebarRef.current.style.transform =
-          `translateY(${y * 0.04}px)`
-      }
-
-      // Background shape — mouse parallax only
-      if (bgShapeRef.current) {
+      if (gridRef.current)
+        gridRef.current.style.transform  = `translateY(${y * -0.06}px)`
+      if (closingRef.current)
+        closingRef.current.style.transform = `translateY(${y * -0.04}px)`
+      if (sidebarRef.current)
+        sidebarRef.current.style.transform = `translateY(${y * 0.04}px)`
+      if (bgShapeRef.current)
         bgShapeRef.current.style.transform =
           `translate(${mx * -22}px, ${my * -14}px) scale(1.1)`
-      }
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("mousemove", onMouse, { passive: true })
+    window.addEventListener("scroll",    onScroll, { passive: true })
+    window.addEventListener("mousemove", onMouse,  { passive: true })
     rafId = requestAnimationFrame(tick)
-
     return () => {
-      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("scroll",    onScroll)
       window.removeEventListener("mousemove", onMouse)
       cancelAnimationFrame(rafId)
     }
@@ -189,24 +107,22 @@ export default function Services() {
 
   return (
     <section className="services" id="services" ref={sectionRef}>
-
-      {/* Floating background shape — mouse parallax */}
       <div className="sv-bg-shape" ref={bgShapeRef} />
 
       <div className="services-container">
 
         {/* ── Left sidebar ── */}
         <aside className="sv-sidebar" ref={sidebarRef}>
-          <span className="sv-sidebar-label">Our Services</span>
+          <span className="sv-sidebar-label">{t("servicesSideLabel")}</span>
           <nav className="sv-tabs">
-            {divisions.map((d, i) => (
+            {DIVISION_KEYS.map((d, i) => (
               <button
                 key={d.id}
                 className={`sv-tab ${i === active ? "sv-tab-active" : ""}`}
                 onClick={() => setActive(i)}
               >
                 <span className="sv-tab-num">{d.number}</span>
-                <span className="sv-tab-name">{d.label}</span>
+                <span className="sv-tab-name">{t(d.labelKey)}</span>
                 <span className="sv-tab-arrow">→</span>
               </button>
             ))}
@@ -215,31 +131,34 @@ export default function Services() {
 
         {/* ── Right content panel ── */}
         <div className="sv-content">
-
-          {/* Watermark — deepest parallax layer */}
           <span className="sv-watermark" ref={watermarkRef} aria-hidden="true">
             {div.number}
           </span>
 
-          {/* Header */}
           <div className="sv-header" ref={headerRef}>
             <div className="sv-header-left">
-              <span className="sv-eyebrow">Services {div.number}</span>
-              <h2 className="sv-title">{div.label}</h2>
+              <span className="sv-eyebrow">{t("servicesEyebrow")} {div.number}</span>
+              {/* Font Roc Grotesk Bold diatur via .sv-title di Portfolio.css */}
+              <h2 className="sv-title">{t(div.labelKey)}</h2>
             </div>
-            <p className="sv-tagline">{div.tagline}</p>
+            <p className="sv-tagline">{t(div.taglineKey)}</p>
           </div>
 
-          {/* Service columns */}
-          <div className={`sv-grid sv-cols-${div.columns.length}`} key={active} ref={gridRef}>
+          <div
+            className={`sv-grid sv-cols-${div.columns.length}`}
+            key={`${active}-${t("servicesSideLabel")}`}
+            ref={gridRef}
+          >
             {div.columns.map((col, i) => (
               <div className="sv-col" key={i}>
                 <div className="sv-col-header">
                   <span className="sv-col-index">0{i + 1}</span>
-                  {col.title && <h4 className="sv-col-title">{col.title}</h4>}
+                  {col.titleKey && (
+                    <h4 className="sv-col-title">{t(col.titleKey)}</h4>
+                  )}
                 </div>
                 <ul className="sv-list">
-                  {col.items.map((item, j) => (
+                  {tArr(col.itemsKey).map((item, j) => (
                     <li key={j} className="sv-item">
                       <span className="sv-bullet" />
                       {item}
@@ -250,14 +169,13 @@ export default function Services() {
             ))}
           </div>
 
-          {/* Closing */}
           <div className="sv-closing-wrap" ref={closingRef}>
             <span className="sv-closing-line" />
-            <p className="sv-closing">{div.closing}</p>
+            <p className="sv-closing">{t(div.closingKey)}</p>
             <span className="sv-closing-line" />
           </div>
-
         </div>
+
       </div>
     </section>
   )
