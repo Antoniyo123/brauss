@@ -197,7 +197,7 @@ export default function Hero() {
             <div className="who-stats" ref={statsRef}>
               <div className="who-stat-item">
                 <span className="who-stat-num">3+</span>
-                <span className="who-stat-label">Divisions</span>
+                <span className="who-stat-label">Services</span>
               </div>
               <div className="who-stat-item">
                 <span className="who-stat-num">100+</span>
