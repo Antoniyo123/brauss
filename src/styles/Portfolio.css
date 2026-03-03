@@ -113,7 +113,7 @@
 
 .sv-tab-num {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.62rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #c49ee0;
@@ -440,4 +440,60 @@
   .sv-title   { font-size: 2rem; }
   .sv-tab     { font-size: 0.8rem; padding: 0.8rem 0.9rem 1rem; }
   .sv-tab-num { display: none; }
+}
+
+/* ══════════════════════════════════════
+   FLOATING SPHERES
+══════════════════════════════════════ */
+.sv-spheres {
+  position: absolute;
+  left: -80px;  /* ganti right: -80px menjadi left: -80px */
+  bottom: -60px;
+  width: 420px;
+  height: 520px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sv-sp {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.sv-sp-1 {
+  width: 260px; height: 260px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 35% 30%, #e8d0f8, #b070e0 50%, #7830b0);
+  opacity: 0.55;
+  filter: blur(2px);
+}
+.sv-sp-2 {
+  width: 130px; height: 130px;
+  top: 40px; left: 60px;
+  background: radial-gradient(circle at 38% 32%, #ddc8f5, #a868d0 60%, #8040b0);
+  opacity: 0.65;
+}
+.sv-sp-3 {
+  width: 190px; height: 190px;
+  bottom: 50px; right: 20px;
+  background: radial-gradient(circle at 35% 32%, #d4baf0, #a060c8 55%, #7030a0);
+  opacity: 0.5;
+}
+.sv-sp-4 {
+  width: 80px; height: 80px;
+  top: 60px; right: 40px;
+  background: radial-gradient(circle at 38% 32%, #e8d8f8, #c090e0 60%, #9060c8);
+  opacity: 0.45;
+}
+.sv-sp-5 {
+  width: 100px; height: 100px;
+  bottom: 80px; left: 30px;
+  background: radial-gradient(circle at 38% 32%, #d8c0f0, #a060c0 60%, #7838a8);
+  opacity: 0.4;
+}
+
+@media (max-width: 860px) {
+  .sv-spheres { display: none; }
 }

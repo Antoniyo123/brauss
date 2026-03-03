@@ -52,6 +52,11 @@ export default function Services() {
   const closingRef   = useRef(null)
   const sidebarRef   = useRef(null)
   const bgShapeRef   = useRef(null)
+  const sphere1Ref   = useRef(null)
+  const sphere2Ref   = useRef(null)
+  const sphere3Ref   = useRef(null)
+  const sphere4Ref   = useRef(null)
+  const sphere5Ref   = useRef(null)
 
   useEffect(() => {
     const scrollState = { current: 0, target: 0 }
@@ -93,6 +98,17 @@ export default function Services() {
       if (bgShapeRef.current)
         bgShapeRef.current.style.transform =
           `translate(${mx * -22}px, ${my * -14}px) scale(1.1)`
+
+      if (sphere1Ref.current)
+        sphere1Ref.current.style.transform = `translate(calc(-50% + ${mx * -14}px), calc(-50% + ${y * -0.18 + my * -10}px))`
+      if (sphere2Ref.current)
+        sphere2Ref.current.style.transform = `translate(${mx * -22}px, ${y * -0.30 + my * -16}px)`
+      if (sphere3Ref.current)
+        sphere3Ref.current.style.transform = `translate(${mx * -10}px, ${y * -0.14 + my * -8}px)`
+      if (sphere4Ref.current)
+        sphere4Ref.current.style.transform = `translate(${mx * -26}px, ${y * -0.22 + my * -18}px)`
+      if (sphere5Ref.current)
+        sphere5Ref.current.style.transform = `translate(${mx * -8}px,  ${y * -0.10 + my * -6}px)`
     }
 
     window.addEventListener("scroll",    onScroll, { passive: true })
@@ -108,6 +124,14 @@ export default function Services() {
   return (
     <section className="services" id="services" ref={sectionRef}>
       <div className="sv-bg-shape" ref={bgShapeRef} />
+
+      <div className="sv-spheres" aria-hidden="true">
+        <div className="sv-sp sv-sp-1" ref={sphere1Ref} />
+        <div className="sv-sp sv-sp-2" ref={sphere2Ref} />
+        <div className="sv-sp sv-sp-3" ref={sphere3Ref} />
+        <div className="sv-sp sv-sp-4" ref={sphere4Ref} />
+        <div className="sv-sp sv-sp-5" ref={sphere5Ref} />
+      </div>
 
       <div className="services-container">
 
@@ -138,7 +162,6 @@ export default function Services() {
           <div className="sv-header" ref={headerRef}>
             <div className="sv-header-left">
               <span className="sv-eyebrow">{t("servicesEyebrow")} {div.number}</span>
-              {/* Font Roc Grotesk Bold diatur via .sv-title di Portfolio.css */}
               <h2 className="sv-title">{t(div.labelKey)}</h2>
             </div>
             <p className="sv-tagline">{t(div.taglineKey)}</p>

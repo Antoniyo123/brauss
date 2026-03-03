@@ -52,6 +52,7 @@ export default function Services() {
   const closingRef   = useRef(null)
   const sidebarRef   = useRef(null)
   const bgShapeRef   = useRef(null)
+  
 
   useEffect(() => {
     const scrollState = { current: 0, target: 0 }
