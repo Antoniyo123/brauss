@@ -107,24 +107,28 @@
 
 /* ── Heading ── */
 .who-heading {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   font-family: 'Roc Grotesk', sans-serif;
   font-weight: 800;
   color: #1a0c36;
   line-height: 0.87;
   will-change: transform;
+  text-align: left; /* ← tambahkan ini */
 }
 .who-heading .line1 {
   display: block;
-  font-size: clamp(3.8rem, 7.2vw, 6.2rem);
+  font-size: clamp(2.8rem, 7.2vw, 4.5rem);
   letter-spacing: -3px;
-  font-style: italic;
+  font-style: normal;
 }
 .who-heading .line2 {
-  margin-left: 6rem;
+  /* margin-left: 6rem; */
   display: block;
-  font-size: clamp(3.8rem, 7.2vw, 6.2rem);
+  font-size: clamp(2.8rem, 7.2vw, 4.5rem);
   letter-spacing: -3px;
-  padding-left: 3.8rem;
+  /* padding-left: 3.8rem; */
   background: linear-gradient(135deg, rgb(26 12 54 / 40%) 0%, rgb(110 55 190 / 68%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -192,7 +196,7 @@
 }
 
 .who-stat-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Roc Grotesk', sans-serif;
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.5px;

@@ -228,7 +228,7 @@ export default function Hero() {
                 <span className="who-stat-label">{t("heroStat2Label")}</span>
               </div>
               <div className="who-stat-item">
-                <span className="who-stat-num">{t("heroStat3Num")}</span>
+                <span className="who-stat-num">{t("heroStat3Label")}</span>
                 <span className="who-stat-label">{t("heroStat3Label")}</span>
               </div>
             </div>
