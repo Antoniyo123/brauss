@@ -3,8 +3,8 @@
 ══════════════════════════════════════ */
 
 @font-face {
-  font-family: 'Roc Grotesk';
-  src: url('../assets/fonts/Fontspring-DEMO-rocgrotesk-bold.otf') format('opentype');
+  font-family: 'Plus Jakarta Sans';
+  src: url('../assets/fonts/PlusJakartaSans-ExtraBold.ttf') format('opentype');
   font-weight: 700;
   font-style:  normal;
   font-display: swap;
@@ -89,7 +89,7 @@
 
 /* Heading — parallax target */
 .trusted-heading {
-  font-family: 'Roc Grotesk', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(2.4rem, 3.5vw, 3.6rem);
   color: #1a0c36;

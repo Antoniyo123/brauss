@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Roc Grotesk';
-  src: url('../assets/fonts/Fontspring-DEMO-rocgrotesk-bold.otf') format('opentype');
+  font-family: 'Plus Jakarta Sans';
+  src: url('../assets/fonts/PlusJakartaSans-ExtraBold.ttf') format('opentype');
   font-weight: 700;
   font-style:  normal;
   font-display: swap;
@@ -110,7 +110,7 @@
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  font-family: 'Roc Grotesk', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   color: #1a0c36;
   line-height: 0.87;
@@ -196,7 +196,7 @@
 }
 
 .who-stat-num {
-  font-family: 'Roc Grotesk', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.5px;
