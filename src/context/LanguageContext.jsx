@@ -13,7 +13,7 @@ export const translations = {
     heroHeadLine1:  "who",
     heroHeadLine2:  "we are",
     heroDesc:       "A creative house within the creative industry, developing original ideas, brand experiences and intellectual properties with long‑term value.",
-    heroStat1Num:   "360",
+    heroStat1Num: "360\u00B0",
     heroStat1Label: "Creative Expertise",
     heroStat2Num:   "100+",
     heroStat2Label: "Projects",
