@@ -17,8 +17,8 @@ export const translations = {
     heroStat1Label: "Creative Expertise",
     heroStat2Num:   "100+",
     heroStat2Label: "Projects",
-    heroStat3Num:   "Est.",
-    heroStat3Label: "Operating Since 2022",
+    heroStat3Num:   "Since 2022",
+    heroStat3Label: "creating experiences",
     heroTagline:    "From ideas to owned impact.\nWe build creative assets\nand experiences that live\nbeyond a single project.",
 
     // ── Services ─────────────────────────────────────────────
@@ -99,8 +99,8 @@ export const translations = {
     heroStat1Label: "Keahlian Kreatif",
     heroStat2Num:   "100+",
     heroStat2Label: "Proyek",
-    heroStat3Num:   "Est.",
-    heroStat3Label: "Beroperasi Sejak 2022",
+    heroStat3Num:   "Sejak 2022",
+    heroStat3Label: "menciptakan pengalaman",
     heroTagline:    "Dari ide menuju dampak nyata.\nKami membangun aset kreatif\ndan pengalaman yang hidup\nmelampaui satu proyek.",
 
     // ── Services ─────────────────────────────────────────────
