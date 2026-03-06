@@ -1,77 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<meta charset="UTF-8" />
+  <title>BRAUSS Creative</title>
+  <meta name="description" content="BRAUSS — Creative direction, visual identity, and brand experiences." />
 
-<!-- Viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="BRAUSS" />
+  <meta property="og:description" content="Creative direction and brand experiences." />
+  <meta property="og:image" content="/og-brauss.png" />
+  <meta property="og:type" content="website" />
 
-<!-- Title -->
-<title>Brauss Networks</title>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BRAUSS" />
+  <meta name="twitter:description" content="Creative direction and brand experiences." />
+  <meta name="twitter:image" content="/og-brauss.png" />
 
-<!-- SEO Description -->
-<meta
-name="description"
-content="Brauss Networks is a creative house developing original ideas, brand experiences and intellectual properties with long-term value."
-/>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-<!-- Author -->
-<meta name="author" content="Brauss Networks" />
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:#0a0a0a;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      text-align:center;
+    }
 
-<!-- Robots -->
-<meta name="robots" content="index, follow" />
+    .container{
+      max-width:900px;
+      padding:40px;
+    }
 
-<!-- Canonical -->
-<link rel="canonical" href="https://braussnetworks.com" />
+    .logo{
+      width:420px;
+      max-width:90%;
+      margin-bottom:40px;
+    }
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="64x64" href="/logo-white (1).png" />
+    h1{
+      font-size:48px;
+      letter-spacing:-1px;
+      margin-bottom:20px;
+    }
 
-<!-- ================= Open Graph ================= -->
+    p{
+      font-size:18px;
+      opacity:0.7;
+      line-height:1.6;
+      max-width:520px;
+      margin:auto;
+    }
 
-<meta property="og:title" content="Brauss Networks" />
-<meta property="og:description" content="Creative house developing ideas, brand experiences and intellectual properties." />
-<meta property="og:image" content="https://braussnetworks.com/og-image.png" />
-<meta property="og:url" content="https://braussnetworks.com" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Brauss Networks" />
+    .cta{
+      margin-top:40px;
+    }
 
-<!-- ================= Twitter Card ================= -->
+    .cta a{
+      display:inline-block;
+      padding:14px 28px;
+      border-radius:40px;
+      text-decoration:none;
+      background:#7b4cff;
+      color:white;
+      font-weight:500;
+      transition:0.3s;
+    }
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Brauss Networks" />
-<meta name="twitter:description" content="Creative house developing ideas, brand experiences and intellectual properties." />
-<meta name="twitter:image" content="https://braussnetworks.com/og-image.png" />
+    .cta a:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 30px rgba(123,76,255,0.4);
+    }
 
-<!-- ================= Theme Color ================= -->
-
-<meta name="theme-color" content="#000000" />
-
-<!-- ================= Structured Data (Google) ================= -->
-
-<script type="application/ld+json">
-{
-"@context": "https://schema.org",
-"@type": "Organization",
-"name": "Brauss Networks",
-"url": "https://braussnetworks.com",
-"logo": "https://braussnetworks.com/og-image.png",
-"description": "Creative house developing ideas, brand experiences and intellectual properties.",
-"sameAs": [
-"https://instagram.com/",
-"https://linkedin.com/"
-]
-}
-</script>
-
+    footer{
+      position:absolute;
+      bottom:20px;
+      font-size:12px;
+      opacity:0.5;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="root"></div>
+  <div class="container">
 
-<script type="module" src="/src/main.jsx"></script>
+    <!-- Logo -->
+    <img src="/brauss-logo.png" class="logo" alt="BRAUSS logo">
+
+    <h1>BRAUSS</h1>
+
+    <p>
+      A creative house focused on visual identity, digital presence, 
+      and brand experiences with long-term cultural value.
+    </p>
+
+    <div class="cta">
+      <a href="mailto:hello@brauss.studio">Get in touch</a>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2022 BRAUSS
+  </footer>
 
 </body>
 </html>
