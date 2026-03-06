@@ -115,7 +115,7 @@
   color: #1a0c36;
   line-height: 0.87;
   will-change: transform;
-  text-align: left; /* ← tambahkan ini */
+  text-align: left;
 }
 .who-heading .line1 {
   display: block;
@@ -124,11 +124,9 @@
   font-style: normal;
 }
 .who-heading .line2 {
-  /* margin-left: 6rem; */
   display: block;
   font-size: clamp(2.8rem, 7.2vw, 4.5rem);
   letter-spacing: -3px;
-  /* padding-left: 3.8rem; */
   background: linear-gradient(135deg, rgb(26 12 54 / 40%) 0%, rgb(110 55 190 / 68%) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -423,7 +421,7 @@
 }
 
 /* ═══════════════════════════════════════
-   NODES — ikut spinner, teks counter-rotate
+   NODES
 ═══════════════════════════════════════ */
 .eco-node {
   position: absolute;
@@ -452,7 +450,6 @@
     0 -1px 0 rgba(0,0,0,0.04) inset;
 }
 
-/* Node positions — sama dengan sebelumnya */
 .node-top    {
   top: -22px; left: 50%;
   transform: translateX(-50%);
@@ -467,13 +464,7 @@
   white-space: normal; width: 112px;
 }
 
-/*
-  Counter-rotate inner content agar teks tetap tegak saat node ikut berputar.
-  JS mengupdate --spin setiap frame sesuai angle spinner.
-*/
-.eco-node::before {
-  content: attr(data-label);
-}
+.eco-node::before { content: attr(data-label); }
 
 .node-top    > *,
 .node-left   > *,
@@ -483,17 +474,7 @@
   transform: rotate(calc(var(--spin, 0) * -1deg));
 }
 
-/*
-  Karena konten node adalah text node langsung (bukan child element),
-  kita wrap teks dengan span lewat CSS display trick —
-  tapi karena JSX sudah menghasilkan text node, kita pakai
-  pendekatan berbeda: counter-rotate seluruh node dengan
-  CSS animation yang sync dengan JS angle via custom property.
-*/
-
-/* Setiap node counter-rotates dirinya sendiri */
 .diagram-spinner .eco-node {
-  /* akan di-set oleh JS via style.setProperty */
   transform-origin: center center;
 }
 
@@ -503,17 +484,17 @@
 
 /* ── Tablet landscape: 901px – 1200px ── */
 @media (max-width: 1200px) {
-  /* .who-left  { padding: 6rem 3.5rem 3.5rem; } */
   .who-heading .line1,
   .who-heading .line2 { font-size: clamp(3rem, 6vw, 5rem); }
   .who-heading .line2 { padding-left: 2.8rem; }
   .who-desc   { max-width: 300px; }
-  .diagram-wrapper { width: 300px; height: 300px; }
-  .diagram    { width: 300px; height: 300px; }
-  .diagram-static { width: 300px; height: 300px; }
+  .diagram-wrapper, .diagram, .diagram-static { width: 300px; height: 300px; }
 }
 
-/* ── Tablet portrait: 768px – 900px ── */
+/* ══════════════════════════════════════════════════
+   TABLET PORTRAIT — 768px – 900px
+   Layout: LEFT di atas, RIGHT di bawah
+══════════════════════════════════════════════════ */
 @media (max-width: 900px) {
   .who-page {
     flex-direction: column;
@@ -521,14 +502,12 @@
     min-height: 100vh;
   }
 
-  /* Left stacks on top */
   .who-left {
     flex: none;
     width: 100%;
-    padding: 5rem 3rem 3rem;
+    padding: 6rem 3rem 3rem;
   }
 
-  /* Right fills remaining */
   .who-right {
     flex: none;
     width: 100%;
@@ -538,144 +517,214 @@
 
   .cursor-glow { display: none; }
 
+  /* Heading lebih besar */
   .who-heading .line1,
-  .who-heading .line2 { font-size: 3rem; letter-spacing: -1.5px; }
-  .who-heading .line2 { padding-left: 2.2rem; }
+  .who-heading .line2 {
+    font-size: clamp(3.2rem, 7vw, 4.2rem);
+    letter-spacing: -2px;
+  }
 
-  .who-desc   { max-width: 100%; font-size: 0.85rem; }
+  /* Desc lebih besar & max-width penuh */
+  .who-desc {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-top: 1.4rem;
+  }
 
-  .who-stats  { gap: 0; margin-top: 1.6rem; padding-top: 1.4rem; }
-  .who-stat-item { padding: 0 1.2rem; }
-  .who-stat-num  { font-size: 1.4rem; }
+  .who-stats  { gap: 0; margin-top: 1.8rem; padding-top: 1.6rem; }
+  .who-stat-item { padding: 0 1.4rem; }
+  .who-stat-num  { font-size: 1.6rem; }
+  .who-stat-label { font-size: 0.58rem; }
 
-  .diagram-wrapper { width: 280px; height: 280px; }
-  .diagram    { width: 280px; height: 280px; }
-  .diagram-static { width: 280px; height: 280px; }
+  .tagline-hero { font-size: 0.9rem; }
 
+  .diagram-wrapper, .diagram, .diagram-static { width: 280px; height: 280px; }
   .eco-node   { font-size: 0.6rem; padding: 0.4rem 1rem; }
   .node-left  { left: -52px; }
   .node-right { right: -52px; }
   .node-top   { top: -18px; }
   .node-bottom { bottom: -20px; width: 96px; }
-
   .eco-center { width: 100px; height: 100px; }
   .eco-center-text img { width: 52px; }
-
-  /* Rings — scale down */
   .px-ring-1 { width: 440px; height: 440px; }
   .px-ring-2 { width: 300px; height: 300px; }
 }
 
-/* ── Mobile large: 560px – 767px ── */
+/* ══════════════════════════════════════════════════
+   MOBILE LARGE — 560px – 767px
+══════════════════════════════════════════════════ */
 @media (max-width: 767px) {
-  .who-left  { padding: 4rem 2.2rem 2.5rem; }
+  .who-left { padding: 5rem 2.2rem 2.8rem; }
 
+  /* Heading ukuran layak baca */
   .who-heading .line1,
-  .who-heading .line2 { font-size: 2.6rem; letter-spacing: -1.2px; }
-  .who-heading .line2 { padding-left: 1.8rem; }
+  .who-heading .line2 {
+    font-size: clamp(2.8rem, 8.5vw, 3.4rem);
+    letter-spacing: -1.5px;
+  }
+  .who-heading { line-height: 0.9; }
 
-  .who-desc  { font-size: 0.82rem; line-height: 1.85; }
+  /* Desc lebih besar */
+  .who-desc {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    margin-top: 1.4rem;
+  }
 
-  .who-stats { flex-wrap: wrap; }
+  /* Stats: 2 kolom */
+  .who-stats {
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+    padding-top: 1.4rem;
+    row-gap: 1.2rem;
+  }
   .who-stat-item {
-    flex: 0 0 50%;
-    padding: 0.8rem 0.8rem;
+    flex: 0 0 calc(50% - 0.8rem);
+    padding: 0 0.8rem;
   }
   .who-stat-item:first-child { padding-left: 0; }
   .who-stat-item + .who-stat-item::before { display: none; }
-  .who-stat-num  { font-size: 1.3rem; }
-  .who-stat-label { font-size: 0.52rem; }
+  .who-stat-num  { font-size: 1.5rem; }
+  .who-stat-label { font-size: 0.56rem; letter-spacing: 0.18em; }
+
+  /* Tagline */
+  .tagline-hero { font-size: 0.85rem; line-height: 1.8; }
+  .divider-line { margin-bottom: 1.1rem; }
 
   .who-right  { min-height: 50vh; }
 
-  .diagram-wrapper { width: 250px; height: 250px; }
-  .diagram    { width: 250px; height: 250px; }
-  .diagram-static { width: 250px; height: 250px; }
-
+  .diagram-wrapper, .diagram, .diagram-static { width: 250px; height: 250px; }
   .eco-node   { font-size: 0.55rem; padding: 0.35rem 0.8rem; }
   .node-left  { left: -46px; }
   .node-right { right: -46px; }
   .node-top   { top: -16px; }
   .node-bottom { bottom: -18px; width: 88px; }
-
   .eco-center { width: 90px; height: 90px; }
   .eco-center-text img { width: 46px; }
-
   .px-ring-1  { width: 360px; height: 360px; }
   .px-ring-2  { display: none; }
   .px-ring-3  { width: 200px; height: 200px; }
   .px-ring-4  { display: none; }
-
-  .tagline-hero { font-size: 0.78rem; }
 }
 
-/* ── Mobile small: ≤ 480px ── */
+/* ══════════════════════════════════════════════════
+   MOBILE — ≤ 480px
+   Layout paling compact, semua teks diperbesar relatif
+══════════════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .who-left  { padding: 3.5rem 1.6rem 2rem; }
+  .who-left { padding: 5rem 1.6rem 2.2rem; }
 
+  .who-top-block { gap: 0; }
+
+  /* Heading — bold & besar */
+  .who-heading {
+    line-height: 0.92;
+    margin-top: 8px;
+  }
   .who-heading .line1,
-  .who-heading .line2 { font-size: 2.1rem; letter-spacing: -0.8px; }
-  .who-heading .line2 { padding-left: 1.2rem; }
+  .who-heading .line2 {
+    font-size: clamp(2.6rem, 10vw, 3.2rem);
+    letter-spacing: -1.5px;
+  }
 
-  .who-desc  { font-size: 0.8rem; margin-top: 1.2rem; }
+  /* Sembunyikan dots agar tidak ramai */
+  .splatter { display: none; }
 
+  /* Desc — ukuran besar & line-height nyaman */
+  .who-desc {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    max-width: 100%;
+    margin-top: 1.2rem;
+    color: rgba(42, 26, 80, 0.8);
+  }
+
+  /* Stats — row horizontal, angka di atas label di bawah */
   .who-stats {
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    gap: 0;
+    margin-top: 1.6rem;
     padding-top: 1.2rem;
+    border-top: 1px solid rgba(26,12,54,0.07);
   }
   .who-stat-item {
-    flex: none;
-    width: 100%;
-    padding: 0;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.8rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 0 1rem;
+    flex: 1;
+    border-bottom: none;
+    width: auto;
   }
-  .who-stat-item + .who-stat-item::before { display: none; }
-  .who-stat-num  { font-size: 1.2rem; min-width: 48px; }
-  .who-stat-label { letter-spacing: 0.15em; }
+  .who-stat-item:last-child { border-bottom: none; }
+  .who-stat-item:first-child { padding-left: 0; }
+  .who-stat-item + .who-stat-item::before {
+    display: block;
+    position: absolute;
+    left: 0; top: 10%; bottom: 10%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(26,12,54,0.1), transparent);
+  }
+  .who-stat-num {
+    font-size: 1.5rem;
+    min-width: unset;
+    flex-shrink: unset;
+  }
+  .who-stat-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+  }
+
+  /* Tagline */
+  .tagline-hero {
+    font-size: 0.82rem;
+    line-height: 1.75;
+  }
+  .divider-line { margin-bottom: 1rem; }
 
   .who-right  { min-height: 44vh; }
 
-  .diagram-wrapper { width: 210px; height: 210px; }
-  .diagram    { width: 210px; height: 210px; }
-  .diagram-static { width: 210px; height: 210px; }
-
+  .diagram-wrapper, .diagram, .diagram-static { width: 210px; height: 210px; }
   .eco-node   { font-size: 0.5rem; padding: 0.3rem 0.65rem; letter-spacing: 0.05em; }
   .node-left  { left: -38px; }
   .node-right { right: -38px; }
   .node-top   { top: -14px; }
   .node-bottom { bottom: -16px; width: 78px; font-size: 0.48rem; }
-
   .eco-center { width: 76px; height: 76px; }
   .eco-center-text img { width: 38px; }
-
   .px-ring-1  { width: 290px; height: 290px; }
   .px-ring-3  { width: 160px; height: 160px; }
-
-  .tagline-hero { font-size: 0.74rem; line-height: 1.8; }
-  .divider-line { margin-bottom: 1rem; }
-
-  .splatter   { display: none; }
 }
 
-/* ── Mobile XS: ≤ 360px ── */
+/* ══════════════════════════════════════════════════
+   MOBILE XS — ≤ 360px
+══════════════════════════════════════════════════ */
 @media (max-width: 360px) {
-  .who-left   { padding: 3rem 1.2rem 1.8rem; }
+  .who-left { padding: 4.5rem 1.2rem 2rem; }
 
   .who-heading .line1,
-  .who-heading .line2 { font-size: 1.85rem; letter-spacing: -0.5px; }
-  .who-heading .line2 { padding-left: 0.8rem; }
+  .who-heading .line2 {
+    font-size: clamp(2.2rem, 10.5vw, 2.6rem);
+    letter-spacing: -1px;
+  }
 
-  .diagram-wrapper { width: 180px; height: 180px; }
-  .diagram    { width: 180px; height: 180px; }
-  .diagram-static { width: 180px; height: 180px; }
+  .who-desc {
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
 
+  .who-stat-num  { font-size: 1.3rem; min-width: 48px; }
+  .who-stat-label { font-size: 0.58rem; }
+  .who-stat-item { padding: 0.6rem 0; }
+
+  .tagline-hero { font-size: 0.76rem; }
+
+  .diagram-wrapper, .diagram, .diagram-static { width: 180px; height: 180px; }
   .eco-node   { font-size: 0.44rem; padding: 0.25rem 0.5rem; }
   .node-left  { left: -32px; }
   .node-right { right: -32px; }
-
   .eco-center { width: 66px; height: 66px; }
   .eco-center-text img { width: 32px; }
 }

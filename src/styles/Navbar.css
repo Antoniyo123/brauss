@@ -56,7 +56,6 @@
 .navbar.scrolled {
   top: 14px;
   height: 64px;
-  /* Center the pill by using symmetric padding */
   padding: 0 max(2rem, calc((100% - min(1000px, 92vw)) / 2));
 }
 
@@ -262,9 +261,9 @@
    HAMBURGER
 ──────────────────────────────────────────── */
 .nav-burger {
-  color: white;
   display: none;
   flex-direction: column;
+  align-items: flex-end;
   gap: 5px; 
   cursor: pointer;
   padding: 8px;
@@ -276,25 +275,46 @@
 
 .nav-burger span {
   display: block;
-  width: 24px; 
   height: 1.5px;
-  background: #7c3aaa; 
+  background: #7c3aaa;
   border-radius: 2px;
-  transition: all 0.35s ease;
   transform-origin: center;
+  transition:
+    transform  0.5s  cubic-bezier(0.77, 0, 0.175, 1),
+    opacity    0.35s cubic-bezier(0.4,  0, 0.2,   1),
+    width      0.4s  cubic-bezier(0.4,  0, 0.2,   1),
+    background 0.4s  ease;
 }
 
-.nav-burger.open span:nth-child(1) { 
-  transform: translateY(6.5px) rotate(45deg); 
+/* Putih saat navbar sudah scrolled (background gelap) */
+.navbar.scrolled .nav-burger span {
+  background: #ffffff;
 }
 
-.nav-burger.open span:nth-child(2) { 
-  opacity: 0; 
-  transform: scaleX(0); 
+/* Baris 1: full width */
+.nav-burger span:nth-child(1) { width: 24px; }
+
+/* Baris 2: lebih pendek — biar ada ritme visual */
+.nav-burger span:nth-child(2) { width: 16px; }
+
+/* Baris 3: full width */
+.nav-burger span:nth-child(3) { width: 24px; }
+
+/* ── State terbuka — animasi X ── */
+.nav-burger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+  width: 24px;
 }
 
-.nav-burger.open span:nth-child(3) { 
-  transform: translateY(-6.5px) rotate(-45deg); 
+.nav-burger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+  width: 0;
+}
+
+.nav-burger.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+  width: 24px;
 }
 
 /* ────────────────────────────────────────────
@@ -313,7 +333,9 @@
   opacity: 0; 
   visibility: hidden; 
   pointer-events: none;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  transition:
+    opacity    0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-drawer.open {
@@ -336,7 +358,10 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   z-index: 1100;
-  transition: all 0.3s ease;
+  transition:
+    background   0.3s ease,
+    border-color 0.3s ease,
+    transform    0.5s cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 48px;
   min-height: 48px;
   align-items: center;
@@ -355,8 +380,10 @@
   height: 2px;
   background: white;
   border-radius: 2px;
-  transition: all 0.35s ease;
   transform-origin: center;
+  transition:
+    transform  0.5s  cubic-bezier(0.77, 0, 0.175, 1),
+    opacity    0.35s cubic-bezier(0.4,  0, 0.2,   1);
 }
 
 .nav-drawer-close.open span:nth-child(1) {
@@ -383,6 +410,22 @@
   padding: 4rem 2rem;
 }
 
+/* Staggered fade-in untuk setiap item menu */
+.nav-drawer-content > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-drawer.open .nav-drawer-content > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.10s; }
+.nav-drawer.open .nav-drawer-content > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.17s; }
+.nav-drawer.open .nav-drawer-content > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.24s; }
+.nav-drawer.open .nav-drawer-content > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.31s; }
+.nav-drawer.open .nav-drawer-content > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.38s; }
+.nav-drawer.open .nav-drawer-content > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.44s; }
+
 .nav-drawer-content a,
 .nav-drawer-content > button {
   background: none; 
@@ -397,7 +440,9 @@
   padding: 0;
   display: block; 
   text-align: center;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color     0.3s ease,
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
@@ -411,7 +456,7 @@
   width: 0;
   height: 2px;
   background: var(--nav-gold);
-  transition: width 0.3s ease;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-drawer-content a:hover::after,
@@ -455,463 +500,139 @@
    RESPONSIVE BREAKPOINTS
 ════════════════════════════════════════════════════════════ */
 
-/* ────────────────────────────────────────────
-   LARGE DESKTOP (1440px+)
-──────────────────────────────────────────── */
+/* ── Large Desktop (1440px+) ── */
 @media (min-width: 1440px) {
-  .navbar {
-    padding: 0 6rem;
-  }
-  
-  .navbar.scrolled {
-    padding: 0 max(3rem, calc((100% - 1200px) / 2));
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    max-width: 1200px;
-    padding: 0 2.5rem;
-  }
-  
-  .nav-links li a,
-  .nav-links li button {
-    font-size: 0.85rem;
-    padding: 0.5rem 1.2rem;
-  }
-  
-  .nav-logo img {
-    height: 220px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 100px;
-  }
+  .navbar { padding: 0 6rem; }
+  .navbar.scrolled { padding: 0 max(3rem, calc((100% - 1200px) / 2)); }
+  .navbar.scrolled .navbar-inner { max-width: 1200px; padding: 0 2.5rem; }
+  .nav-links li a, .nav-links li button { font-size: 0.85rem; padding: 0.5rem 1.2rem; }
+  .nav-logo img { height: 220px; }
+  .navbar.scrolled .nav-logo img { height: 100px; }
 }
 
-/* ────────────────────────────────────────────
-   DESKTOP (1024px - 1439px)
-──────────────────────────────────────────── */
+/* ── Desktop (1024px - 1439px) ── */
 @media (max-width: 1439px) and (min-width: 1024px) {
-  .navbar {
-    padding: 0 4rem;
-  }
-  
-  .navbar.scrolled {
-    padding: 0 max(2rem, calc((100% - 900px) / 2));
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    max-width: 900px;
-  }
-  
-  .nav-links li a,
-  .nav-links li button {
-    padding: 0.4rem 1rem;
-    font-size: 0.75rem;
-  }
-  
-  .nav-links li a.nav-cta,
-  .nav-links li button.nav-cta {
-    padding: 0.5rem 1.3rem;
-  }
+  .navbar { padding: 0 4rem; }
+  .navbar.scrolled { padding: 0 max(2rem, calc((100% - 900px) / 2)); }
+  .navbar.scrolled .navbar-inner { max-width: 900px; }
+  .nav-links li a, .nav-links li button { padding: 0.4rem 1rem; font-size: 0.75rem; }
+  .nav-links li a.nav-cta, .nav-links li button.nav-cta { padding: 0.5rem 1.3rem; }
 }
 
-/* ────────────────────────────────────────────
-   TABLET LANDSCAPE (769px - 1023px)
-──────────────────────────────────────────── */
+/* ── Tablet Landscape (769px - 1023px) ── */
 @media (max-width: 1023px) and (min-width: 769px) {
-  .navbar {
-    padding: 0 2.5rem;
-    height: 80px;
-  }
-  
-  .navbar.scrolled {
-    top: 12px;
-    height: 60px;
-    padding: 0 2rem;
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    max-width: 95%;
-    padding: 0 1.5rem;
-  }
-  
-  .nav-logo img {
-    height: 160px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 75px;
-  }
-  
-  .nav-links li a,
-  .nav-links li button {
-    padding: 0.35rem 0.9rem;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-  }
-  
-  .nav-links li a.nav-cta,
-  .nav-links li button.nav-cta {
-    padding: 0.45rem 1.2rem;
-    margin-left: 0.5rem;
-  }
-  
-  .nav-links li button.nav-lang {
-    padding: 0.25rem 0.7rem !important;
-    font-size: 0.7rem;
-  }
-  
-  .nav-links {
-    gap: 0.15rem;
-  }
+  .navbar { padding: 0 2.5rem; height: 80px; }
+  .navbar.scrolled { top: 12px; height: 60px; padding: 0 2rem; }
+  .navbar.scrolled .navbar-inner { max-width: 95%; padding: 0 1.5rem; }
+  .nav-logo img { height: 160px; }
+  .navbar.scrolled .nav-logo img { height: 75px; }
+  .nav-links li a, .nav-links li button { padding: 0.35rem 0.9rem; font-size: 0.7rem; letter-spacing: 0.12em; }
+  .nav-links li a.nav-cta, .nav-links li button.nav-cta { padding: 0.45rem 1.2rem; margin-left: 0.5rem; }
+  .nav-links li button.nav-lang { padding: 0.25rem 0.7rem !important; font-size: 0.7rem; }
+  .nav-links { gap: 0.15rem; }
 }
 
-/* ────────────────────────────────────────────
-   TABLET PORTRAIT & MOBILE (max-width: 768px)
-──────────────────────────────────────────── */
+/* ── Tablet Portrait & Mobile (max-width: 768px) ── */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0 1.5rem;
-    height: 70px;
-  }
-  
-  .navbar.scrolled {
-    top: 10px;
-    height: 56px;
-    padding: 0 1rem;
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    max-width: 100%;
-    padding: 0 1rem;
-    border-radius: 50px;
-  }
-  
-  .nav-logo img {
-    height: 120px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 60px;
-  }
-  
-  /* Hide desktop navigation */
-  .nav-links {
-    display: none;
-  }
-  
-  /* Show hamburger */
-  .nav-burger {
-    display: flex;
-  }
-  
-  /* Mobile drawer adjustments */
-  .nav-drawer-close {
-    top: 1.25rem;
-    right: 1.25rem;
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  .nav-drawer-close span {
-    width: 22px;
-  }
-  
-  .nav-drawer-content {
-    gap: 1.8rem;
-    padding: 3rem 1rem;
-  }
-  
-  .nav-drawer-content a,
-  .nav-drawer-content > button {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-  }
-  
-  .nav-drawer .nav-drawer-lang {
-    font-size: 1rem;
-    padding: 0.7rem 1.5rem;
-    margin-top: 1.5rem;
-  }
+  .navbar { padding: 0 1.5rem; height: 70px; }
+  .navbar.scrolled { top: 10px; height: 56px; padding: 0 1rem; }
+  .navbar.scrolled .navbar-inner { max-width: 100%; padding: 0 1rem; border-radius: 50px; }
+  .nav-logo img { height: 120px; }
+  .navbar.scrolled .nav-logo img { height: 60px; }
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+
+  .nav-drawer-close { top: 1.25rem; right: 1.25rem; min-width: 44px; min-height: 44px; }
+  .nav-drawer-close span { width: 22px; }
+  .nav-drawer-content { gap: 1.8rem; padding: 3rem 1rem; }
+  .nav-drawer-content a, .nav-drawer-content > button { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+  .nav-drawer .nav-drawer-lang { font-size: 1rem; padding: 0.7rem 1.5rem; margin-top: 1.5rem; }
 }
 
-/* ────────────────────────────────────────────
-   SMALL MOBILE (max-width: 480px)
-──────────────────────────────────────────── */
+/* ── Small Mobile (480px) ── */
 @media (max-width: 480px) {
-  .navbar {
-    padding: 0 1rem;
-    height: 65px;
-  }
-  
-  .navbar.scrolled {
-    top: 8px;
-    height: 52px;
-    padding: 0 0.75rem;
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    padding: 0 0.75rem;
-    border-radius: 40px;
-  }
-  
-  .nav-logo img {
-    height: 100px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 50px;
-  }
-  
-  .nav-burger {
-    padding: 6px;
-  }
-  
-  .nav-burger span {
-    width: 20px;
-    height: 1.5px;
-  }
-  
-  .nav-burger.open span:nth-child(1) {
-    transform: translateY(5.5px) rotate(45deg);
-  }
-  
-  .nav-burger.open span:nth-child(3) {
-    transform: translateY(-5.5px) rotate(-45deg);
-  }
-  
-  /* Mobile drawer close button */
-  .nav-drawer-close {
-    top: 1rem;
-    right: 1rem;
-    min-width: 40px;
-    min-height: 40px;
-    padding: 10px;
-  }
-  
-  .nav-drawer-close span {
-    width: 20px;
-    height: 1.5px;
-  }
-  
-  .nav-drawer-close.open span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-  }
-  
-  .nav-drawer-close.open span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-  }
-  
-  /* Mobile drawer content */
-  .nav-drawer-content {
-    gap: 1.5rem;
-    padding: 2.5rem 0.75rem;
-  }
-  
-  .nav-drawer-content a,
-  .nav-drawer-content > button {
-    font-size: clamp(1.3rem, 4.5vw, 2rem);
-    letter-spacing: 0.05em;
-  }
-  
-  .nav-drawer .nav-drawer-lang {
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-    margin-top: 1rem;
-    letter-spacing: 0.15em;
-  }
-  
-  .nav-drawer-content a:hover,
-  .nav-drawer-content > button:hover,
-  .nav-drawer-content a.active,
-  .nav-drawer-content > button.active {
-    transform: translateX(8px);
-  }
+  .navbar { padding: 0 1rem; height: 65px; }
+  .navbar.scrolled { top: 8px; height: 52px; padding: 0 0.75rem; }
+  .navbar.scrolled .navbar-inner { padding: 0 0.75rem; border-radius: 40px; }
+  .nav-logo img { height: 100px; }
+  .navbar.scrolled .nav-logo img { height: 50px; }
+
+  .nav-burger { padding: 6px; }
+  .nav-burger span:nth-child(1) { width: 20px; }
+  .nav-burger span:nth-child(2) { width: 13px; }
+  .nav-burger span:nth-child(3) { width: 20px; }
+  .nav-burger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); width: 20px; }
+  .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); width: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); width: 20px; }
+
+  .nav-drawer-close { top: 1rem; right: 1rem; min-width: 40px; min-height: 40px; padding: 10px; }
+  .nav-drawer-close span { width: 20px; height: 1.5px; }
+  .nav-drawer-close.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-drawer-close.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .nav-drawer-content { gap: 1.5rem; padding: 2.5rem 0.75rem; }
+  .nav-drawer-content a, .nav-drawer-content > button { font-size: clamp(1.3rem, 4.5vw, 2rem); letter-spacing: 0.05em; }
+  .nav-drawer .nav-drawer-lang { font-size: 0.85rem; padding: 0.6rem 1.2rem; margin-top: 1rem; letter-spacing: 0.15em; }
+  .nav-drawer-content a:hover, .nav-drawer-content > button:hover,
+  .nav-drawer-content a.active, .nav-drawer-content > button.active { transform: translateX(8px); }
 }
 
-/* ────────────────────────────────────────────
-   EXTRA SMALL MOBILE (max-width: 375px)
-──────────────────────────────────────────── */
+/* ── Extra Small Mobile (375px) ── */
 @media (max-width: 375px) {
-  .navbar {
-    padding: 0 0.75rem;
-    height: 60px;
-  }
-  
-  .navbar.scrolled {
-    top: 6px;
-    height: 48px;
-    padding: 0 0.5rem;
-  }
-  
-  .navbar.scrolled .navbar-inner {
-    padding: 0 0.5rem;
-  }
-  
-  .nav-logo img {
-    height: 85px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 45px;
-  }
-  
-  .nav-burger span {
-    width: 18px;
-  }
-  
-  /* Drawer close button for extra small */
-  .nav-drawer-close {
-    top: 0.75rem;
-    right: 0.75rem;
-    min-width: 36px;
-    min-height: 36px;
-    padding: 8px;
-  }
-  
-  .nav-drawer-close span {
-    width: 18px;
-  }
-  
-  .nav-drawer-content {
-    gap: 1.2rem;
-    padding: 2rem 0.5rem;
-  }
-  
-  .nav-drawer-content a,
-  .nav-drawer-content > button {
-    font-size: clamp(1.1rem, 4vw, 1.8rem);
-  }
-  
-  .nav-drawer .nav-drawer-lang {
-    font-size: 0.75rem;
-    padding: 0.5rem 1rem;
-  }
+  .navbar { padding: 0 0.75rem; height: 60px; }
+  .navbar.scrolled { top: 6px; height: 48px; padding: 0 0.5rem; }
+  .navbar.scrolled .navbar-inner { padding: 0 0.5rem; }
+  .nav-logo img { height: 85px; }
+  .navbar.scrolled .nav-logo img { height: 45px; }
+
+  .nav-burger span:nth-child(1) { width: 18px; }
+  .nav-burger span:nth-child(2) { width: 11px; }
+  .nav-burger span:nth-child(3) { width: 18px; }
+  .nav-burger.open span:nth-child(1) { transform: translateY(5px) rotate(45deg); width: 18px; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); width: 18px; }
+
+  .nav-drawer-close { top: 0.75rem; right: 0.75rem; min-width: 36px; min-height: 36px; padding: 8px; }
+  .nav-drawer-close span { width: 18px; }
+  .nav-drawer-content { gap: 1.2rem; padding: 2rem 0.5rem; }
+  .nav-drawer-content a, .nav-drawer-content > button { font-size: clamp(1.1rem, 4vw, 1.8rem); }
+  .nav-drawer .nav-drawer-lang { font-size: 0.75rem; padding: 0.5rem 1rem; }
 }
 
-/* ────────────────────────────────────────────
-   LANDSCAPE ORIENTATION (Mobile/Tablet)
-──────────────────────────────────────────── */
+/* ── Landscape (Mobile/Tablet) ── */
 @media (max-height: 500px) and (orientation: landscape) {
-  .navbar {
-    height: 55px;
-  }
-  
-  .navbar.scrolled {
-    height: 48px;
-    top: 6px;
-  }
-  
-  .nav-logo img {
-    height: 80px;
-  }
-  
-  .navbar.scrolled .nav-logo img {
-    height: 42px;
-  }
-  
-  .nav-drawer-close {
-    top: 0.5rem;
-    right: 0.5rem;
-  }
-  
-  .nav-drawer-content {
-    gap: 1rem;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  
-  .nav-drawer-content a,
-  .nav-drawer-content > button {
-    font-size: clamp(1rem, 3vh, 1.5rem);
-  }
-  
-  .nav-drawer .nav-drawer-lang {
-    font-size: 0.7rem;
-    padding: 0.4rem 0.8rem;
-    margin-top: 0.5rem;
-  }
+  .navbar { height: 55px; }
+  .navbar.scrolled { height: 48px; top: 6px; }
+  .nav-logo img { height: 80px; }
+  .navbar.scrolled .nav-logo img { height: 42px; }
+  .nav-drawer-close { top: 0.5rem; right: 0.5rem; }
+  .nav-drawer-content { gap: 1rem; padding: 1rem; overflow-y: auto; }
+  .nav-drawer-content a, .nav-drawer-content > button { font-size: clamp(1rem, 3vh, 1.5rem); }
+  .nav-drawer .nav-drawer-lang { font-size: 0.7rem; padding: 0.4rem 0.8rem; margin-top: 0.5rem; }
 }
 
-/* ────────────────────────────────────────────
-   TOUCH DEVICE OPTIMIZATIONS
-──────────────────────────────────────────── */
+/* ── Touch Device ── */
 @media (hover: none) and (pointer: coarse) {
-  /* Increase touch targets */
-  .nav-burger {
-    padding: 12px;
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  .nav-drawer-close {
-    min-width: 48px;
-    min-height: 48px;
-  }
-  
-  .nav-drawer-content a,
-  .nav-drawer-content > button {
-    padding: 0.5rem 1rem;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .nav-drawer .nav-drawer-lang {
-    min-height: 44px;
-    min-width: 120px;
-  }
-  
-  /* Remove hover effects on touch devices */
-  .nav-links li a:hover::before,
-  .nav-links li button:hover::before {
-    background: rgba(255, 255, 255, 0);
-  }
-  
-  .nav-logo:hover img {
-    transform: scale(1);
-  }
-  
-  .nav-drawer-close:hover {
-    transform: none;
-  }
+  .nav-burger { padding: 12px; min-width: 44px; min-height: 44px; }
+  .nav-drawer-close { min-width: 48px; min-height: 48px; }
+  .nav-drawer-content a, .nav-drawer-content > button { padding: 0.5rem 1rem; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  .nav-drawer .nav-drawer-lang { min-height: 44px; min-width: 120px; }
+  .nav-links li a:hover::before, .nav-links li button:hover::before { background: rgba(255,255,255,0); }
+  .nav-logo:hover img { transform: scale(1); }
+  .nav-drawer-close:hover { transform: none; }
 }
 
-/* ────────────────────────────────────────────
-   ACCESSIBILITY & REDUCED MOTION
-──────────────────────────────────────────── */
+/* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
-  .nav-burger span {
-    transition: none;
-  }
-  
-  .nav-drawer {
-    transition: none;
-  }
 }
 
-/* ────────────────────────────────────────────
-   HIGH CONTRAST MODE
-──────────────────────────────────────────── */
+/* ── High Contrast ── */
 @media (prefers-contrast: high) {
-  .navbar.scrolled .navbar-inner {
-    border: 2px solid white;
-  }
-  
-  .nav-links li a,
-  .nav-links li button {
-    color: white;
-  }
-  
-  .nav-burger span {
-    background: white;
-  }
+  .navbar.scrolled .navbar-inner { border: 2px solid white; }
+  .nav-links li a, .nav-links li button { color: white; }
+  .nav-burger span { background: white; }
 }

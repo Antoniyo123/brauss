@@ -357,14 +357,23 @@
 
 /* ══════════════════════════════════════
    RESPONSIVE
+   - 1024px : Small desktop
+   - 860px  : Tablet
+   - 600px  : Large mobile
+   - 480px  : Mobile
+   - 360px  : Small mobile
 ══════════════════════════════════════ */
+
+/* ── Small Desktop (1024px) ── */
 @media (max-width: 1024px) {
   .footer-body { grid-template-columns: 1fr auto 0.9fr; }
   .footer-vdivider { margin: 0 3rem; }
+  .footer-cta-inner { gap: 0 3.5rem; }
 }
 
+/* ── Tablet (860px) ── */
 @media (max-width: 860px) {
-  /* Disable parallax on mobile */
+  /* Disable parallax */
   .footer-cta-eyebrow, .footer-cta-heading, .footer-cta-right,
   .footer-logo, .footer-desc, .footer-socials,
   .footer-col, .footer-bar, .footer-orb {
@@ -374,33 +383,120 @@
 
   .footer-cta-inner {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding: 4rem 2rem 3.5rem;
+    gap: 2rem;
+    padding: 3.5rem 2rem 3rem;
   }
   .footer-cta-divider { display: none; }
-  .footer-cta-heading { font-size: 3.4rem; }
+  .footer-cta-heading { font-size: 3.2rem; }
   .footer-cta-right { max-width: 100%; }
 
   .footer-body {
     grid-template-columns: 1fr;
-    gap: 0;
-    padding: 3.5rem 2rem 3rem;
+    padding: 3rem 2rem 2.5rem;
   }
   .footer-vdivider {
     width: 100%; height: 1px;
-    margin: 2.5rem 0;
+    margin: 2rem 0;
     background: linear-gradient(90deg, transparent, rgba(196,158,224,0.35) 30%, rgba(196,158,224,0.35) 70%, transparent);
   }
   .footer-right { grid-template-columns: 1fr 1fr; gap: 0 2.5rem; }
 }
 
+/* ── Large Mobile (600px) ── */
 @media (max-width: 600px) {
-  .footer-cta-inner { padding: 3rem 1.5rem 2.5rem; }
-  .footer-cta-heading { font-size: 2.8rem; letter-spacing: -1.5px; }
-  .footer-cta-btn { width: 100%; justify-content: center; }
-  .footer-body { padding: 3rem 1.5rem 2.5rem; }
-  .footer-right { grid-template-columns: 1fr; gap: 2rem; }
-  .footer-bar { flex-direction: column; align-items: flex-start; gap: 6px; padding: 1.2rem 1.5rem 2rem; }
+  /* CTA compact */
+  .footer-cta-inner {
+    padding: 2.5rem 1.4rem 2rem;
+    gap: 1.5rem;
+  }
+  .footer-cta-heading {
+    font-size: clamp(2.2rem, 8vw, 2.8rem);
+    letter-spacing: -1.5px;
+  }
+  .footer-cta-sub {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .footer-cta-right { gap: 1.2rem; }
+  .footer-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+  }
+
+  /* Body compact */
+  .footer-body { padding: 2.5rem 1.4rem 2rem; }
+  .footer-left { gap: 1.2rem; }
+  .footer-logo { width: 150px; }
+  .footer-desc { font-size: 0.85rem; line-height: 1.7; }
+  .footer-vdivider { margin: 1.6rem 0; }
+
+  /* Nav: tetap 2 kolom di 600px */
+  .footer-right { grid-template-columns: 1fr 1fr; gap: 0 1.5rem; }
+  .footer-col { gap: 0.7rem; }
+  .footer-col-label { padding-bottom: 0.5rem; font-size: 0.58rem; }
+  .footer-nav-link { font-size: 0.82rem; padding: 0.35rem 0; }
+  .footer-address { font-size: 0.78rem; line-height: 1.75; }
+  .footer-email { font-size: 0.80rem; }
+
+  /* Socials */
+  .footer-socials { gap: 1rem; }
+  .footer-social { font-size: 0.75rem; }
+
+  /* Bottom bar */
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 1rem 1.4rem 1.6rem;
+  }
   .footer-bar-divot { display: none; }
-  .footer-socials { gap: 1.5rem; }
+  .footer-bar span { font-size: 0.68rem; }
+}
+
+/* ── Mobile (480px) ── */
+@media (max-width: 480px) {
+  .footer-cta-inner {
+    padding: 2rem 1.2rem 1.8rem;
+    gap: 1.2rem;
+  }
+  .footer-cta-eyebrow { font-size: 0.58rem; letter-spacing: 0.16em; }
+  .footer-cta-heading {
+    font-size: clamp(1.9rem, 9vw, 2.3rem);
+    letter-spacing: -1.2px;
+  }
+  .footer-cta-sub { font-size: 0.85rem; }
+  .footer-cta-right { gap: 1rem; }
+
+  .footer-body { padding: 2rem 1.2rem 1.6rem; }
+  .footer-logo { width: 130px; }
+  .footer-left { gap: 1rem; }
+  .footer-vdivider { margin: 1.4rem 0; }
+
+  /* Nav: stack jadi 1 kolom */
+  .footer-right {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .footer-bar { padding: 1rem 1.2rem 1.4rem; }
+}
+
+/* ── Small Mobile (360px) ── */
+@media (max-width: 360px) {
+  .footer-cta-inner { padding: 1.8rem 1rem 1.5rem; }
+  .footer-cta-heading { font-size: 1.8rem; letter-spacing: -1px; }
+  .footer-cta-sub { font-size: 0.8rem; }
+
+  .footer-body { padding: 1.8rem 1rem 1.4rem; }
+  .footer-logo { width: 115px; }
+  .footer-desc { font-size: 0.78rem; }
+  .footer-vdivider { margin: 1.2rem 0; }
+
+  .footer-nav-link { font-size: 0.78rem; }
+  .footer-email { font-size: 0.75rem; }
+  .footer-address { font-size: 0.72rem; line-height: 1.65; }
+
+  .footer-bar { padding: 0.8rem 1rem 1.2rem; }
+  .footer-bar span { font-size: 0.62rem; }
 }
