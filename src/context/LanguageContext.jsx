@@ -94,30 +94,30 @@ export const translations = {
     // ── Hero ─────────────────────────────────────────────────
     heroHeadLine1:  "siapa",
     heroHeadLine2:  "kami",
-    heroDesc:       "Sebuah creative house yang bergerak di industri kreatif, menghadirkan ide-ide orisinal, pengalaman brand, dan properti intelektual yang dibangun untuk nilai jangka panjang.",
+    heroDesc:       "Hadir sebagai creative house yang progresif, kami mengonstruksi ide orisinal, brand experiences, hingga intellectual properties dengan long-term value yang berkelanjutan.",
     heroStat1Num:   "360",
     heroStat1Label: "Keahlian Kreatif",
     heroStat2Num:   "100+",
     heroStat2Label: "Proyek",
     heroStat3Num:   "Sejak 2022",
     heroStat3Label: "menciptakan pengalaman",
-    heroTagline:    "Dari ide menuju dampak nyata.\nKami membangun aset kreatif\ndan pengalaman yang hidup\nmelampaui satu proyek.",
+    heroTagline:    "Transformasi ide menjadi owned impact.\nKami membangun creative assets\n dan pengalaman yang memiliki lifetime value,\njauh setelah proyek berakhir.",
 
     // ── Services ─────────────────────────────────────────────
     servicesSideLabel: "Layanan Kami",
     servicesEyebrow:   "Layanan",
 
     div1Label:     "Event Management",
-    div1Tagline:   "Mulai dari proyek korporat hingga pengalaman kultural, kami mengeksekusi setiap detail dengan presisi dan visi kreatif yang jelas.",
-    div1Closing:   "Berbasis strategi. Didorong pengalaman.",
+    div1Tagline:   "Mulai dari korporat hingga pengalaman kultural, kami melakukan eksekusi dengan presisi dan creative direction yang matang.",
+    div1Closing:   "Strategi sebagai fondasi. Pengalaman sebagai visi.",
     div1Col1Title: "Event Korporat & Brand",
     div1Col1Items: ["Company Gathering & Outing","Peluncuran Brand / Produk","Webinar (Offline / Online / Hybrid)","Live Stream Broadcast"],
     div1Col2Title: "Experiential & Hiburan",
     div1Col2Items: ["Festival Musik","Booth & Pameran","K-Pop Fan Meeting","Aktivasi Khusus & Gala"],
 
     div2Label:     "Agensi",
-    div2Tagline:   "Kami membangun brand yang relevan secara budaya dan kuat secara komersial.",
-    div2Closing:   "Kami mengubah brand menjadi ekosistem, bukan sekadar kampanye.",
+    div2Tagline:   "Membangun brand yang tidak hanya culturally relevant, tapi juga memiliki posisi komersial yang solid.",
+    div2Closing:   "Bukan sekadar campaign, Kami menciptakan ekosistem untuk brand Anda.",
     div2Col1Title: "Brand & Pemasaran",
     div2Col1Items: ["Pengembangan Brand","Kampanye Digital","Iklan Digital & Media Buying","Manajemen Media Sosial"],
     div2Col2Title: "Kreatif & Produksi",
@@ -126,7 +126,7 @@ export const translations = {
     div2Col3Items: ["Manajemen KOL & KOC","Strategi Influencer","Pembangunan Komunitas"],
 
     div3Label:     "Promotor",
-    div3Tagline:   "Kami menciptakan pengalaman berskala besar yang menghubungkan artis, brand, dan audiens.",
+    div3Tagline:   "Kami mengkurasi pengalaman berskala besar yang menjembatani kolaborasi antara artis, brand, dan audiens secara seamless.",
     div3Closing:   "Kami membangun momen yang bermakna.",
     div3Col1Items: ["Promotor Konser & Fan Meeting","Penghubung Artis Internasional","Manajemen Lisensi & Hak","Strategi & Operasional Tiket"],
     div3Col2Items: ["Manajemen Venue & Produksi","Koordinasi Media & Publisitas","Akuisisi Sponsor","Penciptaan & Kepemilikan IP"],
@@ -140,7 +140,7 @@ export const translations = {
     // ── Contact ──────────────────────────────────────────────
     contactEyebrow:    "Terhubung dengan Kami",
     contactTitle:      "Kontak\nKami.",
-    contactSubtitle:   "Mari wujudkan sesuatu yang bernilai jangka panjang.\nCeritakan ide Anda, dan kami\nakan mengembangkannya lebih jauh.",
+    contactSubtitle:   "Mari bangun sesuatu yang abadi.\nSampaikan ide Anda, dan we’ll take it from there, Dari sekadar ide\nmenjadi dampak nyata yang berkelanjutan.",
     contactLabelName:  "Nama Lengkap",
     contactPlaceName:  "Nama Anda",
     contactLabelPhone: "Nomor Telepon",
@@ -153,8 +153,8 @@ export const translations = {
 
     // ── Footer ───────────────────────────────────────────────
     footerCtaEyebrow:   "Siap memulai?",
-    footerCtaHeading:   "Mari bangun\nsesuatu\nyang hebat.",
-    footerCtaSub:       "Punya ide proyek? Yuk ngobrol.\nKami ingin mendengar cerita Anda.",
+    footerCtaHeading:   "Mari bangun\nsesuatu\nyang Luar Biasa.",
+    footerCtaSub:       "Punya ide menarik? Let’s connect.\nKami siap berkolaborasi untuk mewujudkannya jadi nyata",
     footerCtaBtn:       "Mulai Percakapan",
     footerDesc:         "Rumah kreatif yang mengembangkan ide orisinal, pengalaman brand, dan kekayaan intelektual bernilai jangka panjang.",
     footerNavLabel:     "Navigasi",
