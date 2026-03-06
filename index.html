@@ -1,45 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="64x64" href="/logo-white (1).png" />
+<meta charset="UTF-8" />
 
-    <!-- Responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Basic SEO -->
-    <title>Brauss Networks</title>
-    <meta
-      name="description"
-      content="Brauss Networks is a creative house developing original ideas, brand experiences and intellectual properties with long-term value."
-    />
+<!-- Title -->
+<title>Brauss Networks</title>
 
-    <!-- Open Graph (for WhatsApp / LinkedIn / Discord preview) -->
-    <meta property="og:title" content="Brauss Networks" />
-    <meta
-      property="og:description"
-      content="Creative house developing ideas, brand experiences and intellectual properties."
-    />
-    <meta property="og:image" content="https://braussnetworks.com/og-image.png" />
-    <meta property="og:url" content="https://braussnetworks.com" />
-    <meta property="og:type" content="website" />
+<!-- SEO Description -->
+<meta
+name="description"
+content="Brauss Networks is a creative house developing original ideas, brand experiences and intellectual properties with long-term value."
+/>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Brauss Networks" />
-    <meta
-      name="twitter:description"
-      content="Creative house developing ideas, brand experiences and intellectual properties."
-    />
-    <meta name="twitter:image" content="https://braussnetworks.com/og-image.png" />
+<!-- Author -->
+<meta name="author" content="Brauss Networks" />
 
-  </head>
+<!-- Robots -->
+<meta name="robots" content="index, follow" />
 
-  <body>
-    <div id="root"></div>
+<!-- Canonical -->
+<link rel="canonical" href="https://braussnetworks.com" />
 
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="64x64" href="/logo-white (1).png" />
+
+<!-- ================= Open Graph ================= -->
+
+<meta property="og:title" content="Brauss Networks" />
+<meta property="og:description" content="Creative house developing ideas, brand experiences and intellectual properties." />
+<meta property="og:image" content="https://braussnetworks.com/og-image.png" />
+<meta property="og:url" content="https://braussnetworks.com" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Brauss Networks" />
+
+<!-- ================= Twitter Card ================= -->
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Brauss Networks" />
+<meta name="twitter:description" content="Creative house developing ideas, brand experiences and intellectual properties." />
+<meta name="twitter:image" content="https://braussnetworks.com/og-image.png" />
+
+<!-- ================= Theme Color ================= -->
+
+<meta name="theme-color" content="#000000" />
+
+<!-- ================= Structured Data (Google) ================= -->
+
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "Organization",
+"name": "Brauss Networks",
+"url": "https://braussnetworks.com",
+"logo": "https://braussnetworks.com/og-image.png",
+"description": "Creative house developing ideas, brand experiences and intellectual properties.",
+"sameAs": [
+"https://instagram.com/",
+"https://linkedin.com/"
+]
+}
+</script>
+
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script type="module" src="/src/main.jsx"></script>
+
+</body>
 </html>
