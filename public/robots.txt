@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://braussnetworks.com/sitemap.xml
