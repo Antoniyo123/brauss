@@ -366,7 +366,8 @@
 }
 
 @media (max-width: 860px) {
-  .services-container { flex-direction: column; min-height: unset; }
+  .services-container { flex-direction: column; min-height: unset;
+  background: radial-gradient(ellipse 90% 60% at -10% 110%, rgba(160,100,255,0.055) 0%, transparent 55%),    radial-gradient(ellipse 55% 40% at 110% -5%,  rgba(255,210,100,0.07)  0%, transparent 55%),    linear-gradient(165deg, #fef9ed 0%, #fdf3e0 55%, #f8ebd8 100%); }
 
   .sv-sidebar, .sv-header, .sv-grid, .sv-closing-wrap,
   .sv-watermark, .sv-bg-shape { will-change: auto; transform: none !important; }
