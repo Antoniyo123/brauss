@@ -26,7 +26,11 @@
 <link rel="canonical" href="https://braussnetworks.com/" />
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" sizes="64x64" href="/logo-white (1).png" />
+<!-- ================= Favicons ================= -->
+
+<link rel="icon" type="image/png" href="/logobraus.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/logobraus.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/logobraus.png">
 
 <!-- ================= Open Graph ================= -->
 
@@ -56,8 +60,12 @@
   "@type": "Organization",
   "name": "Brauss Networks",
   "url": "https://braussnetworks.com",
-  "logo": "https://braussnetworks.com/og-image.png",
-  "description": "Creative house developing ideas, brand experiences and intellectual properties.",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://braussnetworks.com/logobraus.png",
+    "width": 512,
+    "height": 512
+  },
   "sameAs": [
     "https://instagram.com/braussnetworks",
     "https://linkedin.com/company/braussnetworks"
