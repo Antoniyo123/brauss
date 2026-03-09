@@ -161,7 +161,7 @@ export default function Services() {
 
           <div className="sv-header" ref={headerRef}>
             <div className="sv-header-left">
-              <span className="sv-eyebrow">{t("servicesEyebrow")} {div.number}</span>
+              <span className="sv-eyebrow">{t("servicesEyebrow")} </span>
               <h2 className="sv-title">{t(div.labelKey)}</h2>
             </div>
             <p className="sv-tagline">{t(div.taglineKey)}</p>

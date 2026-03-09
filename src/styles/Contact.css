@@ -2,7 +2,6 @@
    CONTACT SECTION
 ══════════════════════════════════════ */
 
-
 @font-face {
   font-family: 'Plus Jakarta Sans';
   src: url('../assets/fonts/PlusJakartaSans-ExtraBold.ttf') format('opentype');
@@ -10,7 +9,6 @@
   font-style:  normal;
   font-display: swap;
 }
-
 
 .contact {
   position: relative;
@@ -26,7 +24,7 @@
   padding: 6rem 0 7rem;
 }
 
-/* ── Parallax background orb (counter-mouse = depth) ── */
+/* ── Parallax background orb ── */
 .contact-bg-orb {
   position: absolute;
   width: 700px; height: 700px;
@@ -56,7 +54,7 @@
 }
 
 /* ══════════════════════════════════════
-   SPHERES — independent parallax targets
+   SPHERES
 ══════════════════════════════════════ */
 .contact-spheres {
   position: absolute;
@@ -75,7 +73,6 @@
   will-change: transform;
 }
 
-/* cs-1 uses translate(-50%,-50%) as base — JS adds on top */
 .cs-1 {
   width: 260px; height: 260px;
   top: 50%; left: 50%;
@@ -110,7 +107,7 @@
 }
 
 /* ══════════════════════════════════════
-   LEFT COLUMN — parallax targets
+   LEFT COLUMN
 ══════════════════════════════════════ */
 .contact-left {
   flex: 0 0 auto;
@@ -127,7 +124,6 @@
   gap: 0.4rem;
 }
 
-/* Each element is a parallax target → will-change */
 .contact-eyebrow {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.65rem;
@@ -212,7 +208,7 @@
 .social-icon svg { width: 16px; height: 16px; }
 
 /* ══════════════════════════════════════
-   RIGHT COLUMN — form card
+   RIGHT COLUMN — FORM
 ══════════════════════════════════════ */
 .contact-right {
   flex: 1;
@@ -245,7 +241,11 @@
   gap: 1rem;
 }
 
-.cf-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.cf-field { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.35rem; 
+}
 
 .cf-field label {
   font-family: 'DM Sans', sans-serif;
@@ -273,7 +273,9 @@
 }
 
 .cf-field input::placeholder,
-.cf-field textarea::placeholder { color: #b0a0c8; }
+.cf-field textarea::placeholder { 
+  color: #b0a0c8; 
+}
 
 .cf-field input:focus,
 .cf-field textarea:focus {
@@ -281,8 +283,47 @@
   background: rgba(255,255,255,0.95);
 }
 
-.cf-field textarea { height: 120px; }
+.cf-field textarea { 
+  height: 120px; 
+}
 
+/* ── Status Messages ── */
+.cf-status {
+  padding: 0.85rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cf-status-success {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1.5px solid rgba(34, 197, 94, 0.4);
+  color: #166534;
+}
+
+.cf-status-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1.5px solid rgba(239, 68, 68, 0.4);
+  color: #991b1b;
+}
+
+/* ── Submit Button ── */
 .cf-submit-wrap {
   display: flex;
   justify-content: flex-end;
@@ -306,10 +347,30 @@
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   box-shadow: 0 6px 20px rgba(45,27,78,0.3);
 }
-.cf-submit:hover {
+
+.cf-submit:hover:not(:disabled) {
   background: #3d2560;
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(45,27,78,0.4);
+}
+
+.cf-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Loading Spinner ── */
+.cf-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 245, 227, 0.3);
+  border-top-color: #fff5e3;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ══════════════════════════════════════
@@ -346,7 +407,6 @@
     will-change: auto;
     transform: none !important;
   }
-  /* cs-1 still needs centering */
   .cs-1 { transform: translate(-50%, -50%) !important; }
 }
 
@@ -358,4 +418,5 @@
   .cf-row        { grid-template-columns: 1fr; }
   .cf-submit-wrap { justify-content: stretch; }
   .cf-submit     { width: 100%; justify-content: center; }
+  .contact-form-card { padding: 2rem 1.8rem; }
 }

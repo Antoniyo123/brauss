@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "../context/LanguageContext"
 import "../styles/Contact.css"
 
@@ -12,7 +12,18 @@ const socials = [
 
 export default function Contact() {
   const { t } = useLanguage()
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null) // 'success' | 'error' | null
 
+  // Refs for parallax
   const sectionRef  = useRef(null)
   const eyebrowRef  = useRef(null)
   const titleRef    = useRef(null)
@@ -24,6 +35,120 @@ export default function Contact() {
   const cs4Ref = useRef(null), cs5Ref = useRef(null)
   const bgOrbRef    = useRef(null)
 
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      // Create mailto link with form data
+      const subject = encodeURIComponent(`New Contact Form Submission from ${formData.name}`)
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Email: ${formData.email}\n\n` +
+        `Message:\n${formData.message}`
+      )
+      
+      const mailtoLink = `mailto:hello@braussnetworks.com?subject=${subject}&body=${body}`
+      
+      // Open default email client
+      window.location.href = mailtoLink
+      
+      // Show success message
+      setSubmitStatus('success')
+      
+      // Reset form after short delay
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          message: ''
+        })
+        setSubmitStatus(null)
+      }, 3000)
+      
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Alternative: Send via API/Email service (EmailJS, Nodemailer, etc.)
+  const handleSubmitAPI = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      // Example with EmailJS (you need to install emailjs-com package)
+      // import emailjs from 'emailjs-com'
+      
+      /* 
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        to_email: 'hello@braussnetworks.com'
+      }
+
+      await emailjs.send(
+        'YOUR_SERVICE_ID',
+        'YOUR_TEMPLATE_ID',
+        templateParams,
+        'YOUR_USER_ID'
+      )
+      */
+
+      // Or send to your backend API
+      /*
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) throw new Error('Failed to send message')
+      */
+
+      setSubmitStatus('success')
+      
+      // Reset form
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          message: ''
+        })
+        setSubmitStatus(null)
+      }, 3000)
+      
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Parallax effects
   useEffect(() => {
     const scroll = { current: 0, target: 0 }
     const mouse  = { x: 0, y: 0, cx: 0, cy: 0 }
@@ -134,34 +259,91 @@ export default function Contact() {
 
         {/* ── RIGHT: form ── */}
         <div className="contact-right">
-          <div className="contact-form-card" ref={formCardRef}>
+          <form className="contact-form-card" ref={formCardRef} onSubmit={handleSubmit}>
             <div className="cf-row">
               <div className="cf-field">
-                <label>{t("contactLabelName")}</label>
-                <input type="text" placeholder={t("contactPlaceName")} />
+                <label htmlFor="name">{t("contactLabelName")}</label>
+                <input 
+                  type="text" 
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder={t("contactPlaceName")}
+                  required
+                />
               </div>
               <div className="cf-field">
-                <label>{t("contactLabelPhone")}</label>
-                <input type="tel" placeholder={t("contactPlacePhone")} />
+                <label htmlFor="phone">{t("contactLabelPhone")}</label>
+                <input 
+                  type="tel" 
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder={t("contactPlacePhone")}
+                  required
+                />
               </div>
             </div>
             <div className="cf-field">
-              <label>{t("contactLabelEmail")}</label>
-              <input type="email" placeholder={t("contactPlaceEmail")} />
+              <label htmlFor="email">{t("contactLabelEmail")}</label>
+              <input 
+                type="email" 
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder={t("contactPlaceEmail")}
+                required
+              />
             </div>
             <div className="cf-field">
-              <label>{t("contactLabelMsg")}</label>
-              <textarea placeholder={t("contactPlaceMsg")} />
+              <label htmlFor="message">{t("contactLabelMsg")}</label>
+              <textarea 
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder={t("contactPlaceMsg")}
+                required
+              />
             </div>
+
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="cf-status cf-status-success">
+                ✓ {t("contactSuccessMsg") || "Message sent successfully!"}
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="cf-status cf-status-error">
+                ✕ {t("contactErrorMsg") || "Failed to send message. Please try again."}
+              </div>
+            )}
+
             <div className="cf-submit-wrap">
-              <button className="cf-submit">
-                {t("contactSend")}
-                <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
-                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              <button 
+                type="submit" 
+                className="cf-submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="cf-spinner"></span>
+                    {t("contactSending") || "Sending..."}
+                  </>
+                ) : (
+                  <>
+                    {t("contactSend")}
+                    <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+                      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
-          </div>
+          </form>
         </div>
 
       </div>

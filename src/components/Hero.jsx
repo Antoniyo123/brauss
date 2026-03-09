@@ -18,32 +18,6 @@ const DOTS = [
   { cls:"d12", size: 4, top: 4,  left:412,  op:0.42, delay:"0.9s" },
 ]
 
-/*
-  PARALLAX TUNING GUIDE — ubah nilai di sini untuk menyesuaikan intensitas:
-
-  SCROLL multiplier  → semakin kecil = semakin diam saat scroll
-  MOUSE  multiplier  → semakin kecil = semakin diam saat mouse bergerak
-  lerp factor (0.04) → semakin kecil = semakin lambat mengejar (lebih smooth)
-
-  Nilai sebelumnya vs sekarang:
-    heading scroll: -0.22 → -0.10
-    dots    scroll: -0.30 → -0.12
-    desc    scroll: -0.14 → -0.06
-    stats   scroll: -0.09 → -0.04
-    tagline scroll: -0.05 → -0.02
-    bg orb  scroll: +0.18 → +0.08
-    rings   scroll: ±0.20 → ±0.07
-
-    heading mouse:  -8/-5 → -4/-2.5
-    dots    mouse: -14/-8 → -6/-3
-    desc    mouse:  -4/-2.5 → -2/-1
-    stats   mouse:  -2/-1.5 → -1/-0.6
-    tagline mouse: -1.5/-1 → -0.6/-0.4
-
-    lerp scroll: 0.07  → 0.05  (lebih smooth)
-    lerp mouse:  0.04  → 0.035 (lebih smooth)
-*/
-
 export default function Hero() {
   const { t } = useLanguage()
 
@@ -55,7 +29,6 @@ export default function Hero() {
   const taglineRef = useRef(null)
   const dotsRef    = useRef(null)
   const statsRef   = useRef(null)
-  const eyebrowRef = useRef(null)
   const bgOrbRef   = useRef(null)
   const layer1Ref  = useRef(null)
   const layer2Ref  = useRef(null)
@@ -76,12 +49,9 @@ export default function Hero() {
     const tick = () => {
       scrollRafRef.current = requestAnimationFrame(tick)
       const s = scrollState.current
-      // lerp diturunkan: 0.07 → 0.05
       s.current += (s.target - s.current) * 0.05
       const y = s.current
 
-      // Scroll multiplier diturunkan ~50% dari sebelumnya
-      if (eyebrowRef.current) eyebrowRef.current.style.transform = `translateY(${y * -0.03}px)`
       if (headingRef.current)  headingRef.current.style.transform  = `translateY(${y * -0.10}px)`
       if (dotsRef.current)     dotsRef.current.style.transform     = `translateY(${y * -0.12}px)`
       if (descRef.current)     descRef.current.style.transform     = `translateY(${y * -0.06}px)`
@@ -115,11 +85,9 @@ export default function Hero() {
       rafId = requestAnimationFrame(tick)
       const m = mouseState.current
       const s = scrollState.current
-      // lerp diturunkan: 0.04 → 0.035
       m.cx += (m.x - m.cx) * 0.035
       m.cy += (m.y - m.cy) * 0.035
 
-      // Mouse multiplier diturunkan ~50% dari sebelumnya
       if (headingRef.current)
         headingRef.current.style.transform = `translateY(${s.current * -0.10}px) translate(${m.cx * -4}px, ${m.cy * -2.5}px)`
       if (dotsRef.current)
@@ -204,10 +172,8 @@ export default function Hero() {
         {/* ══ LEFT ══ */}
         <div className="who-left">
           <div className="who-top-block">
-            <h1 className="who-heading" ref={headingRef}>
-              <span className="line1">{t("heroHeadLine1")}</span>
-              <span className="line2">{t("heroHeadLine2")}</span>
-            </h1>
+
+           
 
             <div className="splatter" ref={dotsRef}>
               {DOTS.map(({ cls, size, top, left, op, delay }) => (
