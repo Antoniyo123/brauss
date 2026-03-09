@@ -5,7 +5,7 @@ export const translations = {
     // ── Navbar ──────────────────────────────────────────────
     home:      "Home",
     about:     "About",
-    portfolio: "Portfolio",
+    portfolio: "Clients",
     services:  "Services",
     contact:   "Contact Us",
 
@@ -76,7 +76,7 @@ export const translations = {
     footerCtaBtn:       "Start a Conversation",
     footerDesc:         "A creative house developing original ideas, brand experiences and intellectual properties with long‑term value.",
     footerNavLabel:     "Navigate",
-    footerNavItems:     ["Home","About","Services","Contact Us"],
+    footerNavItems:     ["Home","Clients","Services","Contact Us"],
     footerContactLabel: "Contact",
     footerAddress:      "18 Office Park, 10th A Floor\nJl. TB Simatupang No. 18\nJakarta Selatan 12520",
     footerRights:       "© 2026 Brauss Group. All rights reserved.",
@@ -87,7 +87,7 @@ export const translations = {
     // ── Navbar ──────────────────────────────────────────────
     home:      "Beranda",
     about:     "Tentang",
-    portfolio: "Portofolio",
+    portfolio: "Klien",
     services:  "Layanan",
     contact:   "Hubungi Kami",
 
@@ -158,7 +158,7 @@ export const translations = {
     footerCtaBtn:       "Mulai Percakapan",
     footerDesc:         "Rumah kreatif yang mengembangkan ide orisinal, pengalaman brand, dan kekayaan intelektual bernilai jangka panjang.",
     footerNavLabel:     "Navigasi",
-    footerNavItems:     ["Beranda","Tentang","Layanan","Hubungi Kami"],
+    footerNavItems:     ["Beranda","Klien","Layanan","Hubungi Kami"],
     footerContactLabel: "Kontak",
     footerAddress:      "18 Office Park, Lantai 10A\nJl. TB Simatupang No. 18\nJakarta Selatan 12520",
     footerRights:       "© 2026 Brauss Group. Semua hak dilindungi.",
