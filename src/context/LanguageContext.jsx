@@ -79,7 +79,7 @@ export const translations = {
     footerNavItems:     ["Home","Clients","Services","Contact Us"],
     footerContactLabel: "Contact",
     footerAddress:      "18 Office Park, 10th A Floor\nJl. TB Simatupang No. 18\nJakarta Selatan 12520",
-    footerRights:       "© 2026 Brauss Group. All rights reserved.",
+    footerRights:       "© 2026 Brauss Networks. All rights reserved.",
     footerEntity:       "PT Bumintara Dira Mandaya",
   },
 
@@ -161,7 +161,7 @@ export const translations = {
     footerNavItems:     ["Beranda","Klien","Layanan","Hubungi Kami"],
     footerContactLabel: "Kontak",
     footerAddress:      "18 Office Park, Lantai 10A\nJl. TB Simatupang No. 18\nJakarta Selatan 12520",
-    footerRights:       "© 2026 Brauss Group. Semua hak dilindungi.",
+    footerRights:       "© 2026 Brauss Networks. Semua hak dilindungi.",
     footerEntity:       "PT Bumintara Dira Mandaya",
   },
 }
