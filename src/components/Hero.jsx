@@ -239,9 +239,9 @@ export default function Hero() {
                   {/* Lingkaran inner */}
                   <circle cx="170" cy="170" r="100" fill="none"
                     stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                  {/* Garis ke IP Development — SOLID, tebal */}
+                  {/* Garis ke IP Development — dashed sama seperti yang lain */}
                   <line x1="170" y1="225" x2="170" y2="325"
-                    stroke="rgba(255,255,255,0.85)" strokeWidth="2" />
+                    stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
                   {/* Garis ke node turunan — dashed */}
                   <line x1="170" y1="115" x2="170" y2="15"
                     stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
@@ -250,7 +250,7 @@ export default function Hero() {
                   <line x1="225" y1="170" x2="325" y2="170"
                     stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
                   {/* Titik ujung — IP Dev sedikit lebih besar */}
-                  <circle cx="170" cy="325" r="4.5" fill="rgba(255,255,255,0.85)" />
+                  <circle cx="170" cy="325" r="3"   fill="rgba(255,255,255,0.5)" />
                   <circle cx="170" cy="15"  r="3"   fill="rgba(255,255,255,0.5)" />
                   <circle cx="15"  cy="170" r="3"   fill="rgba(255,255,255,0.5)" />
                   <circle cx="325" cy="170" r="3"   fill="rgba(255,255,255,0.5)" />
@@ -260,7 +260,7 @@ export default function Hero() {
                 <div className="eco-node node-top    node-child">EVENT<br />MANAGEMENT</div>
                 <div className="eco-node node-left   node-child">PROMOTER</div>
                 <div className="eco-node node-right  node-child">AGENCY</div>
-                <div className="eco-node node-bottom node-parent">IP DEVELOPMENT</div>
+                <div className="eco-node node-bottom node-parent">IP Development</div>
               </div>
             </div>
             <div className="diagram-static">
