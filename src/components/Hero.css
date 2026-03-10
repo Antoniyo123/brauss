@@ -365,18 +365,28 @@
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+  /* ↓ UPDATED: drop-shadow lebih kuat untuk efek garis bold */
+  filter: drop-shadow(0 0 14px rgba(255,255,255,0.45));
 }
 
-/* ── Center circle (BIGGER) ── */
+/* Semua garis SVG di dalam diagram jadi lebih bold */
+.diagram svg line,
+.diagram svg path,
+.diagram svg polyline,
+.diagram svg circle:not(.eco-center) {
+  stroke-width: 2.5;
+}
+
+/* ── Center circle — DIPERBESAR ── */
 .eco-center {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 155px; 
-  height: 155px;
+  /* ↓ UPDATED: 155px → 185px */
+  width: 185px; 
+  height: 185px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.88);
+  border: 2.5px solid rgba(255,255,255,0.92);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -386,7 +396,7 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow:
-    0 0 50px rgba(200,130,255,0.22),
+    0 0 65px rgba(200,130,255,0.3),
     inset 0 2px 2px rgba(255,255,255,0.24),
     inset 0 -2px 2px rgba(0,0,0,0.14);
   transition: box-shadow 0.5s ease, border-color 0.5s ease;
@@ -397,7 +407,8 @@
   justify-content: center;
 }
 .eco-center-text img {
-  width: 82px;
+  /* ↓ UPDATED: 82px → 100px */
+  width: 100px;
   height: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
@@ -406,7 +417,8 @@
 /* ── Nodes (BIGGER) ── */
 .eco-node {
   position: absolute;
-  border: 2px solid rgba(255,255,255,0.85);
+  /* ↓ UPDATED: border lebih tebal */
+  border: 2.5px solid rgba(255,255,255,0.9);
   border-radius: 999px;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.78rem;
@@ -465,6 +477,39 @@
 }
 .diagram-spinner .eco-node { transform-origin: center center; }
 
+/* ── Node Induk: IP Development — purple solid brand ── */
+.eco-node.node-parent {
+  background: linear-gradient(135deg, #7b35c0 0%, #5c1e98 100%);
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.6);
+  border-width: 2px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  padding: 0.85rem 2.2rem;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 28px rgba(20, 5, 60, 0.5),
+    0 1px 0 rgba(255,255,255,0.2) inset;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+/* ── Node Turunan — cream transparan, lebih kecil ── */
+.eco-node.node-child {
+  background: rgba(253, 246, 230, 0.82);
+  color: #1a0c36;
+  border-color: rgba(255,255,255,0.75);
+  border-width: 1.5px;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  box-shadow:
+    0 4px 16px rgba(20, 5, 60, 0.22),
+    0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
 /* ═══════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════ */
@@ -473,8 +518,10 @@
     width: 400px; 
     height: 400px; 
   }
-  .eco-center { width: 135px; height: 135px; }
-  .eco-center-text img { width: 70px; }
+  /* ↓ UPDATED: 135px → 162px */
+  .eco-center { width: 162px; height: 162px; }
+  /* ↓ UPDATED: 70px → 85px */
+  .eco-center-text img { width: 85px; }
   .px-ring-1 { width: 580px; height: 580px; }
 }
 
@@ -485,8 +532,10 @@
     width: 360px; 
     height: 360px; 
   }
-  .eco-center { width: 120px; height: 120px; }
-  .eco-center-text img { width: 62px; }
+  /* ↓ UPDATED: 120px → 145px */
+  .eco-center { width: 145px; height: 145px; }
+  /* ↓ UPDATED: 62px → 76px */
+  .eco-center-text img { width: 76px; }
   .px-ring-1 { width: 520px; height: 520px; }
 }
 
@@ -510,8 +559,10 @@
   .eco-node  { font-size: 0.7rem; padding: 0.6rem 1.5rem; }
   .node-left { left: -68px; } .node-right { right: -68px; }
   .node-top  { top: -24px; } .node-bottom { bottom: -26px; width: 125px; }
-  .eco-center { width: 115px; height: 115px; }
-  .eco-center-text img { width: 58px; }
+  /* ↓ UPDATED: 115px → 138px */
+  .eco-center { width: 138px; height: 138px; }
+  /* ↓ UPDATED: 58px → 70px */
+  .eco-center-text img { width: 70px; }
   .px-ring-1 { width: 500px; height: 500px; }
   .px-ring-2 { width: 360px; height: 360px; }
 }
@@ -532,8 +583,10 @@
   .eco-node  { font-size: 0.62rem; padding: 0.5rem 1.2rem; }
   .node-left { left: -58px; } .node-right { right: -58px; }
   .node-top  { top: -20px; } .node-bottom { bottom: -22px; width: 105px; }
-  .eco-center { width: 100px; height: 100px; }
-  .eco-center-text img { width: 52px; }
+  /* ↓ UPDATED: 100px → 120px */
+  .eco-center { width: 120px; height: 120px; }
+  /* ↓ UPDATED: 52px → 63px */
+  .eco-center-text img { width: 63px; }
   .px-ring-1 { width: 420px; height: 420px; }
   .px-ring-2 { display: none; }
   .px-ring-3 { width: 240px; height: 240px; }
@@ -578,8 +631,10 @@
   .eco-node  { font-size: 0.56rem; padding: 0.45rem 1rem; letter-spacing: 0.08em; }
   .node-left { left: -50px; } .node-right { right: -50px; }
   .node-top  { top: -18px; } .node-bottom { bottom: -20px; width: 92px; font-size: 0.54rem; }
-  .eco-center { width: 88px; height: 88px; }
-  .eco-center-text img { width: 44px; }
+  /* ↓ UPDATED: 88px → 106px */
+  .eco-center { width: 106px; height: 106px; }
+  /* ↓ UPDATED: 44px → 54px */
+  .eco-center-text img { width: 54px; }
   .px-ring-1 { width: 350px; height: 350px; }
   .px-ring-3 { width: 190px; height: 190px; }
 }
@@ -593,6 +648,8 @@
   .diagram-wrapper, .diagram, .diagram-static { width: 220px; height: 220px; }
   .eco-node  { font-size: 0.5rem; padding: 0.35rem 0.8rem; }
   .node-left { left: -42px; } .node-right { right: -42px; }
-  .eco-center { width: 76px; height: 76px; }
-  .eco-center-text img { width: 38px; }
+  /* ↓ UPDATED: 76px → 92px */
+  .eco-center { width: 92px; height: 92px; }
+  /* ↓ UPDATED: 38px → 46px */
+  .eco-center-text img { width: 46px; }
 }

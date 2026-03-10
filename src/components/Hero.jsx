@@ -117,28 +117,38 @@ export default function Hero() {
     let lastMouseX = null, isHovered = false, rafId
 
     spinner.style.animation = "none"
-    const nodes = spinner.querySelectorAll(".eco-node")
+
+    // Ambil semua node sekaligus
+    const nodeTop    = spinner.querySelector(".node-top")
+    const nodeLeft   = spinner.querySelector(".node-left")
+    const nodeRight  = spinner.querySelector(".node-right")
+    const nodeBottom = spinner.querySelector(".node-bottom")
+
+    // Base transform untuk posisi masing-masing node
+    const nodeBaseTransform = {
+      top:    "translateX(-50%)",
+      left:   "translateY(-50%)",
+      right:  "translateY(-50%)",
+      bottom: "translateX(-50%) scale(1.12)",
+    }
 
     const tick = () => {
       rafId = requestAnimationFrame(tick)
       speed += (targetSpeed - speed) * 0.05
       angle += speed
       spinner.style.transform = `rotateZ(${angle}deg)`
-      nodes.forEach(node => {
-        const base = node.dataset.baseTransform || ""
-        node.style.transform = `${base} rotate(${-angle}deg)`
-      })
+
+      // Counter-rotate setiap node agar teks selalu terbaca tegak
+      if (nodeTop)
+        nodeTop.style.transform    = `${nodeBaseTransform.top} rotate(${-angle}deg)`
+      if (nodeLeft)
+        nodeLeft.style.transform   = `${nodeBaseTransform.left} rotate(${-angle}deg)`
+      if (nodeRight)
+        nodeRight.style.transform  = `${nodeBaseTransform.right} rotate(${-angle}deg)`
+      if (nodeBottom)
+        nodeBottom.style.transform = `${nodeBaseTransform.bottom} rotate(${-angle}deg)`
     }
     rafId = requestAnimationFrame(tick)
-
-    nodes.forEach(node => {
-      if (!node.dataset.baseTransform) {
-        if (node.classList.contains("node-top"))    node.dataset.baseTransform = "translateX(-50%)"
-        if (node.classList.contains("node-left"))   node.dataset.baseTransform = "translateY(-50%)"
-        if (node.classList.contains("node-right"))  node.dataset.baseTransform = "translateY(-50%)"
-        if (node.classList.contains("node-bottom")) node.dataset.baseTransform = "translateX(-50%)"
-      }
-    })
 
     const onEnter = () => { isHovered = true;  glow.style.opacity = "1"; lastMouseX = null }
     const onLeave = () => { isHovered = false; targetSpeed = 0.08; lastMouseX = null; glow.style.opacity = "0" }
@@ -172,8 +182,6 @@ export default function Hero() {
         {/* ══ LEFT ══ */}
         <div className="who-left">
           <div className="who-top-block">
-
-           
 
             <div className="splatter" ref={dotsRef}>
               {DOTS.map(({ cls, size, top, left, op, delay }) => (
@@ -225,23 +233,34 @@ export default function Hero() {
             <div className="diagram" ref={diagramRef}>
               <div className="diagram-spinner">
                 <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+                  {/* Lingkaran orbit luar — dashed tipis */}
                   <circle cx="170" cy="170" r="155" fill="none"
-                    stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" strokeDasharray="4 8" />
+                    stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 9" />
+                  {/* Lingkaran inner */}
                   <circle cx="170" cy="170" r="100" fill="none"
-                    stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-                  <line x1="170" y1="115" x2="170" y2="15"  stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
-                  <line x1="115" y1="170" x2="15"  y2="170" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
-                  <line x1="225" y1="170" x2="325" y2="170" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
-                  <line x1="170" y1="225" x2="170" y2="325" stroke="rgba(255,255,255,0.65)" strokeWidth="1.2" />
-                  <circle cx="170" cy="15"  r="3" fill="rgba(255,255,255,0.7)" />
-                  <circle cx="15"  cy="170" r="3" fill="rgba(255,255,255,0.7)" />
-                  <circle cx="325" cy="170" r="3" fill="rgba(255,255,255,0.7)" />
-                  <circle cx="170" cy="325" r="3" fill="rgba(255,255,255,0.7)" />
+                    stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+                  {/* Garis ke IP Development — SOLID, tebal */}
+                  <line x1="170" y1="225" x2="170" y2="325"
+                    stroke="rgba(255,255,255,0.85)" strokeWidth="2" />
+                  {/* Garis ke node turunan — dashed */}
+                  <line x1="170" y1="115" x2="170" y2="15"
+                    stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
+                  <line x1="115" y1="170" x2="15"  y2="170"
+                    stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
+                  <line x1="225" y1="170" x2="325" y2="170"
+                    stroke="rgba(255,255,255,0.45)" strokeWidth="1.2" strokeDasharray="5 7" />
+                  {/* Titik ujung — IP Dev sedikit lebih besar */}
+                  <circle cx="170" cy="325" r="4.5" fill="rgba(255,255,255,0.85)" />
+                  <circle cx="170" cy="15"  r="3"   fill="rgba(255,255,255,0.5)" />
+                  <circle cx="15"  cy="170" r="3"   fill="rgba(255,255,255,0.5)" />
+                  <circle cx="325" cy="170" r="3"   fill="rgba(255,255,255,0.5)" />
                 </svg>
-                <div className="eco-node node-top">Creative Ecosystem</div>
-                <div className="eco-node node-left">AGENCY</div>
-                <div className="eco-node node-right">PROMOTER</div>
-                <div className="eco-node node-bottom">EVENT<br />MANAGEMENT</div>
+
+                {/* Susun sesuai screenshot: Event Mgmt atas, Agency kanan, Promoter kiri, IP Dev bawah */}
+                <div className="eco-node node-top    node-child">EVENT<br />MANAGEMENT</div>
+                <div className="eco-node node-left   node-child">PROMOTER</div>
+                <div className="eco-node node-right  node-child">AGENCY</div>
+                <div className="eco-node node-bottom node-parent">IP Development</div>
               </div>
             </div>
             <div className="diagram-static">

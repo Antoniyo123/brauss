@@ -6,7 +6,7 @@ import logo from "../assets/logobraus.png"
 const LINKS = [
   { id: "home",     labelKey: "home"     },
   { id: "services", labelKey: "services" },
-  { id: "about",    labelKey: "clients"    },
+  { id: "about",    labelKey: "Clients"    },
   
 ]
 
