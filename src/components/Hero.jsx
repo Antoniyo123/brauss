@@ -260,7 +260,7 @@ export default function Hero() {
                 <div className="eco-node node-top    node-child">EVENT<br />MANAGEMENT</div>
                 <div className="eco-node node-left   node-child">PROMOTER</div>
                 <div className="eco-node node-right  node-child">AGENCY</div>
-                <div className="eco-node node-bottom node-parent">IP Development</div>
+                <div className="eco-node node-bottom node-parent">IP DEVELOPMENT</div>
               </div>
             </div>
             <div className="diagram-static">
