@@ -479,8 +479,8 @@
 
 /* ── Node Induk: IP Development — purple solid brand ── */
 .eco-node.node-parent {
-  background: linear-gradient(135deg, #7b35c0 0%, #5c1e98 100%);
-  color: #ffffff;
+  background: #fdf6e6d1;
+  color: #1a0c36;
   border-color: rgba(255,255,255,0.6);
   border-width: 2px;
   font-weight: 700;
