@@ -542,29 +542,28 @@
 @media (max-width: 900px) {
   .who-page { flex-direction: column; height: auto; min-height: 100vh; }
   .who-left  { flex: none; width: 100%; padding: 6rem 3rem 3rem; }
-  .who-right { flex: none; width: 100%; min-height: 60vh; cursor: auto; }
+  .who-right { flex: none; width: 100%; min-height: 75vh; cursor: auto; display: flex; align-items: center; justify-content: center; }
   .cursor-glow { display: none; }
-  .who-desc { 
-    max-width: 100%; 
-    font-size: 1.65rem; 
-    line-height: 1.5; 
-    margin-top: 1.4rem; 
-  }
+  .who-desc { max-width: 100%; font-size: 1.65rem; line-height: 1.5; margin-top: 1.4rem; }
   .who-stats { gap: 0; margin-top: 2rem; padding-top: 1.8rem; }
   .who-stat-item { padding: 0 1.6rem; }
   .who-stat-num  { font-size: 1.75rem; }
   .who-stat-label { font-size: 0.6rem; }
   .tagline-hero { font-size: 0.95rem; }
-  .diagram-wrapper, .diagram, .diagram-static { width: 340px; height: 340px; }
-  .eco-node  { font-size: 0.7rem; padding: 0.6rem 1.5rem; }
-  .node-left { left: -68px; } .node-right { right: -68px; }
-  .node-top  { top: -24px; } .node-bottom { bottom: -26px; width: 125px; }
-  /* ↓ UPDATED: 115px → 138px */
-  .eco-center { width: 138px; height: 138px; }
-  /* ↓ UPDATED: 58px → 70px */
-  .eco-center-text img { width: 70px; }
-  .px-ring-1 { width: 500px; height: 500px; }
-  .px-ring-2 { width: 360px; height: 360px; }
+
+  .diagram-wrapper, .diagram, .diagram-static { width: 400px; height: 400px; }
+  .eco-center { width: 158px; height: 158px; }
+  .eco-center-text img { width: 80px; }
+
+  .eco-node { font-size: 0.72rem; padding: 0.58rem 1.4rem; }
+  .eco-node.node-parent { font-size: 0.78rem; padding: 0.65rem 1.6rem; }
+  .node-top    { top: -26px; }
+  .node-left   { left: -72px; }
+  .node-right  { right: -72px; }
+  .node-bottom { bottom: -28px; width: 138px; }
+
+  .px-ring-1 { width: 520px; height: 520px; }
+  .px-ring-2 { width: 380px; height: 380px; }
 }
 
 @media (max-width: 767px) {
@@ -578,65 +577,54 @@
   .who-stat-label { font-size: 0.58rem; letter-spacing: 0.2em; }
   .tagline-hero { font-size: 0.9rem; line-height: 1.9; }
   .divider-line { margin-bottom: 1.2rem; }
-  .who-right { min-height: 55vh; }
-  .diagram-wrapper, .diagram, .diagram-static { width: 300px; height: 300px; }
-  .eco-node  { font-size: 0.62rem; padding: 0.5rem 1.2rem; }
-  .node-left { left: -58px; } .node-right { right: -58px; }
-  .node-top  { top: -20px; } .node-bottom { bottom: -22px; width: 105px; }
-  /* ↓ UPDATED: 100px → 120px */
-  .eco-center { width: 120px; height: 120px; }
-  /* ↓ UPDATED: 52px → 63px */
-  .eco-center-text img { width: 63px; }
-  .px-ring-1 { width: 420px; height: 420px; }
+
+  .who-right { min-height: 72vh; padding: 2rem 0; }
+  .diagram-wrapper, .diagram, .diagram-static { width: 360px; height: 360px; }
+  .eco-center { width: 142px; height: 142px; }
+  .eco-center-text img { width: 72px; }
+
+  .eco-node { font-size: 0.66rem; padding: 0.52rem 1.25rem; letter-spacing: 0.08em; }
+  .eco-node.node-parent { font-size: 0.72rem; padding: 0.6rem 1.45rem; }
+  .node-top    { top: -24px; white-space: nowrap; }
+  .node-left   { left: -66px; }
+  .node-right  { right: -66px; }
+  .node-bottom { bottom: -26px; width: 125px; }
+
+  .px-ring-1 { width: 460px; height: 460px; }
   .px-ring-2 { display: none; }
-  .px-ring-3 { width: 240px; height: 240px; }
+  .px-ring-3 { width: 260px; height: 260px; }
   .px-ring-4 { display: none; }
 }
 
 @media (max-width: 480px) {
   .who-left { padding: 5rem 1.8rem 2.5rem; }
-  .who-desc { 
-    font-size: 1.25rem; 
-    line-height: 1.6; 
-    max-width: 100%; 
-    margin-top: 1.2rem; 
-    padding-left: 1.2rem;
-  }
-  .who-desc::before {
-    width: 4px;
-    top: 0.4rem;
-    height: calc(100% - 0.8rem);
-  }
+  .who-desc { font-size: 1.25rem; line-height: 1.6; max-width: 100%; margin-top: 1.2rem; padding-left: 1.2rem; }
+  .who-desc::before { width: 4px; top: 0.4rem; height: calc(100% - 0.8rem); }
   .splatter { margin-top: 1.2rem; height: 36px; }
-  .who-stats { 
-    flex-direction: row; 
-    gap: 0; 
-    margin-top: 1.8rem; 
-    padding-top: 1.4rem; 
-  }
-  .who-stat-item { 
-    flex: 1; 
-    padding: 0 1.2rem; 
-  }
+  .who-stats { flex-direction: row; gap: 0; margin-top: 1.8rem; padding-top: 1.4rem; }
+  .who-stat-item { flex: 1; padding: 0 1.2rem; }
   .who-stat-item:first-child { padding-left: 0; }
-  .who-stat-item + .who-stat-item::before { 
-    display: block;
-  }
+  .who-stat-item + .who-stat-item::before { display: block; }
   .who-stat-num { font-size: 1.55rem; }
   .who-stat-label { font-size: 0.56rem; letter-spacing: 0.16em; }
   .tagline-hero { font-size: 0.85rem; line-height: 1.85; }
   .divider-line { margin-bottom: 1.1rem; width: 36px; }
-  .who-right { min-height: 50vh; }
-  .diagram-wrapper, .diagram, .diagram-static { width: 260px; height: 260px; }
-  .eco-node  { font-size: 0.56rem; padding: 0.45rem 1rem; letter-spacing: 0.08em; }
-  .node-left { left: -50px; } .node-right { right: -50px; }
-  .node-top  { top: -18px; } .node-bottom { bottom: -20px; width: 92px; font-size: 0.54rem; }
-  /* ↓ UPDATED: 88px → 106px */
-  .eco-center { width: 106px; height: 106px; }
-  /* ↓ UPDATED: 44px → 54px */
-  .eco-center-text img { width: 54px; }
-  .px-ring-1 { width: 350px; height: 350px; }
-  .px-ring-3 { width: 190px; height: 190px; }
+
+  .who-right { min-height: 70vh; padding: 2.5rem 0; }
+  /* diagram hampir selebar layar dengan overflow visible agar node tidak terpotong */
+  .diagram-wrapper, .diagram, .diagram-static { width: 300px; height: 300px; }
+  .eco-center { width: 118px; height: 118px; }
+  .eco-center-text img { width: 60px; }
+
+  .eco-node { font-size: 0.6rem; padding: 0.44rem 1rem; letter-spacing: 0.07em; }
+  .eco-node.node-parent { font-size: 0.66rem; padding: 0.52rem 1.2rem; }
+  .node-top    { top: -20px; white-space: nowrap; }
+  .node-left   { left: -56px; }
+  .node-right  { right: -56px; }
+  .node-bottom { bottom: -22px; width: 108px; }
+
+  .px-ring-1 { width: 380px; height: 380px; }
+  .px-ring-3 { width: 210px; height: 210px; }
 }
 
 @media (max-width: 360px) {
@@ -645,11 +633,16 @@
   .who-stat-num  { font-size: 1.4rem; }
   .who-stat-label { font-size: 0.54rem; }
   .tagline-hero { font-size: 0.8rem; }
-  .diagram-wrapper, .diagram, .diagram-static { width: 220px; height: 220px; }
-  .eco-node  { font-size: 0.5rem; padding: 0.35rem 0.8rem; }
-  .node-left { left: -42px; } .node-right { right: -42px; }
-  /* ↓ UPDATED: 76px → 92px */
-  .eco-center { width: 92px; height: 92px; }
-  /* ↓ UPDATED: 38px → 46px */
-  .eco-center-text img { width: 46px; }
+
+  .who-right { min-height: 65vh; padding: 2rem 0; }
+  .diagram-wrapper, .diagram, .diagram-static { width: 260px; height: 260px; }
+  .eco-center { width: 102px; height: 102px; }
+  .eco-center-text img { width: 52px; }
+
+  .eco-node { font-size: 0.54rem; padding: 0.38rem 0.85rem; }
+  .eco-node.node-parent { font-size: 0.6rem; padding: 0.45rem 1rem; }
+  .node-top    { top: -18px; }
+  .node-left   { left: -48px; }
+  .node-right  { right: -48px; }
+  .node-bottom { bottom: -20px; width: 94px; }
 }
