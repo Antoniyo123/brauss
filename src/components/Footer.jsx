@@ -78,7 +78,7 @@ export default function Footer() {
   const ctaSubLines  = t("footerCtaSub").split("\n")
   const addressLines = t("footerAddress").split("\n")
   const navItems     = tArr("footerNavItems")
-  const navHrefs     = ["#home","#about","#services","#contact"]
+  const navHrefs     = ["#home","#services","#about","#contact"]
 
   return (
     <footer className="footer" ref={footerRef}>
